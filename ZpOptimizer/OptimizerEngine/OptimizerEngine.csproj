@@ -40,7 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirCompressor.cs" />
     <Compile Include="Directory.cs" />
+    <Compile Include="File.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="MaximumDirCompressor.cs" />
+    <Compile Include="OptimalDirCompressor.cs" />
     <Compile Include="OptimizerEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
