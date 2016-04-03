@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OptimizerEngine {
-    public abstract class DirCompressor {
+namespace OptimizerEngine.FileSystem {
 
-        public DirCompressor(string dir) {
+    public class Game : Directory {
+
+        public Game(string path) : base(path) {
         }
     }
 }

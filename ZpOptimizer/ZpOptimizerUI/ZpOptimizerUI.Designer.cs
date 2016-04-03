@@ -31,17 +31,18 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.splitContainerTop = new System.Windows.Forms.SplitContainer();
-            this.buttonBrowse = new System.Windows.Forms.Button();
+            this.buttonAddDir = new System.Windows.Forms.Button();
             this.listBoxFolders = new System.Windows.Forms.ListBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.buttonApply = new System.Windows.Forms.Button();
+            this.buttonApplySelected = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.radioButtonOptimized = new System.Windows.Forms.RadioButton();
             this.radioButtonMaxComp = new System.Windows.Forms.RadioButton();
@@ -51,7 +52,8 @@
             this.bottomTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.progressBarGame = new System.Windows.Forms.ProgressBar();
             this.progressBarFile = new System.Windows.Forms.ProgressBar();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonApplyAll = new System.Windows.Forms.Button();
+            this.buttonDeleteDir = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
@@ -95,8 +97,14 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
             // 
             // helpToolStripMenuItem
             // 
@@ -162,7 +170,8 @@
             // 
             // splitContainerTop.Panel1
             // 
-            this.splitContainerTop.Panel1.Controls.Add(this.buttonBrowse);
+            this.splitContainerTop.Panel1.Controls.Add(this.buttonDeleteDir);
+            this.splitContainerTop.Panel1.Controls.Add(this.buttonAddDir);
             this.splitContainerTop.Panel1.Controls.Add(this.listBoxFolders);
             // 
             // splitContainerTop.Panel2
@@ -173,14 +182,14 @@
             this.splitContainerTop.SplitterWidth = 1;
             this.splitContainerTop.TabIndex = 0;
             // 
-            // buttonBrowse
+            // buttonAddDir
             // 
-            this.buttonBrowse.Location = new System.Drawing.Point(4, 223);
-            this.buttonBrowse.Name = "buttonBrowse";
-            this.buttonBrowse.Size = new System.Drawing.Size(75, 23);
-            this.buttonBrowse.TabIndex = 1;
-            this.buttonBrowse.Text = "Browse...";
-            this.buttonBrowse.UseVisualStyleBackColor = true;
+            this.buttonAddDir.Location = new System.Drawing.Point(4, 222);
+            this.buttonAddDir.Name = "buttonAddDir";
+            this.buttonAddDir.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddDir.TabIndex = 1;
+            this.buttonAddDir.Text = "Add";
+            this.buttonAddDir.UseVisualStyleBackColor = true;
             // 
             // listBoxFolders
             // 
@@ -217,21 +226,22 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.buttonApply);
+            this.splitContainer2.Panel2.Controls.Add(this.buttonApplyAll);
+            this.splitContainer2.Panel2.Controls.Add(this.buttonApplySelected);
             this.splitContainer2.Panel2.Controls.Add(this.flowLayoutPanel1);
             this.splitContainer2.Size = new System.Drawing.Size(311, 168);
             this.splitContainer2.SplitterDistance = 182;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 0;
             // 
-            // buttonApply
+            // buttonApplySelected
             // 
-            this.buttonApply.Location = new System.Drawing.Point(6, 111);
-            this.buttonApply.Name = "buttonApply";
-            this.buttonApply.Size = new System.Drawing.Size(108, 34);
-            this.buttonApply.TabIndex = 1;
-            this.buttonApply.Text = "Apply";
-            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApplySelected.Location = new System.Drawing.Point(6, 87);
+            this.buttonApplySelected.Name = "buttonApplySelected";
+            this.buttonApplySelected.Size = new System.Drawing.Size(108, 34);
+            this.buttonApplySelected.TabIndex = 1;
+            this.buttonApplySelected.Text = "Apply Selected";
+            this.buttonApplySelected.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel1
             // 
@@ -240,7 +250,7 @@
             this.flowLayoutPanel1.Controls.Add(this.radioButtonUncompressed);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(119, 86);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(119, 77);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // radioButtonOptimized
@@ -329,11 +339,23 @@
             this.progressBarFile.TabIndex = 0;
             this.progressBarFile.Value = 43;
             // 
-            // exitToolStripMenuItem
+            // buttonApplyAll
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.buttonApplyAll.Location = new System.Drawing.Point(6, 127);
+            this.buttonApplyAll.Name = "buttonApplyAll";
+            this.buttonApplyAll.Size = new System.Drawing.Size(108, 34);
+            this.buttonApplyAll.TabIndex = 2;
+            this.buttonApplyAll.Text = "Apply All";
+            this.buttonApplyAll.UseVisualStyleBackColor = true;
+            // 
+            // buttonDeleteDir
+            // 
+            this.buttonDeleteDir.Location = new System.Drawing.Point(85, 222);
+            this.buttonDeleteDir.Name = "buttonDeleteDir";
+            this.buttonDeleteDir.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteDir.TabIndex = 2;
+            this.buttonDeleteDir.Text = "Delete";
+            this.buttonDeleteDir.UseVisualStyleBackColor = true;
             // 
             // ZpOptimizerUI
             // 
@@ -347,7 +369,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "ZpOptimizerUI";
-            this.Text = "ZP Optimizer";
+            this.Text = "ZP Optimizer (Prototype)";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -386,14 +408,14 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.SplitContainer splitContainerMain;
         private System.Windows.Forms.SplitContainer splitContainerTop;
-        private System.Windows.Forms.Button buttonBrowse;
+        private System.Windows.Forms.Button buttonAddDir;
         private System.Windows.Forms.ListBox listBoxFolders;
         private System.Windows.Forms.TableLayoutPanel bottomTableLayoutPanel;
         private System.Windows.Forms.ProgressBar progressBarGame;
         private System.Windows.Forms.ProgressBar progressBarFile;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.Button buttonApply;
+        private System.Windows.Forms.Button buttonApplySelected;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.RadioButton radioButtonOptimized;
         private System.Windows.Forms.RadioButton radioButtonMaxComp;
@@ -401,6 +423,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Button buttonApplyAll;
+        private System.Windows.Forms.Button buttonDeleteDir;
     }
 }
 

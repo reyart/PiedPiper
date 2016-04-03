@@ -40,15 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirCompressor.cs" />
-    <Compile Include="Directory.cs" />
-    <Compile Include="File.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="MaximumDirCompressor.cs" />
-    <Compile Include="OptimalDirCompressor.cs" />
+    <Compile Include="DirCompressors\DirCompressor.cs" />
+    <Compile Include="FileCompressors\FileCompressor.cs" />
+    <Compile Include="FileCompressors\NonPerfSensitiveFileCompressor.cs" />
+    <Compile Include="FileCompressors\PerfSensitiveFileCompressor.cs" />
+    <Compile Include="FileCompressors\UnrecognizedFileCompressor.cs" />
+    <Compile Include="FileSystem\Directory.cs" />
+    <Compile Include="FileSystem\File.cs" />
+    <Compile Include="FileSystem\Game.cs" />
+    <Compile Include="DirCompressors\MaximumDirCompressor.cs" />
+    <Compile Include="DirCompressors\OptimalDirCompressor.cs" />
     <Compile Include="OptimizerEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

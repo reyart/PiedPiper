@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OptimizerEngine {
+namespace OptimizerEngine.FileSystem {
 
-    public class Game : Directory {
-
-        public Game(string path) : base(path) {
-        }
+    public class File {
     }
 }
