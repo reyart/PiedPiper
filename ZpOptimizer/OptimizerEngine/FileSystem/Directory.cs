@@ -15,7 +15,7 @@ namespace OptimizerEngine.FileSystem {
         private int fileCount;
         private int folderSize;
 
-        #endregion Private Properties
+        #endregion
 
         #region Constructors
 
@@ -39,16 +39,20 @@ namespace OptimizerEngine.FileSystem {
         }
 
 
-        #endregion Public Properties
+        #endregion
 
-        #region Methods
+        #region Public Methods
+
+        #endregion
+
+        #region Private Methods
 
         // Identifies the folder name based on the Path
         private string GetFolderName() {
             return "UNFINISHED";
         }
 
-        #endregion Methods
+        #endregion
 
     }
 }

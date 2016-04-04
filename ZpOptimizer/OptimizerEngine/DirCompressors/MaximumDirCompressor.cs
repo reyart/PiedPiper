@@ -10,5 +10,9 @@ namespace OptimizerEngine.DirCompressors {
 
         public MaximumDirCompressor(string dir) : base(dir) {
         }
+
+        public override void Execute() {
+            throw new NotImplementedException();
+        }
     }
 }

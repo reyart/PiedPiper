@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace OptimizerEngine.DirCompressors {
+    public class UncompressDirCompressor : DirCompressor {
 
-    public class OptimalDirCompressor : DirCompressor {
-
-        public OptimalDirCompressor(string dir) : base(dir) {
+        public UncompressDirCompressor(string dir) : base(dir) {
         }
 
         public override void Execute() {

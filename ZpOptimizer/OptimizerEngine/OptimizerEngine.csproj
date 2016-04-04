@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DirCompressors\DirCompressor.cs" />
+    <Compile Include="DirCompressors\UncompressDirCompressor.cs" />
     <Compile Include="FileCompressors\FileCompressor.cs" />
     <Compile Include="FileCompressors\NonPerfSensitiveFileCompressor.cs" />
     <Compile Include="FileCompressors\PerfSensitiveFileCompressor.cs" />
@@ -50,10 +51,33 @@
     <Compile Include="FileSystem\Game.cs" />
     <Compile Include="DirCompressors\MaximumDirCompressor.cs" />
     <Compile Include="DirCompressors\OptimalDirCompressor.cs" />
+    <Compile Include="Globals\CompressionType.cs" />
     <Compile Include="OptimizerEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\HighCompressible.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\NonCompressible.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\NonPerfSensitive.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\PerfSensitive.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
