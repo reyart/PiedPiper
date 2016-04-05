@@ -38,10 +38,12 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.splitContainerTop = new System.Windows.Forms.SplitContainer();
+            this.buttonDeleteDir = new System.Windows.Forms.Button();
             this.buttonAddDir = new System.Windows.Forms.Button();
             this.listBoxFolders = new System.Windows.Forms.ListBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.buttonApplyAll = new System.Windows.Forms.Button();
             this.buttonApplySelected = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.radioButtonOptimized = new System.Windows.Forms.RadioButton();
@@ -52,8 +54,6 @@
             this.bottomTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.progressBarGame = new System.Windows.Forms.ProgressBar();
             this.progressBarFile = new System.Windows.Forms.ProgressBar();
-            this.buttonApplyAll = new System.Windows.Forms.Button();
-            this.buttonDeleteDir = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
@@ -182,6 +182,15 @@
             this.splitContainerTop.SplitterWidth = 1;
             this.splitContainerTop.TabIndex = 0;
             // 
+            // buttonDeleteDir
+            // 
+            this.buttonDeleteDir.Location = new System.Drawing.Point(85, 222);
+            this.buttonDeleteDir.Name = "buttonDeleteDir";
+            this.buttonDeleteDir.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteDir.TabIndex = 2;
+            this.buttonDeleteDir.Text = "Delete";
+            this.buttonDeleteDir.UseVisualStyleBackColor = true;
+            // 
             // buttonAddDir
             // 
             this.buttonAddDir.Location = new System.Drawing.Point(4, 222);
@@ -234,6 +243,15 @@
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 0;
             // 
+            // buttonApplyAll
+            // 
+            this.buttonApplyAll.Location = new System.Drawing.Point(6, 127);
+            this.buttonApplyAll.Name = "buttonApplyAll";
+            this.buttonApplyAll.Size = new System.Drawing.Size(108, 34);
+            this.buttonApplyAll.TabIndex = 2;
+            this.buttonApplyAll.Text = "Apply All";
+            this.buttonApplyAll.UseVisualStyleBackColor = true;
+            // 
             // buttonApplySelected
             // 
             this.buttonApplySelected.Location = new System.Drawing.Point(6, 87);
@@ -242,6 +260,7 @@
             this.buttonApplySelected.TabIndex = 1;
             this.buttonApplySelected.Text = "Apply Selected";
             this.buttonApplySelected.UseVisualStyleBackColor = true;
+            this.buttonApplySelected.Click += new System.EventHandler(this.buttonApplySelected_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -338,24 +357,6 @@
             this.progressBarFile.Size = new System.Drawing.Size(611, 40);
             this.progressBarFile.TabIndex = 0;
             this.progressBarFile.Value = 43;
-            // 
-            // buttonApplyAll
-            // 
-            this.buttonApplyAll.Location = new System.Drawing.Point(6, 127);
-            this.buttonApplyAll.Name = "buttonApplyAll";
-            this.buttonApplyAll.Size = new System.Drawing.Size(108, 34);
-            this.buttonApplyAll.TabIndex = 2;
-            this.buttonApplyAll.Text = "Apply All";
-            this.buttonApplyAll.UseVisualStyleBackColor = true;
-            // 
-            // buttonDeleteDir
-            // 
-            this.buttonDeleteDir.Location = new System.Drawing.Point(85, 222);
-            this.buttonDeleteDir.Name = "buttonDeleteDir";
-            this.buttonDeleteDir.Size = new System.Drawing.Size(75, 23);
-            this.buttonDeleteDir.TabIndex = 2;
-            this.buttonDeleteDir.Text = "Delete";
-            this.buttonDeleteDir.UseVisualStyleBackColor = true;
             // 
             // ZpOptimizerUI
             // 

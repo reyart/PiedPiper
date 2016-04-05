@@ -1,5 +1,5 @@
 ﻿using OptimizerEngine.DirCompressors;
-using OptimizerEngine.Globals;
+using OptimizerEngine.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,10 @@ namespace OptimizerEngine
         #region Constructors
 
         public OptimizerEngine() {
+            allDirs = new List<string>();
+            selectedDirs = new List<string>();
+
+            selectedDirs.Add("C:\\ZpOptimizer\\test"); // FOR TESTING ONLY
         }
 
         #endregion
@@ -31,14 +35,14 @@ namespace OptimizerEngine
         #region Public Methods
 
         // Apply compression on all the selected directories
-        public void CompressAll(int compressionType) {
+        public void CompressAll(CompressionTypes compressionType) {
             foreach (string dir in this.allDirs) {
                 ApplyCompression(compressionType, dir);
             }
         }
 
         // Apply compression on only the selected directories
-        public void CompressSelected(int compressionType) {
+        public void CompressSelected(CompressionTypes compressionType) {
             foreach (string dir in this.selectedDirs) {
                 ApplyCompression(compressionType, dir);
             }
@@ -48,18 +52,19 @@ namespace OptimizerEngine
 
         #region Private Methods
 
-        private void ApplyCompression(int compressionType, string dir) {
+        // Apply compression
+        private void ApplyCompression(CompressionTypes compressionType, string dir) {
             DirCompressor compressor;
 
             // Determine the type of directory compression
             switch (compressionType) {
-                case CompressionType.OPTIMAL:
+                case CompressionTypes.OPTIMAL:
                     compressor = new OptimalDirCompressor(dir);
                     break;
-                case CompressionType.MAXIMUM:
+                case CompressionTypes.MAXIMUM:
                     compressor = new MaximumDirCompressor(dir);
                     break;
-                case CompressionType.UNCOMPRESS:
+                case CompressionTypes.UNCOMPRESS:
                     compressor = new UncompressDirCompressor(dir);
                     break;
                 default:

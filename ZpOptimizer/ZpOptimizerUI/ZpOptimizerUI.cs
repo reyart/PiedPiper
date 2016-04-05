@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OptimizerEngine.Globals;
+using OptimizerEngine.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +14,21 @@ namespace ZpOptimizerUI
 {
     public partial class ZpOptimizerUI : Form
     {
+        private OptimizerEngine.OptimizerEngine engine;
+
+        private CompressionTypes compressionType;
+
         public ZpOptimizerUI()
         {
             InitializeComponent();
+
+            engine = new OptimizerEngine.OptimizerEngine();
+
+            compressionType = CompressionTypes.OPTIMAL; // FOR TESTING ONLY
+        }
+
+        private void buttonApplySelected_Click(object sender, EventArgs e) {
+            engine.CompressSelected(compressionType);
         }
     }
 }
