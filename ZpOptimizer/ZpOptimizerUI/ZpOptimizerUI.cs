@@ -1,5 +1,4 @@
-﻿using OptimizerEngine.Globals;
-using OptimizerEngine.Helpers;
+﻿using OptimizerEngine.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

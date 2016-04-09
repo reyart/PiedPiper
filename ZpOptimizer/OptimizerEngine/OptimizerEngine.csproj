@@ -52,6 +52,7 @@
     <Compile Include="DirCompressors\MaximumDirCompressor.cs" />
     <Compile Include="DirCompressors\OptimalDirCompressor.cs" />
     <Compile Include="Helpers\Globals.cs" />
+    <Compile Include="Helpers\Logger.cs" />
     <Compile Include="OptimizerEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">

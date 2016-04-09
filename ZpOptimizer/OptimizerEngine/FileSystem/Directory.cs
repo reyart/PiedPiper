@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace OptimizerEngine.FileSystem {
 
         #region Private Properties
 
+        private DirectoryInfo directoryInfo;
         private string folderPath;
         private string name;
         private int fileCount;
@@ -20,15 +22,17 @@ namespace OptimizerEngine.FileSystem {
         #region Constructors
 
         public Directory(string path) {
-            this.folderPath = path;
-            this.name = GetFolderName();
+            // Initialize private properties
+            directoryInfo = new DirectoryInfo(path);
+            folderPath = path;
+            name = directoryInfo.Name;
         }
 
         #endregion
 
         #region Public Properties
 
-        // File path of Directory
+        // Full path of Directory
         public string Path {
             get { return this.folderPath; }
         }
@@ -46,11 +50,6 @@ namespace OptimizerEngine.FileSystem {
         #endregion
 
         #region Private Methods
-
-        // Identifies the folder name based on the Path
-        private string GetFolderName() {
-            return "UNFINISHED";
-        }
 
         #endregion
 
