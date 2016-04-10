@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OptimizerEngine.FileSystem {
 
-    public class File {
+    public class ZpGame : ZpDirectory {
+
+        public ZpGame(string path) : base(path) {
+        }
     }
 }
