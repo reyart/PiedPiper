@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OptimizerEngine.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -46,6 +47,30 @@ namespace OptimizerEngine.FileSystem {
             get { return fileInfo.FullName; }
         }
 
+        public string Extension {
+            get { return fileInfo.Extension; }
+        }
+
+        // File is too small
+        public bool IsTooSmall {
+            get { return this.GetSize() < 4096; }
+        }
+
+        // File is not compressible
+        public bool IsNonCompressible {
+            get { return Globals.NonCompressibleFiles.Contains(this.Extension.ToLower()); }
+        }
+
+        // File is performance sensitive
+        public bool IsPerfSensitive {
+            get { return Globals.PerfSensitiveFiles.Contains(this.Extension.ToLower()); }
+        }
+
+        // File is not performance sensitive
+        public bool IsNonPerfSensitive {
+            get { return Globals.NonPerfSensitiveFiles.Contains(this.Extension.ToLower()); }
+        }
+
         #endregion
 
         #region Public Methods
@@ -79,6 +104,25 @@ namespace OptimizerEngine.FileSystem {
             p.StartInfo = startInfo;
             p.Start();
             p.WaitForExit();
+        }
+
+        // Compress file. Returns compression ratio
+        public double Compress(string compressionType) {
+            Process p = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.Arguments = "/C compact /C /F /EXE:" + compressionType + " " + '"' + this.FullName + '"';
+            p.Start();
+
+            StreamReader reader = p.StandardOutput;
+            string output = reader.ReadLine();
+            p.WaitForExit();
+
+            double ratio = (double)this.GetSize() / (double)this.GetSizeOnDisk();
+            return ratio;
         }
 
         #endregion
