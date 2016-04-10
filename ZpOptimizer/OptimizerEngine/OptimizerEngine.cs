@@ -1,10 +1,10 @@
 ﻿using OptimizerEngine.DirCompressors;
-using OptimizerEngine.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static OptimizerEngine.Helpers.Globals;
 
 namespace OptimizerEngine
 {
@@ -68,7 +68,7 @@ namespace OptimizerEngine
                     compressor = new UncompressDirCompressor(dir);
                     break;
                 default:
-                    throw new Exception("Invalid CompressionType.");
+                    throw new Exception("Invalid CompressionType");
             }
 
             // Execute the directory compression

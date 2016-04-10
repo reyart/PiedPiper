@@ -46,9 +46,9 @@
     <Compile Include="FileCompressors\NonPerfSensitiveFileCompressor.cs" />
     <Compile Include="FileCompressors\PerfSensitiveFileCompressor.cs" />
     <Compile Include="FileCompressors\UnrecognizedFileCompressor.cs" />
-    <Compile Include="FileSystem\Directory.cs" />
-    <Compile Include="FileSystem\File.cs" />
-    <Compile Include="FileSystem\Game.cs" />
+    <Compile Include="FileSystem\ZpDirectory.cs" />
+    <Compile Include="FileSystem\ZpFile.cs" />
+    <Compile Include="FileSystem\ZpGame.cs" />
     <Compile Include="DirCompressors\MaximumDirCompressor.cs" />
     <Compile Include="DirCompressors\OptimalDirCompressor.cs" />
     <Compile Include="Helpers\Globals.cs" />
