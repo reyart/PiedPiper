@@ -34,5 +34,23 @@ namespace ZpOptimizerUI
         {
             engine = new OptimizerEngine.OptimizerEngine(listBoxFolders.SelectedItem.ToString());
         }
+
+        private void buttonAddDir_Click(object sender, EventArgs e)
+        {
+            // Open the dialog to select the steam folder
+            FolderBrowserDialog folderBrowserDialog1;
+            folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            folderBrowserDialog1.Description = "Select Steam Folder";
+            folderBrowserDialog1.ShowNewFolderButton = false;
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+
+                string[] dirList = System.IO.Directory.GetDirectories(folderBrowserDialog1.SelectedPath.ToString());
+
+                foreach (string dir in dirList)
+                    listBoxFolders.Items.Add(dir);
+            }            
+        }
     }
 }

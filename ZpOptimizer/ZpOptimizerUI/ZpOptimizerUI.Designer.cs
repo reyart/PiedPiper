@@ -199,13 +199,11 @@
             this.buttonAddDir.TabIndex = 1;
             this.buttonAddDir.Text = "Add";
             this.buttonAddDir.UseVisualStyleBackColor = true;
+            this.buttonAddDir.Click += new System.EventHandler(this.buttonAddDir_Click);
             // 
             // listBoxFolders
             // 
             this.listBoxFolders.FormattingEnabled = true;
-            this.listBoxFolders.Items.AddRange(new object[] {
-            "Y:\\Test",
-            "Y:\\Test2"});
             this.listBoxFolders.Location = new System.Drawing.Point(4, 4);
             this.listBoxFolders.Name = "listBoxFolders";
             this.listBoxFolders.Size = new System.Drawing.Size(305, 212);
