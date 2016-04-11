@@ -71,7 +71,7 @@ namespace OptimizerEngine.FileSystem {
         public List<ZpFile> GetAllFiles() {
             List<ZpFile> files = new List<ZpFile>();
 
-            foreach (FileInfo fileInfo in this.directoryInfo.EnumerateFiles()) {
+            foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)) {
                 files.Add(new ZpFile(fileInfo));
             }
 

@@ -26,6 +26,7 @@ namespace OptimizerEngine.Helpers {
                 // Initialize logs folder
                 logsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\ZpOptimizer\Logs\";
                 System.IO.Directory.CreateDirectory(logsDir);
+                
             }
         }
 
@@ -55,6 +56,20 @@ namespace OptimizerEngine.Helpers {
                 logFile.WriteLine(text);
             }
         }
+
+        public void Write(string text)
+        {
+            if (CONSOLE_ENABLED)
+            {
+                Console.Write(text);
+            }
+
+            if (LOGFILE_ENABLED)
+            {
+                logFile.Write(text);
+            }
+        }
+
 
         // Close StreamWriter
         public void Close() {

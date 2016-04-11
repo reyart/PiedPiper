@@ -19,12 +19,23 @@ namespace OptimizerEngine
 
         #region Constructors
 
+        /*
         public OptimizerEngine() {
             allDirs = new List<string>();
             selectedDirs = new List<string>();
 
-            selectedDirs.Add("C:\\ZpOptimizer\\test"); // FOR TESTING ONLY
+            selectedDirs.Add("Y:\\test"); // FOR TESTING ONLY
         }
+        */
+
+        public OptimizerEngine(string dir)
+        {
+            allDirs = new List<string>();
+            selectedDirs = new List<string>();
+
+           selectedDirs.Add(dir); // FOR TESTING ONLY
+        }
+
 
         #endregion
 

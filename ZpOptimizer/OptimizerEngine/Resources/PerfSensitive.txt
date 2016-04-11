@@ -15,9 +15,14 @@
 .txt
 ---Textures
 .tfc
+.utx
 ---Audio
 .wad
 ---Packages
+.bsa
+.meg
+.guns
+.sc2map
 .mpq
 .gro
 .ggpk
@@ -25,10 +30,10 @@
 .pk3
 .upk
 .ff
+.ipak
 .xpak
-.sabl
-.sabs
 .arc
+.000
 .001
 .002
 .003

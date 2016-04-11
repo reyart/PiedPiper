@@ -20,11 +20,14 @@ namespace OptimizerEngine.DirCompressors {
         #region Constructors
 
         public OptimalDirCompressor(string dir) : base(dir) {
-            // Initialize logger
-            logger = new Logger();
-
+            
+            
             // Initialize directory
             rootDir = new ZpDirectory(dir);
+
+            // Initialize logger
+            logger = new Logger();
+            logger.CreateNewLogFile(rootDir.Name + " " + DateTime.Now.ToFileTime() + ".txt");
         }
 
         #endregion
@@ -45,27 +48,29 @@ namespace OptimizerEngine.DirCompressors {
 
             // Loop through all files in folders and subfolders
             foreach (ZpFile file in rootDir.GetAllFiles()) {
-                file.Uncompress(); //Uncompress now, because you're going to have to anyway, and this gets you the correct size.
+                //file.Uncompress(); //Uncompress now, because you're going to have to anyway, and this gets you the correct size.
                 long sizeBefore = (file.GetSize()); //Establish size before compressing
 
                 if (file.IsTooSmall) { //Skip Small Files
-                    logger.WriteLine("Too Small," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + ",1.0,Skipped");
+                    logger.WriteLine("Too Small," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + "," + "1.0" + ",Skipped");
                     continue;
                 }
                 else if (file.IsNonCompressible) { //Skip incompressible files
-                    logger.WriteLine("Incompressible," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + ",1.0,Skipped");
+                    logger.WriteLine("Incompressible," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + "," + "1.0" + ",Skipped");
                     continue;
                 }
                 else if (file.IsPerfSensitive) { //Filter out perf sensitive files
-                    logger.WriteLine("PerfSensitive," + file.Name + "," + file.Extension + ",");
+                    logger.Write("PerfSensitive," + file.Name + "," + file.Extension + ",");
                     double compRatio = file.Compress("XPRESS16K");
 
-                    if (compRatio < 1.1) { // Decompress if it doesn't compress well at all
+                    if (compRatio < 1.07) { // Decompress if it doesn't compress well at all
                         file.Uncompress();
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",Decompressed,Downgraded");
                     }
                     else if (compRatio < 1.3) { // Lower compression if it compresses poorly
                         compRatio = file.Compress("XPRESS8K"); // QUESTION: Mark, do we want compRatio updated here? It wasn't updated in your original code but I'm thinking maybe it should be?
+                                                               // ANSWER: Hmm...I could go either way. I had it intentionally not update because I wanted to ensure it was taking the correct branch
+                                                               // but having the final compratio in the log makes sense. 
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",XPRESS8K,Downgraded");
                     }
                     else {
@@ -75,10 +80,10 @@ namespace OptimizerEngine.DirCompressors {
                     continue;
                 }
                 else if (file.IsNonPerfSensitive) { //Filter out perf sensitive files
-                    logger.WriteLine("NonPerfSensitive," + file.Name + "," + file.Extension + ",");
+                    logger.Write("NonPerfSensitive," + file.Name + "," + file.Extension + ",");
                     double compRatio = file.Compress("LZX");
 
-                    if (compRatio < 1.1) { // Decompress if it doesn't compress well at all
+                    if (compRatio < 1.07) { // Decompress if it doesn't compress well at all
                         file.Uncompress();
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",Decompressed,Downgraded");
                     }
@@ -93,7 +98,7 @@ namespace OptimizerEngine.DirCompressors {
                     continue;
                 }
                 else {
-                    logger.WriteLine("Unrecognized," + file.Name + "," + file.Extension + ",");
+                    logger.Write("Unrecognized," + file.Name + "," + file.Extension + ",");
                     double compRatio = file.Compress("XPRESS16K");
 
                     if (compRatio < 1.1) {
@@ -114,7 +119,7 @@ namespace OptimizerEngine.DirCompressors {
                 }
             }
 
-            long folderSizeAfter = rootDir.GetSize();
+            long folderSizeAfter = rootDir.GetSizeOnDisk();
             double folderSizeAfterGB = (double)folderSizeAfter / 1024 / 1024 / 1024;
             logger.WriteLine("");
             logger.WriteLine("Compressed " + rootDir.Name + " Size = " + Math.Round(folderSizeAfterGB, 3) + "GB. Ratio = " + Math.Round(folderSizeBeforeGB / folderSizeAfterGB, 3) + " to 1");

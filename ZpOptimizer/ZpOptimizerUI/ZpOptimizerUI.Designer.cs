@@ -204,13 +204,13 @@
             // 
             this.listBoxFolders.FormattingEnabled = true;
             this.listBoxFolders.Items.AddRange(new object[] {
-            "C:\\Program Files (x86)\\TRICENTIS",
-            "C:\\Program Files\\TortoiseSVN",
-            "C:\\Program Files\\WinRAR"});
+            "Y:\\Test",
+            "Y:\\Test2"});
             this.listBoxFolders.Location = new System.Drawing.Point(4, 4);
             this.listBoxFolders.Name = "listBoxFolders";
             this.listBoxFolders.Size = new System.Drawing.Size(305, 212);
             this.listBoxFolders.TabIndex = 0;
+            this.listBoxFolders.SelectedIndexChanged += new System.EventHandler(this.listBoxFolders_SelectedIndexChanged);
             // 
             // splitContainer1
             // 

@@ -15,6 +15,7 @@
 .ogv
 .webm
 .ivf
+.asr
 ---Images
 .jpg
 .gif
@@ -25,3 +26,4 @@
 .doc
 .docx
 .pdf
+---Misc

@@ -21,13 +21,18 @@ namespace ZpOptimizerUI
         {
             InitializeComponent();
 
-            engine = new OptimizerEngine.OptimizerEngine();
+            //engine = new OptimizerEngine.OptimizerEngine();
 
             compressionType = CompressionTypes.OPTIMAL; // FOR TESTING ONLY
         }
 
         private void buttonApplySelected_Click(object sender, EventArgs e) {
             engine.CompressSelected(compressionType);
+        }
+
+        private void listBoxFolders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            engine = new OptimizerEngine.OptimizerEngine(listBoxFolders.SelectedItem.ToString());
         }
     }
 }
