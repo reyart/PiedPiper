@@ -6,6 +6,7 @@
 .gz
 .zip
 .7z
+.arc
 ---Images
 .gif
 .svg
