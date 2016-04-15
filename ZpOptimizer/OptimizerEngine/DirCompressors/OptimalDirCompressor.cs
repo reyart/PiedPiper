@@ -64,7 +64,11 @@ namespace OptimizerEngine.DirCompressors {
             // Loop through all files in folders and subfolders
             foreach (ZpFile file in rootDir.GetAllFiles()) {
 
-                
+                if (file.Attributes.HasFlag(System.IO.FileAttributes.Archive) == false)//  System.IO.FileAttributes.Archive)
+                {
+                    Console.WriteLine("No archive flag detected, Skipped.");
+                    continue;
+                }
 
                 //file.Uncompress(); //Uncompress now, because you're going to have to anyway, and this gets you the correct size.
                 long sizeBefore = (file.GetSize()); //Establish size before compressing

@@ -16,7 +16,8 @@ namespace OptimizerEngine.FileSystem {
         #region Private Properties
 
         private FileInfo fileInfo;
-        //private FileAttributes fileAttributes;
+        public FileAttributes attributes;
+
 
         #endregion
 
@@ -26,7 +27,7 @@ namespace OptimizerEngine.FileSystem {
 
             // Initialize necessary properties
             fileInfo = new FileInfo(fileName);
-            
+            FileAttributes attributes = File.GetAttributes(fileInfo.FullName);
         }
 
         public ZpFile(FileInfo fi) {
@@ -40,36 +41,49 @@ namespace OptimizerEngine.FileSystem {
         #region Public Properties
 
         // Name of the file
-        public string Name {
+        public string Name
+        {
             get { return fileInfo.Name; }
         }
 
         // Full path of file
-        public string FullName {
+        public string FullName
+        {
             get { return fileInfo.FullName; }
         }
 
-        public string Extension {
+        public string Extension
+        {
             get { return fileInfo.Extension; }
         }
 
+        public FileAttributes Attributes
+        {
+            get { return fileInfo.Attributes; }
+        }
+
+
         // File is too small
-        public bool IsTooSmall {
+        public bool IsTooSmall
+        {
             get { return this.GetSize() < 4096; }
         }
 
         // File is not compressible
-        public bool IsNonCompressible {
+        public bool IsNonCompressible
+        {
             get { return Globals.NonCompressibleFiles.Contains(this.Extension.ToLower()); }
         }
 
         // File is performance sensitive
-        public bool IsPerfSensitive {
+        public bool IsPerfSensitive
+        {
             get { return Globals.PerfSensitiveFiles.Contains(this.Extension.ToLower()); }
         }
 
         // File is not performance sensitive
-        public bool IsNonPerfSensitive {
+        public bool IsNonPerfSensitive
+        {
             get { return Globals.NonPerfSensitiveFiles.Contains(this.Extension.ToLower()); }
         }
 
@@ -129,11 +143,11 @@ namespace OptimizerEngine.FileSystem {
 
         public void RemoveArchiveAttribute()
         {
-            FileAttributes attributes = File.GetAttributes(FullName);
+            //FileAttributes attributes = File.GetAttributes(FullName);
             attributes = RemoveAttribute(attributes, FileAttributes.Archive);
             File.SetAttributes(FullName, attributes);
         }
-
+        
 
         #endregion
 
