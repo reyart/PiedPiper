@@ -16,6 +16,7 @@ namespace OptimizerEngine.FileSystem {
         #region Private Properties
 
         private FileInfo fileInfo;
+        //private FileAttributes fileAttributes;
 
         #endregion
 
@@ -25,12 +26,13 @@ namespace OptimizerEngine.FileSystem {
 
             // Initialize necessary properties
             fileInfo = new FileInfo(fileName);
+            
         }
 
         public ZpFile(FileInfo fi) {
 
             // Initialize necessary properties
-            fileInfo = fi;
+            fileInfo = fi;            
         }
 
         #endregion
@@ -125,9 +127,22 @@ namespace OptimizerEngine.FileSystem {
             return ratio;
         }
 
+        public void RemoveArchiveAttribute()
+        {
+            FileAttributes attributes = File.GetAttributes(FullName);
+            attributes = RemoveAttribute(attributes, FileAttributes.Archive);
+            File.SetAttributes(FullName, attributes);
+        }
+
+
         #endregion
 
         #region Private Methods
+
+        private static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove)
+        {
+            return attributes & ~attributesToRemove;
+        }
 
         [DllImport("kernel32.dll")]
         private static extern uint GetCompressedFileSizeW([In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName,

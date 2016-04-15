@@ -59,20 +59,24 @@ namespace OptimizerEngine.DirCompressors {
             double folderSizeBeforeGB = (double)folderSizeBefore / 1024 / 1024 / 1024;
             logger.WriteLine("Compressing " + rootDir.Name + " Size = " + Math.Round(folderSizeBeforeGB, 3) + "GB");
             logger.WriteLine("");
-            int i = 0;
+            
 
             // Loop through all files in folders and subfolders
             foreach (ZpFile file in rootDir.GetAllFiles()) {
+
+                
 
                 //file.Uncompress(); //Uncompress now, because you're going to have to anyway, and this gets you the correct size.
                 long sizeBefore = (file.GetSize()); //Establish size before compressing
 
                 if (file.IsTooSmall) { //Skip Small Files
                     logger.WriteLine("Too Small," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + "," + "1.0" + ",Skipped");
+                    file.RemoveArchiveAttribute();
                     continue;
                 }
                 else if (file.IsNonCompressible) { //Skip incompressible files
                     logger.WriteLine("Incompressible," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + "," + "1.0" + ",Skipped");
+                    file.RemoveArchiveAttribute();
                     continue;
                 }
                 else if (file.IsPerfSensitive) { //Filter out perf sensitive files
@@ -92,7 +96,7 @@ namespace OptimizerEngine.DirCompressors {
                     else {
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",XPRESS16K");
                     }
-
+                    file.RemoveArchiveAttribute();
                     continue;
                 }
                 else if (file.IsNonPerfSensitive) { //Filter out perf sensitive files
@@ -110,7 +114,7 @@ namespace OptimizerEngine.DirCompressors {
                     else {
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",LZX");
                     }
-
+                    file.RemoveArchiveAttribute();
                     continue;
                 }
                 else {
@@ -132,10 +136,11 @@ namespace OptimizerEngine.DirCompressors {
                     else {
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",XPRESS16K");
                     }
+                    file.RemoveArchiveAttribute();
 
-                  
-                    i++;
                 }
+
+                
             }
 
             long folderSizeAfter = rootDir.GetSizeOnDisk();
