@@ -21,13 +21,15 @@ namespace ZpOptimizerUI
         public ZpOptimizerUI()
         {
             InitializeComponent();
-            compressionType = CompressionTypes.OPTIMAL; // FOR TESTING ONLY
+            //compressionType = CompressionTypes.OPTIMAL; // FOR TESTING ONLY
 
             backgroundWorker1.DoWork += backgroundWorker1_DoWork;
             backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
             backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;  //Tell the user how the process went
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
+
+
         
     }
 
@@ -80,6 +82,18 @@ namespace ZpOptimizerUI
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+            if (radioButtonOptimized.Checked == true)
+            {
+                compressionType = CompressionTypes.OPTIMAL;
+            }
+            else if (radioButtonMaxComp.Checked == true)
+            {
+                compressionType = CompressionTypes.MAXIMUM;
+            }
+            else if (radioButtonUncompressed.Checked == true)
+            {
+                compressionType = CompressionTypes.UNCOMPRESS;
+            }
             
             engine.CompressSelected(compressionType);
             labelResult.Text = "Compressing " + listBoxFolders.SelectedItem.ToString();
@@ -116,6 +130,21 @@ namespace ZpOptimizerUI
             {
                 labelResult.Text = "Process was completed";
             }
+        }
+
+        private void radioButtonOptimized_CheckedChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void radioButtonUncompressed_CheckedChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void radioButtonMaxComp_CheckedChanged(object sender, EventArgs e)
+        {
+          
         }
     }
 }

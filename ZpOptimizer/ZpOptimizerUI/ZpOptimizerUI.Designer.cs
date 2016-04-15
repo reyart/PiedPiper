@@ -237,6 +237,7 @@
             // radioButtonOptimized
             // 
             this.radioButtonOptimized.AutoSize = true;
+            this.radioButtonOptimized.Checked = true;
             this.radioButtonOptimized.Location = new System.Drawing.Point(3, 3);
             this.radioButtonOptimized.Name = "radioButtonOptimized";
             this.radioButtonOptimized.Size = new System.Drawing.Size(71, 17);
@@ -244,6 +245,7 @@
             this.radioButtonOptimized.TabStop = true;
             this.radioButtonOptimized.Text = "Optimized";
             this.radioButtonOptimized.UseVisualStyleBackColor = true;
+            this.radioButtonOptimized.CheckedChanged += new System.EventHandler(this.radioButtonOptimized_CheckedChanged);
             // 
             // radioButtonMaxComp
             // 
@@ -252,9 +254,9 @@
             this.radioButtonMaxComp.Name = "radioButtonMaxComp";
             this.radioButtonMaxComp.Size = new System.Drawing.Size(108, 17);
             this.radioButtonMaxComp.TabIndex = 1;
-            this.radioButtonMaxComp.TabStop = true;
             this.radioButtonMaxComp.Text = "Max Compression";
             this.radioButtonMaxComp.UseVisualStyleBackColor = true;
+            this.radioButtonMaxComp.CheckedChanged += new System.EventHandler(this.radioButtonMaxComp_CheckedChanged);
             // 
             // radioButtonUncompressed
             // 
@@ -263,7 +265,6 @@
             this.radioButtonUncompressed.Name = "radioButtonUncompressed";
             this.radioButtonUncompressed.Size = new System.Drawing.Size(96, 17);
             this.radioButtonUncompressed.TabIndex = 2;
-            this.radioButtonUncompressed.TabStop = true;
             this.radioButtonUncompressed.Text = "Uncompressed";
             this.radioButtonUncompressed.UseVisualStyleBackColor = true;
             // 

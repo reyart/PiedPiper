@@ -13,20 +13,18 @@ namespace OptimizerEngine.DirCompressors {
 
         #region Private Properties
 
-        private ZpDirectory rootDir;  // Root folder where compression starts
-        private Logger logger;  // Logs stuff
-        private BackgroundWorker worker;
+        //private ZpDirectory rootDir;  // Root folder where compression starts
+        //private Logger logger;  // Logs stuff
+        
                 
 
         #endregion
 
         #region Constructors
 
-        //public OptimalDirCompressor(string dir) : base(dir) {
-
+       
         public OptimalDirCompressor(string dir) : base(dir)
         {
-
 
             // Initialize directory
             rootDir = new ZpDirectory(dir);            
@@ -34,11 +32,6 @@ namespace OptimizerEngine.DirCompressors {
             // Initialize logger
             logger = new Logger();
             logger.CreateNewLogFile(rootDir.Name + " " + DateTime.Now.ToFileTime() + ".txt");
-
-            worker = new BackgroundWorker();                       
-            worker.WorkerReportsProgress = true;
-
-            //compProgress = new CompressionProgressForm(); 
 
         }
 
@@ -140,7 +133,7 @@ namespace OptimizerEngine.DirCompressors {
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",XPRESS16K");
                     }
 
-                    worker.ReportProgress(i);
+                  
                     i++;
                 }
             }
