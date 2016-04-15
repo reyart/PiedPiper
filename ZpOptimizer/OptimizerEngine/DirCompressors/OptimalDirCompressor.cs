@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace OptimizerEngine.DirCompressors {
 
@@ -14,20 +15,31 @@ namespace OptimizerEngine.DirCompressors {
 
         private ZpDirectory rootDir;  // Root folder where compression starts
         private Logger logger;  // Logs stuff
+        private BackgroundWorker worker;
+                
 
         #endregion
 
         #region Constructors
 
-        public OptimalDirCompressor(string dir) : base(dir) {
-            
-            
+        //public OptimalDirCompressor(string dir) : base(dir) {
+
+        public OptimalDirCompressor(string dir) : base(dir)
+        {
+
+
             // Initialize directory
-            rootDir = new ZpDirectory(dir);
+            rootDir = new ZpDirectory(dir);            
 
             // Initialize logger
             logger = new Logger();
             logger.CreateNewLogFile(rootDir.Name + " " + DateTime.Now.ToFileTime() + ".txt");
+
+            worker = new BackgroundWorker();                       
+            worker.WorkerReportsProgress = true;
+
+            //compProgress = new CompressionProgressForm(); 
+
         }
 
         #endregion
@@ -35,19 +47,30 @@ namespace OptimizerEngine.DirCompressors {
         #region Public Properties
         #endregion
 
+        #region Public events
+
+        public event ProgressChangedEventHandler ProgressChanged;
+
+        #endregion
+
         #region Public Methods
 
         // Where the magic happens
         public override void Execute() {
+
+            // NOT IMPLEMENTED YET Get the number of files in the folder to track progress
+                      
 
             // Get the size of the folder before compressing
             long folderSizeBefore = rootDir.GetSize();
             double folderSizeBeforeGB = (double)folderSizeBefore / 1024 / 1024 / 1024;
             logger.WriteLine("Compressing " + rootDir.Name + " Size = " + Math.Round(folderSizeBeforeGB, 3) + "GB");
             logger.WriteLine("");
+            int i = 0;
 
             // Loop through all files in folders and subfolders
             foreach (ZpFile file in rootDir.GetAllFiles()) {
+
                 //file.Uncompress(); //Uncompress now, because you're going to have to anyway, and this gets you the correct size.
                 long sizeBefore = (file.GetSize()); //Establish size before compressing
 
@@ -116,6 +139,9 @@ namespace OptimizerEngine.DirCompressors {
                     else {
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",XPRESS16K");
                     }
+
+                    worker.ReportProgress(i);
+                    i++;
                 }
             }
 
@@ -129,6 +155,8 @@ namespace OptimizerEngine.DirCompressors {
         #endregion
 
         #region Private Methods
+
+        
         #endregion
     }
 }

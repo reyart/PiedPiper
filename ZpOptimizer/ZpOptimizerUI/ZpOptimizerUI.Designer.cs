@@ -37,17 +37,21 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerTop = new System.Windows.Forms.SplitContainer();
+            this.buttonDeleteDir = new System.Windows.Forms.Button();
+            this.buttonAddDir = new System.Windows.Forms.Button();
+            this.listBoxFolders = new System.Windows.Forms.ListBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.radioButtonUncompressed = new System.Windows.Forms.RadioButton();
-            this.radioButtonMaxComp = new System.Windows.Forms.RadioButton();
-            this.radioButtonOptimized = new System.Windows.Forms.RadioButton();
             this.buttonApplySelected = new System.Windows.Forms.Button();
-            this.listBoxFolders = new System.Windows.Forms.ListBox();
-            this.buttonAddDir = new System.Windows.Forms.Button();
-            this.buttonDeleteDir = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.radioButtonOptimized = new System.Windows.Forms.RadioButton();
+            this.radioButtonMaxComp = new System.Windows.Forms.RadioButton();
+            this.radioButtonUncompressed = new System.Windows.Forms.RadioButton();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.compProgressBar = new System.Windows.Forms.ProgressBar();
+            this.labelResult = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTop)).BeginInit();
@@ -63,6 +67,7 @@
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
+            this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -151,6 +156,34 @@
             this.splitContainerTop.SplitterWidth = 1;
             this.splitContainerTop.TabIndex = 0;
             // 
+            // buttonDeleteDir
+            // 
+            this.buttonDeleteDir.Location = new System.Drawing.Point(85, 222);
+            this.buttonDeleteDir.Name = "buttonDeleteDir";
+            this.buttonDeleteDir.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeleteDir.TabIndex = 2;
+            this.buttonDeleteDir.Text = "Delete";
+            this.buttonDeleteDir.UseVisualStyleBackColor = true;
+            // 
+            // buttonAddDir
+            // 
+            this.buttonAddDir.Location = new System.Drawing.Point(4, 222);
+            this.buttonAddDir.Name = "buttonAddDir";
+            this.buttonAddDir.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddDir.TabIndex = 1;
+            this.buttonAddDir.Text = "Add";
+            this.buttonAddDir.UseVisualStyleBackColor = true;
+            this.buttonAddDir.Click += new System.EventHandler(this.buttonAddDir_Click);
+            // 
+            // listBoxFolders
+            // 
+            this.listBoxFolders.FormattingEnabled = true;
+            this.listBoxFolders.Location = new System.Drawing.Point(4, 4);
+            this.listBoxFolders.Name = "listBoxFolders";
+            this.listBoxFolders.Size = new System.Drawing.Size(305, 212);
+            this.listBoxFolders.TabIndex = 0;
+            this.listBoxFolders.SelectedIndexChanged += new System.EventHandler(this.listBoxFolders_SelectedIndexChanged);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -181,6 +214,16 @@
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 0;
             // 
+            // buttonApplySelected
+            // 
+            this.buttonApplySelected.Location = new System.Drawing.Point(6, 87);
+            this.buttonApplySelected.Name = "buttonApplySelected";
+            this.buttonApplySelected.Size = new System.Drawing.Size(108, 34);
+            this.buttonApplySelected.TabIndex = 1;
+            this.buttonApplySelected.Text = "Apply Selected";
+            this.buttonApplySelected.UseVisualStyleBackColor = true;
+            this.buttonApplySelected.Click += new System.EventHandler(this.buttonApplySelected_Click);
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.radioButtonOptimized);
@@ -190,28 +233,6 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(119, 77);
             this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // radioButtonUncompressed
-            // 
-            this.radioButtonUncompressed.AutoSize = true;
-            this.radioButtonUncompressed.Location = new System.Drawing.Point(3, 49);
-            this.radioButtonUncompressed.Name = "radioButtonUncompressed";
-            this.radioButtonUncompressed.Size = new System.Drawing.Size(96, 17);
-            this.radioButtonUncompressed.TabIndex = 2;
-            this.radioButtonUncompressed.TabStop = true;
-            this.radioButtonUncompressed.Text = "Uncompressed";
-            this.radioButtonUncompressed.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonMaxComp
-            // 
-            this.radioButtonMaxComp.AutoSize = true;
-            this.radioButtonMaxComp.Location = new System.Drawing.Point(3, 26);
-            this.radioButtonMaxComp.Name = "radioButtonMaxComp";
-            this.radioButtonMaxComp.Size = new System.Drawing.Size(108, 17);
-            this.radioButtonMaxComp.TabIndex = 1;
-            this.radioButtonMaxComp.TabStop = true;
-            this.radioButtonMaxComp.Text = "Max Compression";
-            this.radioButtonMaxComp.UseVisualStyleBackColor = true;
             // 
             // radioButtonOptimized
             // 
@@ -224,43 +245,27 @@
             this.radioButtonOptimized.Text = "Optimized";
             this.radioButtonOptimized.UseVisualStyleBackColor = true;
             // 
-            // buttonApplySelected
+            // radioButtonMaxComp
             // 
-            this.buttonApplySelected.Location = new System.Drawing.Point(6, 87);
-            this.buttonApplySelected.Name = "buttonApplySelected";
-            this.buttonApplySelected.Size = new System.Drawing.Size(108, 34);
-            this.buttonApplySelected.TabIndex = 1;
-            this.buttonApplySelected.Text = "Apply Selected";
-            this.buttonApplySelected.UseVisualStyleBackColor = true;
-            this.buttonApplySelected.Click += new System.EventHandler(this.buttonApplySelected_Click);
+            this.radioButtonMaxComp.AutoSize = true;
+            this.radioButtonMaxComp.Location = new System.Drawing.Point(3, 26);
+            this.radioButtonMaxComp.Name = "radioButtonMaxComp";
+            this.radioButtonMaxComp.Size = new System.Drawing.Size(108, 17);
+            this.radioButtonMaxComp.TabIndex = 1;
+            this.radioButtonMaxComp.TabStop = true;
+            this.radioButtonMaxComp.Text = "Max Compression";
+            this.radioButtonMaxComp.UseVisualStyleBackColor = true;
             // 
-            // listBoxFolders
+            // radioButtonUncompressed
             // 
-            this.listBoxFolders.FormattingEnabled = true;
-            this.listBoxFolders.Location = new System.Drawing.Point(4, 4);
-            this.listBoxFolders.Name = "listBoxFolders";
-            this.listBoxFolders.Size = new System.Drawing.Size(305, 212);
-            this.listBoxFolders.TabIndex = 0;
-            this.listBoxFolders.SelectedIndexChanged += new System.EventHandler(this.listBoxFolders_SelectedIndexChanged);
-            // 
-            // buttonAddDir
-            // 
-            this.buttonAddDir.Location = new System.Drawing.Point(4, 222);
-            this.buttonAddDir.Name = "buttonAddDir";
-            this.buttonAddDir.Size = new System.Drawing.Size(75, 23);
-            this.buttonAddDir.TabIndex = 1;
-            this.buttonAddDir.Text = "Add";
-            this.buttonAddDir.UseVisualStyleBackColor = true;
-            this.buttonAddDir.Click += new System.EventHandler(this.buttonAddDir_Click);
-            // 
-            // buttonDeleteDir
-            // 
-            this.buttonDeleteDir.Location = new System.Drawing.Point(85, 222);
-            this.buttonDeleteDir.Name = "buttonDeleteDir";
-            this.buttonDeleteDir.Size = new System.Drawing.Size(75, 23);
-            this.buttonDeleteDir.TabIndex = 2;
-            this.buttonDeleteDir.Text = "Delete";
-            this.buttonDeleteDir.UseVisualStyleBackColor = true;
+            this.radioButtonUncompressed.AutoSize = true;
+            this.radioButtonUncompressed.Location = new System.Drawing.Point(3, 49);
+            this.radioButtonUncompressed.Name = "radioButtonUncompressed";
+            this.radioButtonUncompressed.Size = new System.Drawing.Size(96, 17);
+            this.radioButtonUncompressed.TabIndex = 2;
+            this.radioButtonUncompressed.TabStop = true;
+            this.radioButtonUncompressed.Text = "Uncompressed";
+            this.radioButtonUncompressed.UseVisualStyleBackColor = true;
             // 
             // splitContainerMain
             // 
@@ -274,10 +279,42 @@
             // splitContainerMain.Panel1
             // 
             this.splitContainerMain.Panel1.Controls.Add(this.splitContainerTop);
+            // 
+            // splitContainerMain.Panel2
+            // 
+            this.splitContainerMain.Panel2.Controls.Add(this.buttonCancel);
+            this.splitContainerMain.Panel2.Controls.Add(this.compProgressBar);
+            this.splitContainerMain.Panel2.Controls.Add(this.labelResult);
             this.splitContainerMain.Size = new System.Drawing.Size(624, 395);
             this.splitContainerMain.SplitterDistance = 250;
             this.splitContainerMain.SplitterWidth = 1;
             this.splitContainerMain.TabIndex = 2;
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Location = new System.Drawing.Point(4, 76);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 4;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
+            // compProgressBar
+            // 
+            this.compProgressBar.Location = new System.Drawing.Point(4, 47);
+            this.compProgressBar.Name = "compProgressBar";
+            this.compProgressBar.Size = new System.Drawing.Size(429, 23);
+            this.compProgressBar.TabIndex = 3;
+            // 
+            // labelResult
+            // 
+            this.labelResult.AutoSize = true;
+            this.labelResult.Location = new System.Drawing.Point(12, 18);
+            this.labelResult.Name = "labelResult";
+            this.labelResult.Size = new System.Drawing.Size(35, 13);
+            this.labelResult.TabIndex = 2;
+            this.labelResult.Text = "label1";
             // 
             // ZpOptimizerUI
             // 
@@ -309,6 +346,8 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.splitContainerMain.Panel1.ResumeLayout(false);
+            this.splitContainerMain.Panel2.ResumeLayout(false);
+            this.splitContainerMain.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
             this.splitContainerMain.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -338,6 +377,10 @@
         private System.Windows.Forms.RadioButton radioButtonMaxComp;
         private System.Windows.Forms.RadioButton radioButtonUncompressed;
         private System.Windows.Forms.SplitContainer splitContainerMain;
+        private System.Windows.Forms.Label labelResult;
+        private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.ProgressBar compProgressBar;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+
 using static OptimizerEngine.Helpers.Globals;
 
 namespace ZpOptimizerUI
@@ -14,25 +16,22 @@ namespace ZpOptimizerUI
     public partial class ZpOptimizerUI : Form
     {
         private OptimizerEngine.OptimizerEngine engine;
-
         private CompressionTypes compressionType;
 
         public ZpOptimizerUI()
         {
             InitializeComponent();
             compressionType = CompressionTypes.OPTIMAL; // FOR TESTING ONLY
-        }
 
-        private void buttonApplySelected_Click(object sender, EventArgs e) {
+            backgroundWorker1.DoWork += backgroundWorker1_DoWork;
+            backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
+            backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;  //Tell the user how the process went
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
+        
+    }
 
-            engine = new OptimizerEngine.OptimizerEngine(listBoxFolders.SelectedItem.ToString());
-            engine.CompressSelected(compressionType);
-        }
-
-        private void listBoxFolders_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
+        #region EVENTS
 
         private void buttonAddDir_Click(object sender, EventArgs e)
         {
@@ -41,7 +40,9 @@ namespace ZpOptimizerUI
             folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             folderBrowserDialog1.Description = "Select Steam Folder";
             folderBrowserDialog1.ShowNewFolderButton = false;
+            folderBrowserDialog1.SelectedPath = @"G:\Steam\steamapps\common\";
             DialogResult result = folderBrowserDialog1.ShowDialog();
+
             if (result == DialogResult.OK)
             {
 
@@ -49,7 +50,72 @@ namespace ZpOptimizerUI
 
                 foreach (string dir in dirList)
                     listBoxFolders.Items.Add(dir);
-            }            
+            }
+        }
+
+        private void listBoxFolders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            engine = new OptimizerEngine.OptimizerEngine(listBoxFolders.SelectedItem.ToString());
+        }
+
+        private void buttonApplySelected_Click(object sender, EventArgs e) {
+
+
+            backgroundWorker1.RunWorkerAsync();          
+            
+
+        }
+
+        #endregion
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            //Check if background worker is doing anything and send a cancellation if it is
+            if (backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.CancelAsync();
+            }
+        }
+        
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            
+            engine.CompressSelected(compressionType);
+            labelResult.Text = "Compressing " + listBoxFolders.SelectedItem.ToString();
+            backgroundWorker1.ReportProgress(1);
+     
+            //Check if there is a request to cancel the process
+            if (backgroundWorker1.CancellationPending)
+                {
+                    e.Cancel = true;
+                    backgroundWorker1.ReportProgress(0);
+                    return;
+                }          
+            //If the process exits the loop, ensure that progress is set to 100%
+            //Remember in the loop we set i < 100 so in theory the process will complete at 99%
+            backgroundWorker1.ReportProgress(100);
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            compProgressBar.Value = e.ProgressPercentage;
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                labelResult.Text = "Process was cancelled";
+            }
+            else if (e.Error != null)
+            {
+                labelResult.Text = "There was an error running the process. The thread aborted";
+            }
+            else
+            {
+                labelResult.Text = "Process was completed";
+            }
         }
     }
 }

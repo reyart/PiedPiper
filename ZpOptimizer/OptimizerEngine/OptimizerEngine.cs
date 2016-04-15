@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static OptimizerEngine.Helpers.Globals;
+using System.ComponentModel;
 
 namespace OptimizerEngine
 {
@@ -57,6 +58,7 @@ namespace OptimizerEngine
         // Apply compression
         private void ApplyCompression(CompressionTypes compressionType, string dir) {
             DirCompressor compressor;
+            
 
             // Determine the type of directory compression
             switch (compressionType) {
