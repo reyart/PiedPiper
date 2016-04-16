@@ -21,13 +21,16 @@ namespace OptimizerEngine
         #region Constructors
 
         public OptimizerEngine(string dir)
-        {
-            allDirs = new List<string>();
+        {         
             selectedDirs = new List<string>();
-
             selectedDirs.Add(dir); // FOR TESTING ONLY
         }
 
+        public OptimizerEngine(string[] dir)
+        {
+            allDirs = new List<string>();
+            allDirs.AddRange(dir);
+        }
 
         #endregion
 

@@ -28,14 +28,12 @@ namespace ZpOptimizerUI
             backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;  //Tell the user how the process went
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
-
-
-        
+       
     }
 
         #region EVENTS
 
-        private void buttonAddDir_Click(object sender, EventArgs e)
+        void buttonAddDir_Click(object sender, EventArgs e)
         {
             // Open the dialog to select the steam folder
             FolderBrowserDialog folderBrowserDialog1;
@@ -48,10 +46,10 @@ namespace ZpOptimizerUI
             if (result == DialogResult.OK)
             {
 
-                string[] dirList = System.IO.Directory.GetDirectories(folderBrowserDialog1.SelectedPath.ToString());
+                string[] dirList = Directory.GetDirectories(folderBrowserDialog1.SelectedPath.ToString());
 
                 foreach (string dir in dirList)
-                    listBoxFolders.Items.Add(dir);
+                    listBoxFolders.Items.Add(dir);                    
             }
         }
 
@@ -60,25 +58,21 @@ namespace ZpOptimizerUI
             engine = new OptimizerEngine.OptimizerEngine(listBoxFolders.SelectedItem.ToString());
         }
 
-        private void buttonApplySelected_Click(object sender, EventArgs e) {
+        private void buttonApplySelected_Click(object sender, EventArgs e)
+        {
+            backgroundWorker1.RunWorkerAsync("Selected");                     
+        }
 
+        private void buttonApplyAll_Click(object sender, EventArgs e)
+        {
 
-            backgroundWorker1.RunWorkerAsync();          
-            
-
+            string[] dirList = new string[listBoxFolders.Items.Count];
+            listBoxFolders.Items.CopyTo(dirList, 0);            
+            engine = new OptimizerEngine.OptimizerEngine(dirList);
+            backgroundWorker1.RunWorkerAsync("All");
         }
 
         #endregion
-
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            //Check if background worker is doing anything and send a cancellation if it is
-            if (backgroundWorker1.IsBusy)
-            {
-                backgroundWorker1.CancelAsync();
-            }
-        }
-        
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
@@ -95,7 +89,11 @@ namespace ZpOptimizerUI
                 compressionType = CompressionTypes.UNCOMPRESS;
             }
             
-            engine.CompressSelected(compressionType);
+            if (e.Argument.ToString() == "Selected") 
+                engine.CompressSelected(compressionType);
+            if (e.Argument.ToString() == "All")
+                engine.CompressAll(compressionType);
+
             labelResult.Text = "Compressing " + listBoxFolders.SelectedItem.ToString();
             backgroundWorker1.ReportProgress(1);
      
@@ -111,12 +109,12 @@ namespace ZpOptimizerUI
             backgroundWorker1.ReportProgress(100);
         }
 
-        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             compProgressBar.Value = e.ProgressPercentage;
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
@@ -129,6 +127,15 @@ namespace ZpOptimizerUI
             else
             {
                 labelResult.Text = "Process was completed";
+            }
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            //Check if background worker is doing anything and send a cancellation if it is
+            if (backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.CancelAsync();
             }
         }
 
@@ -146,5 +153,7 @@ namespace ZpOptimizerUI
         {
           
         }
+
+        
     }
 }

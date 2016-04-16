@@ -69,8 +69,7 @@ namespace OptimizerEngine.DirCompressors {
                     Console.WriteLine("No archive flag detected, Skipped.");
                     continue;
                 }
-
-                //file.Uncompress(); //Uncompress now, because you're going to have to anyway, and this gets you the correct size.
+                
                 long sizeBefore = (file.GetSize()); //Establish size before compressing
 
                 if (file.IsTooSmall) { //Skip Small Files

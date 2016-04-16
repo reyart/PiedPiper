@@ -52,6 +52,7 @@
             this.compProgressBar = new System.Windows.Forms.ProgressBar();
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.buttonApplyAll = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTop)).BeginInit();
@@ -207,6 +208,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.buttonApplyAll);
             this.splitContainer2.Panel2.Controls.Add(this.buttonApplySelected);
             this.splitContainer2.Panel2.Controls.Add(this.flowLayoutPanel1);
             this.splitContainer2.Size = new System.Drawing.Size(311, 168);
@@ -317,6 +319,16 @@
             this.labelResult.TabIndex = 2;
             this.labelResult.Text = "label1";
             // 
+            // buttonApplyAll
+            // 
+            this.buttonApplyAll.Location = new System.Drawing.Point(6, 127);
+            this.buttonApplyAll.Name = "buttonApplyAll";
+            this.buttonApplyAll.Size = new System.Drawing.Size(108, 34);
+            this.buttonApplyAll.TabIndex = 2;
+            this.buttonApplyAll.Text = "Apply  All";
+            this.buttonApplyAll.UseVisualStyleBackColor = true;
+            this.buttonApplyAll.Click += new System.EventHandler(this.buttonApplyAll_Click);
+            // 
             // ZpOptimizerUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -382,6 +394,7 @@
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.ProgressBar compProgressBar;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button buttonApplyAll;
     }
 }
 
