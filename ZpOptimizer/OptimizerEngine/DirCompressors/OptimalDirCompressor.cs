@@ -66,7 +66,7 @@ namespace OptimizerEngine.DirCompressors {
 
                 if (file.Attributes.HasFlag(System.IO.FileAttributes.Archive) == false)//  System.IO.FileAttributes.Archive)
                 {
-                    Console.WriteLine("No archive flag detected, Skipped.");
+                    //WriteLine("No archive flag detected, Skipped.");
                     continue;
                 }
                 

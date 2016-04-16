@@ -28,8 +28,8 @@ namespace OptimizerEngine
 
         public OptimizerEngine(string[] dir)
         {
-            allDirs = new List<string>();
-            allDirs.AddRange(dir);
+            selectedDirs = new List<string>();
+            selectedDirs.AddRange(dir);
         }
 
         #endregion
@@ -40,14 +40,7 @@ namespace OptimizerEngine
 
         #region Public Methods
 
-        // Apply compression on all the selected directories
-        public void CompressAll(CompressionTypes compressionType) {
-            foreach (string dir in this.allDirs) {
-                ApplyCompression(compressionType, dir);
-            }
-        }
-
-        // Apply compression on only the selected directories
+       // Apply compression on only the selected directories
         public void CompressSelected(CompressionTypes compressionType) {
             foreach (string dir in this.selectedDirs) {
                 ApplyCompression(compressionType, dir);

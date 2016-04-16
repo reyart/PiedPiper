@@ -21,14 +21,12 @@ namespace ZpOptimizerUI
         public ZpOptimizerUI()
         {
             InitializeComponent();
-            //compressionType = CompressionTypes.OPTIMAL; // FOR TESTING ONLY
+            
 
-            backgroundWorker1.DoWork += backgroundWorker1_DoWork;
-            backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
-            backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;  //Tell the user how the process went
-            backgroundWorker1.WorkerReportsProgress = true;
-            backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
-       
+            InitializeBackgroundWorker();
+
+           
+           
     }
 
         #region EVENTS
@@ -45,7 +43,6 @@ namespace ZpOptimizerUI
 
             if (result == DialogResult.OK)
             {
-
                 string[] dirList = Directory.GetDirectories(folderBrowserDialog1.SelectedPath.ToString());
 
                 foreach (string dir in dirList)
@@ -55,22 +52,18 @@ namespace ZpOptimizerUI
 
         private void listBoxFolders_SelectedIndexChanged(object sender, EventArgs e)
         {
-            engine = new OptimizerEngine.OptimizerEngine(listBoxFolders.SelectedItem.ToString());
+            
         }
 
         private void buttonApplySelected_Click(object sender, EventArgs e)
         {
+            string[] selectedDirList = new string[listBoxFolders.SelectedItems.Count];
+            listBoxFolders.SelectedItems.CopyTo(selectedDirList,0);
+            engine = new OptimizerEngine.OptimizerEngine(selectedDirList);
             backgroundWorker1.RunWorkerAsync("Selected");                     
         }
 
-        private void buttonApplyAll_Click(object sender, EventArgs e)
-        {
-
-            string[] dirList = new string[listBoxFolders.Items.Count];
-            listBoxFolders.Items.CopyTo(dirList, 0);            
-            engine = new OptimizerEngine.OptimizerEngine(dirList);
-            backgroundWorker1.RunWorkerAsync("All");
-        }
+        
 
         #endregion
 
@@ -89,11 +82,9 @@ namespace ZpOptimizerUI
                 compressionType = CompressionTypes.UNCOMPRESS;
             }
             
-            if (e.Argument.ToString() == "Selected") 
-                engine.CompressSelected(compressionType);
-            if (e.Argument.ToString() == "All")
-                engine.CompressAll(compressionType);
-
+            
+            engine.CompressSelected(compressionType);
+          
             labelResult.Text = "Compressing " + listBoxFolders.SelectedItem.ToString();
             backgroundWorker1.ReportProgress(1);
      
@@ -154,6 +145,14 @@ namespace ZpOptimizerUI
           
         }
 
-        
+        private void InitializeBackgroundWorker()
+        {
+            backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
+            backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
+            backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
+
+        }
     }
 }

@@ -52,7 +52,6 @@
             this.compProgressBar = new System.Windows.Forms.ProgressBar();
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.buttonApplyAll = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTop)).BeginInit();
@@ -181,6 +180,7 @@
             this.listBoxFolders.FormattingEnabled = true;
             this.listBoxFolders.Location = new System.Drawing.Point(4, 4);
             this.listBoxFolders.Name = "listBoxFolders";
+            this.listBoxFolders.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBoxFolders.Size = new System.Drawing.Size(305, 212);
             this.listBoxFolders.TabIndex = 0;
             this.listBoxFolders.SelectedIndexChanged += new System.EventHandler(this.listBoxFolders_SelectedIndexChanged);
@@ -208,7 +208,6 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.buttonApplyAll);
             this.splitContainer2.Panel2.Controls.Add(this.buttonApplySelected);
             this.splitContainer2.Panel2.Controls.Add(this.flowLayoutPanel1);
             this.splitContainer2.Size = new System.Drawing.Size(311, 168);
@@ -313,21 +312,11 @@
             // labelResult
             // 
             this.labelResult.AutoSize = true;
-            this.labelResult.Location = new System.Drawing.Point(12, 18);
+            this.labelResult.Location = new System.Drawing.Point(8, 14);
             this.labelResult.Name = "labelResult";
             this.labelResult.Size = new System.Drawing.Size(35, 13);
             this.labelResult.TabIndex = 2;
             this.labelResult.Text = "label1";
-            // 
-            // buttonApplyAll
-            // 
-            this.buttonApplyAll.Location = new System.Drawing.Point(6, 127);
-            this.buttonApplyAll.Name = "buttonApplyAll";
-            this.buttonApplyAll.Size = new System.Drawing.Size(108, 34);
-            this.buttonApplyAll.TabIndex = 2;
-            this.buttonApplyAll.Text = "Apply  All";
-            this.buttonApplyAll.UseVisualStyleBackColor = true;
-            this.buttonApplyAll.Click += new System.EventHandler(this.buttonApplyAll_Click);
             // 
             // ZpOptimizerUI
             // 
@@ -394,7 +383,6 @@
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.ProgressBar compProgressBar;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Button buttonApplyAll;
     }
 }
 
