@@ -17,17 +17,18 @@ namespace ZpOptimizerUI
     {
         private OptimizerEngine.OptimizerEngine engine;
         private CompressionTypes compressionType;
+        //private string[] selectedDirArray;
+        private List<string> selectedDirList;
 
         public ZpOptimizerUI()
         {
             InitializeComponent();
-            
-
-            InitializeBackgroundWorker();
-
+            InitializeBackgroundWorker();       
            
-           
-    }
+        }
+
+
+        //Want UI to control the list of folders to be compressed, not the engine
 
         #region EVENTS
 
@@ -57,13 +58,14 @@ namespace ZpOptimizerUI
 
         private void buttonApplySelected_Click(object sender, EventArgs e)
         {
-            string[] selectedDirList = new string[listBoxFolders.SelectedItems.Count];
-            listBoxFolders.SelectedItems.CopyTo(selectedDirList,0);
-            engine = new OptimizerEngine.OptimizerEngine(selectedDirList);
+            string[] selectedDirArray = new string[listBoxFolders.SelectedItems.Count];
+            listBoxFolders.SelectedItems.CopyTo(selectedDirArray, 0);
+            //List<string> selectedDirList = new List<string>(selectedDirArray);
+
+            selectedDirList = selectedDirArray.ToList();
+
             backgroundWorker1.RunWorkerAsync("Selected");                     
         }
-
-        
 
         #endregion
 
@@ -81,20 +83,32 @@ namespace ZpOptimizerUI
             {
                 compressionType = CompressionTypes.UNCOMPRESS;
             }
-            
-            
-            engine.CompressSelected(compressionType);
-          
-            labelResult.Text = "Compressing " + listBoxFolders.SelectedItem.ToString();
-            backgroundWorker1.ReportProgress(1);
-     
-            //Check if there is a request to cancel the process
-            if (backgroundWorker1.CancellationPending)
+
+            int percentToIncrement = 100 / selectedDirList.Count;
+            int percentComplete = percentToIncrement;
+            backgroundWorker1.ReportProgress(0);
+            foreach (string dir in selectedDirList)
+            {
+                if (backgroundWorker1.CancellationPending)
                 {
                     e.Cancel = true;
                     backgroundWorker1.ReportProgress(0);
                     return;
-                }          
+                }
+
+                engine = new OptimizerEngine.OptimizerEngine(dir);
+                
+                engine.CompressSelected(compressionType);
+                
+                backgroundWorker1.ReportProgress(percentComplete);
+                percentComplete += percentToIncrement;
+            }
+
+            //backgroundWorker1.ReportProgress(1);
+     
+            //Check if there is a request to cancel the process
+                    
+
             //If the process exits the loop, ensure that progress is set to 100%
             //Remember in the loop we set i < 100 so in theory the process will complete at 99%
             backgroundWorker1.ReportProgress(100);
