@@ -7,32 +7,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 
-namespace OptimizerEngine.DirCompressors {
+namespace OptimizerEngine.DirCompressors
+{
 
-    public class OptimalDirCompressor : DirCompressor {
+    public class OptimalDirCompressor : DirCompressor
+    {
 
         #region Private Properties
 
         //private ZpDirectory rootDir;  // Root folder where compression starts
         //private Logger logger;  // Logs stuff
-        
-                
-
+                        
         #endregion
-
         #region Constructors
 
-       
         public OptimalDirCompressor(string dir) : base(dir)
         {
-
             // Initialize directory
             rootDir = new ZpDirectory(dir);            
 
             // Initialize logger
-            logger = new Logger();
-            logger.CreateNewLogFile(rootDir.Name + " " + DateTime.Now.ToFileTime() + ".txt");
-
+            logger = new Logger();          
         }
 
         #endregion
@@ -49,7 +44,8 @@ namespace OptimizerEngine.DirCompressors {
         #region Public Methods
 
         // Where the magic happens
-        public override void Execute() {
+        public override void Execute()
+        {
 
             // NOT IMPLEMENTED YET Get the number of files in the folder to track progress
                       
@@ -57,32 +53,47 @@ namespace OptimizerEngine.DirCompressors {
             // Get the size of the folder before compressing
             long folderSizeBefore = rootDir.GetSize();
             double folderSizeBeforeGB = (double)folderSizeBefore / 1024 / 1024 / 1024;
-            logger.WriteLine("Compressing " + rootDir.Name + " Size = " + Math.Round(folderSizeBeforeGB, 3) + "GB");
-            logger.WriteLine("");
+            //logger.WriteLine("Compressing " + rootDir.Name + " Size = " + Math.Round(folderSizeBeforeGB, 3) + "GB");
+            //logger.WriteLine("");
             
 
             // Loop through all files in folders and subfolders
-            foreach (ZpFile file in rootDir.GetAllFiles()) {
+            foreach (ZpFile file in rootDir.GetAllFiles())
+            {
 
-                if (file.Attributes.HasFlag(System.IO.FileAttributes.Archive) == false)//  System.IO.FileAttributes.Archive)
-                {
+                if (file.Attributes.HasFlag(System.IO.FileAttributes.Archive) == false)
+                { //Skip files without Archive flag, already compressed.
                     //WriteLine("No archive flag detected, Skipped.");
                     continue;
                 }
-                
-                long sizeBefore = (file.GetSize()); //Establish size before compressing
+                else if (file.IsTooSmall)
+                { //Skip Small Files
+                    //logger.WriteLine("Too Small," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + "," + "1.0" + ",Skipped");
+                    file.RemoveArchiveAttribute();
+                    continue;
+                }
+                else if (file.IsNonCompressible)
+                { //Skip incompressible files
+                    //logger.WriteLine("Incompressible," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + "," + "1.0" + ",Skipped");
+                    file.RemoveArchiveAttribute();
+                    continue;
+                }
 
-                if (file.IsTooSmall) { //Skip Small Files
-                    logger.WriteLine("Too Small," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + "," + "1.0" + ",Skipped");
-                    file.RemoveArchiveAttribute();
-                    continue;
+
+
+
+                if (loggingStarted == false)
+                {
+                    logger.CreateNewLogFile(rootDir.Name + " " + DateTime.Now.ToFileTime() + ".txt");
+                    loggingStarted = true;
                 }
-                else if (file.IsNonCompressible) { //Skip incompressible files
-                    logger.WriteLine("Incompressible," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + "," + "1.0" + ",Skipped");
-                    file.RemoveArchiveAttribute();
-                    continue;
-                }
-                else if (file.IsPerfSensitive) { //Filter out perf sensitive files
+
+
+                long sizeBefore = file.GetSize();  //Establish size before compressing
+
+                
+                if (file.IsPerfSensitive)
+                {   //Filter out perf sensitive files
                     logger.Write("PerfSensitive," + file.Name + "," + file.Extension + ",");
                     double compRatio = file.Compress("XPRESS16K");
 
@@ -136,9 +147,11 @@ namespace OptimizerEngine.DirCompressors {
                         compRatio = file.Compress("LZX");
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",LZX,Upgraded");
                     }
-                    else {
+                    else
+                    {
                         logger.WriteLine(sizeBefore + "," + file.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",XPRESS16K");
                     }
+
                     file.RemoveArchiveAttribute();
 
                 }
@@ -146,18 +159,22 @@ namespace OptimizerEngine.DirCompressors {
                 
             }
 
-            long folderSizeAfter = rootDir.GetSizeOnDisk();
-            double folderSizeAfterGB = (double)folderSizeAfter / 1024 / 1024 / 1024;
-            logger.WriteLine("");
-            logger.WriteLine("Compressed " + rootDir.Name + " Size = " + Math.Round(folderSizeAfterGB, 3) + "GB. Ratio = " + Math.Round(folderSizeBeforeGB / folderSizeAfterGB, 3) + " to 1");
-            logger.WriteLine("");
+            
+
+            if (loggingStarted == true)
+            {
+                long folderSizeAfter = rootDir.GetSizeOnDisk();
+                double folderSizeAfterGB = (double)folderSizeAfter / 1024 / 1024 / 1024;
+                logger.WriteLine("");
+                logger.WriteLine("Compressed " + rootDir.Name + " Size = " + Math.Round(folderSizeAfterGB, 3) + "GB. Ratio = " + Math.Round(folderSizeBeforeGB / folderSizeAfterGB, 3) + " to 1");
+                logger.WriteLine("");
+            }
+
         }
 
         #endregion
 
         #region Private Methods
-
-        
         #endregion
     }
 }

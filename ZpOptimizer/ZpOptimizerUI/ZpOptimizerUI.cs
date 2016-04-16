@@ -63,6 +63,8 @@ namespace ZpOptimizerUI
             //List<string> selectedDirList = new List<string>(selectedDirArray);
 
             selectedDirList = selectedDirArray.ToList();
+            //statusStrip.Text = "Compressing " + selectedDirList.Count + "folders";
+            //statusStrip.Update();
 
             backgroundWorker1.RunWorkerAsync("Selected");                     
         }
@@ -89,6 +91,8 @@ namespace ZpOptimizerUI
             backgroundWorker1.ReportProgress(0);
             foreach (string dir in selectedDirList)
             {
+                
+
                 if (backgroundWorker1.CancellationPending)
                 {
                     e.Cancel = true;

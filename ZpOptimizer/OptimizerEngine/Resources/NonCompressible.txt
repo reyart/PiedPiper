@@ -30,6 +30,7 @@
 .alac
 .uax
 .aac
+.sns
 ---Video
 .mov
 .webm
@@ -205,3 +206,5 @@
 .mimg
 .gui
 .pc
+.rpack
+

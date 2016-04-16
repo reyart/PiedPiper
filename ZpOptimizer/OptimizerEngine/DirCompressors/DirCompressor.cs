@@ -14,6 +14,7 @@ namespace OptimizerEngine.DirCompressors {
 
         protected ZpDirectory rootDir;  // Root folder where compression starts
         protected Logger logger;  // Logs stuff
+        protected bool loggingStarted;
 
         #endregion
 
@@ -26,7 +27,9 @@ namespace OptimizerEngine.DirCompressors {
 
             // Initialize logger
             logger = new Logger();
-            logger.CreateNewLogFile(rootDir.Name + " " + DateTime.Now.ToFileTime() + ".txt");
+            
+            loggingStarted = false;
+
 
 
         }
