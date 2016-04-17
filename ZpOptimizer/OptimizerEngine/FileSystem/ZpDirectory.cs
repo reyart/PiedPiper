@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OptimizerEngine.FileSystem;
+using OptimizerEngine.Helpers;
 
 namespace OptimizerEngine.FileSystem {
 
@@ -52,7 +54,7 @@ namespace OptimizerEngine.FileSystem {
             foreach (ZpFile file in this.allFiles) {
                 size += file.GetSize();
             }
-
+            
             return size;
         }
 
@@ -70,10 +72,20 @@ namespace OptimizerEngine.FileSystem {
         // Gets a list of all files in the directory
         public List<ZpFile> GetAllFiles() {
             List<ZpFile> files = new List<ZpFile>();
-
-            foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)) {
-                files.Add(new ZpFile(fileInfo));
+            try
+            {
+                foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories))
+                {
+                    files.Add(new ZpFile(fileInfo));
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+                //throw;
+            }
+
+
 
             return files;
         }

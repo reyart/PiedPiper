@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 using OptimizerEngine.FileSystem;
 using OptimizerEngine.Helpers;
 
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+
+using System.Windows.Forms;
+using System.IO;
+
 namespace OptimizerEngine.DirCompressors {
 
     public abstract class DirCompressor {
@@ -16,6 +23,9 @@ namespace OptimizerEngine.DirCompressors {
         protected Logger logger;  // Logs stuff
         protected bool loggingStarted;
 
+        public delegate void ProgressUpdate(int value);
+        public event ProgressUpdate OnProgressUpdate;
+        
         #endregion
 
         #region Constructors
@@ -42,7 +52,9 @@ namespace OptimizerEngine.DirCompressors {
 
         #region Public Methods
 
-        public abstract void Execute();
+        public abstract void Execute(BackgroundWorker bw);
+
+        
 
         #endregion
 

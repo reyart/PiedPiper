@@ -49,9 +49,11 @@
             this.radioButtonUncompressed = new System.Windows.Forms.RadioButton();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.compProgressBar = new System.Windows.Forms.ProgressBar();
+            this.folderProgressBar = new System.Windows.Forms.ProgressBar();
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.fileProgressBar = new System.Windows.Forms.ProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTop)).BeginInit();
@@ -284,8 +286,10 @@
             // 
             // splitContainerMain.Panel2
             // 
+            this.splitContainerMain.Panel2.Controls.Add(this.label1);
+            this.splitContainerMain.Panel2.Controls.Add(this.fileProgressBar);
             this.splitContainerMain.Panel2.Controls.Add(this.buttonCancel);
-            this.splitContainerMain.Panel2.Controls.Add(this.compProgressBar);
+            this.splitContainerMain.Panel2.Controls.Add(this.folderProgressBar);
             this.splitContainerMain.Panel2.Controls.Add(this.labelResult);
             this.splitContainerMain.Size = new System.Drawing.Size(624, 395);
             this.splitContainerMain.SplitterDistance = 250;
@@ -294,7 +298,7 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(4, 76);
+            this.buttonCancel.Location = new System.Drawing.Point(3, 118);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
@@ -302,21 +306,37 @@
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // compProgressBar
+            // folderProgressBar
             // 
-            this.compProgressBar.Location = new System.Drawing.Point(4, 47);
-            this.compProgressBar.Name = "compProgressBar";
-            this.compProgressBar.Size = new System.Drawing.Size(429, 23);
-            this.compProgressBar.TabIndex = 3;
+            this.folderProgressBar.Location = new System.Drawing.Point(4, 89);
+            this.folderProgressBar.Name = "folderProgressBar";
+            this.folderProgressBar.Size = new System.Drawing.Size(429, 23);
+            this.folderProgressBar.TabIndex = 3;
             // 
             // labelResult
             // 
             this.labelResult.AutoSize = true;
-            this.labelResult.Location = new System.Drawing.Point(8, 14);
+            this.labelResult.Location = new System.Drawing.Point(84, 123);
             this.labelResult.Name = "labelResult";
             this.labelResult.Size = new System.Drawing.Size(35, 13);
             this.labelResult.TabIndex = 2;
             this.labelResult.Text = "label1";
+            // 
+            // fileProgressBar
+            // 
+            this.fileProgressBar.Location = new System.Drawing.Point(4, 60);
+            this.fileProgressBar.Name = "fileProgressBar";
+            this.fileProgressBar.Size = new System.Drawing.Size(429, 23);
+            this.fileProgressBar.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "label1";
             // 
             // ZpOptimizerUI
             // 
@@ -381,8 +401,10 @@
         private System.Windows.Forms.SplitContainer splitContainerMain;
         private System.Windows.Forms.Label labelResult;
         private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.ProgressBar compProgressBar;
+        private System.Windows.Forms.ProgressBar folderProgressBar;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ProgressBar fileProgressBar;
+        private System.Windows.Forms.Label label1;
     }
 }
 

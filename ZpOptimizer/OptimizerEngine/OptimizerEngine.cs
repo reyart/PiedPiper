@@ -15,6 +15,7 @@ namespace OptimizerEngine
 
         private List<string> allDirs;
         private List<string> selectedDirs;
+        private BackgroundWorker bgw;
 
         #endregion
 
@@ -32,6 +33,13 @@ namespace OptimizerEngine
             selectedDirs.AddRange(dir);
         }
 
+        public OptimizerEngine(string dir, BackgroundWorker bw)
+        {
+            selectedDirs = new List<string>();
+            selectedDirs.Add(dir);
+            bgw = bw;
+        }
+
         #endregion
 
         #region Public Properties
@@ -40,7 +48,7 @@ namespace OptimizerEngine
 
         #region Public Methods
 
-       // Apply compression on only the selected directories
+        // Apply compression on only the selected directories
         public void CompressSelected(CompressionTypes compressionType) {
             foreach (string dir in this.selectedDirs) {
                 ApplyCompression(compressionType, dir);
@@ -72,7 +80,7 @@ namespace OptimizerEngine
             }
 
             // Execute the directory compression
-            compressor.Execute();
+            compressor.Execute(bgw);
         }
 
         #endregion

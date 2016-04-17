@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OptimizerEngine.FileSystem;
 using OptimizerEngine.Helpers;
+using System.ComponentModel;
 
 namespace OptimizerEngine.DirCompressors {
     public class UncompressDirCompressor : DirCompressor {
@@ -12,7 +13,7 @@ namespace OptimizerEngine.DirCompressors {
         public UncompressDirCompressor(string dir) : base(dir) {
         }
 
-        public override void Execute() {
+        public override void Execute(BackgroundWorker bgw) {
            // Get the size of the folder before compressing
             long folderSizeBefore = rootDir.GetSize();
             double folderSizeBeforeGB = (double)folderSizeBefore / 1024 / 1024 / 1024;

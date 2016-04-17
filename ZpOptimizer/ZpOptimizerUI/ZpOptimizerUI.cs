@@ -24,12 +24,9 @@ namespace ZpOptimizerUI
         {
             InitializeComponent();
             InitializeBackgroundWorker();       
-           
+    
         }
-
-
-        //Want UI to control the list of folders to be compressed, not the engine
-
+        
         #region EVENTS
 
         void buttonAddDir_Click(object sender, EventArgs e)
@@ -66,13 +63,21 @@ namespace ZpOptimizerUI
             //statusStrip.Text = "Compressing " + selectedDirList.Count + "folders";
             //statusStrip.Update();
 
-            backgroundWorker1.RunWorkerAsync("Selected");                     
+            if (backgroundWorker1.IsBusy == false)
+                backgroundWorker1.RunWorkerAsync("Selected");
+            else
+                MessageBox.Show("Chill, let me finish.");
+            
         }
 
         #endregion
 
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        
+
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+    
             if (radioButtonOptimized.Checked == true)
             {
                 compressionType = CompressionTypes.OPTIMAL;
@@ -86,13 +91,15 @@ namespace ZpOptimizerUI
                 compressionType = CompressionTypes.UNCOMPRESS;
             }
 
-            int percentToIncrement = 100 / selectedDirList.Count;
-            int percentComplete = percentToIncrement;
-            backgroundWorker1.ReportProgress(0);
+            double percentToIncrement = 100.0 / Convert.ToDouble(selectedDirList.Count);
+            double percentComplete = percentToIncrement;
+            //folderProgressBar.Value = 0;
+            folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = 0; });
+            //backgroundWorker1.ReportProgress(0);
             foreach (string dir in selectedDirList)
             {
-                
 
+                //Check if there is a request to cancel the process
                 if (backgroundWorker1.CancellationPending)
                 {
                     e.Cancel = true;
@@ -100,27 +107,28 @@ namespace ZpOptimizerUI
                     return;
                 }
 
-                engine = new OptimizerEngine.OptimizerEngine(dir);
-                
+                engine = new OptimizerEngine.OptimizerEngine(dir, backgroundWorker1);
                 engine.CompressSelected(compressionType);
-                
-                backgroundWorker1.ReportProgress(percentComplete);
+                //engine = new OptimizerEngine.OptimizerEngine(dir);
+
+               
+                int percentCompleteInt = Convert.ToInt32(percentComplete);
+                //folderProgressBar.Value = percentCompleteInt;
+                folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = percentCompleteInt; });
                 percentComplete += percentToIncrement;
             }
 
-            //backgroundWorker1.ReportProgress(1);
-     
-            //Check if there is a request to cancel the process
-                    
+                //backgroundWorker1.ReportProgress(1);
 
-            //If the process exits the loop, ensure that progress is set to 100%
-            //Remember in the loop we set i < 100 so in theory the process will complete at 99%
-            backgroundWorker1.ReportProgress(100);
+                //If the process exits the loop, ensure that progress is set to 100%
+                //folderProgressBar.Value = 100;
+                //backgroundWorker1.ReportProgress(100);
+
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            compProgressBar.Value = e.ProgressPercentage;
+             fileProgressBar.Value = e.ProgressPercentage;
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

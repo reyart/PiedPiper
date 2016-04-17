@@ -17,6 +17,7 @@ namespace OptimizerEngine.DirCompressors
 
         //private ZpDirectory rootDir;  // Root folder where compression starts
         //private Logger logger;  // Logs stuff
+
                         
         #endregion
         #region Constructors
@@ -37,18 +38,18 @@ namespace OptimizerEngine.DirCompressors
 
         #region Public events
 
-        public event ProgressChangedEventHandler ProgressChanged;
 
         #endregion
 
         #region Public Methods
 
         // Where the magic happens
-        public override void Execute()
+        public override void Execute(BackgroundWorker bgw)
         {
 
             // NOT IMPLEMENTED YET Get the number of files in the folder to track progress
                       
+            
 
             // Get the size of the folder before compressing
             long folderSizeBefore = rootDir.GetSize();
@@ -56,10 +57,20 @@ namespace OptimizerEngine.DirCompressors
             //logger.WriteLine("Compressing " + rootDir.Name + " Size = " + Math.Round(folderSizeBeforeGB, 3) + "GB");
             //logger.WriteLine("");
             
-
+            var fileList = rootDir.GetAllFiles();
             // Loop through all files in folders and subfolders
-            foreach (ZpFile file in rootDir.GetAllFiles())
+
+            double percentToIncrement = 100.0 / Convert.ToDouble(fileList.Count);
+            double percentComplete = percentToIncrement;
+            bgw.ReportProgress(0);
+
+            
+            foreach (ZpFile file in fileList)
             {
+
+                int percentCompleteInt = Convert.ToInt32(percentComplete);
+                bgw.ReportProgress(percentCompleteInt);
+                percentComplete += percentToIncrement;
 
                 if (file.Attributes.HasFlag(System.IO.FileAttributes.Archive) == false)
                 { //Skip files without Archive flag, already compressed.
@@ -159,7 +170,7 @@ namespace OptimizerEngine.DirCompressors
                 
             }
 
-            
+            bgw.ReportProgress(100);
 
             if (loggingStarted == true)
             {
