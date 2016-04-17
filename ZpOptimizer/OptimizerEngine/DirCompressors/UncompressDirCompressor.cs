@@ -14,36 +14,24 @@ namespace OptimizerEngine.DirCompressors {
         }
 
         public override void Execute(BackgroundWorker bgw) {
-           // Get the size of the folder before compressing
-            long folderSizeBefore = rootDir.GetSize();
-            double folderSizeBeforeGB = (double)folderSizeBefore / 1024 / 1024 / 1024;
 
-            logger.WriteLine("Decompressing " + rootDir.Name + " Size = " + Math.Round(folderSizeBeforeGB, 3) + "GB");
-            
+            var fileList = rootDir.GetAllFiles();
+            double percentToIncrement = 100.0 / Convert.ToDouble(fileList.Count);
+            double percentComplete = percentToIncrement;
+            bgw.ReportProgress(0);
+
             // Loop through all files in folders and subfolders
-            foreach (ZpFile file in rootDir.GetAllFiles())
+            foreach (ZpFile file in fileList)
             {
-                long sizeBefore = (file.GetSize()); //Establish size before compressing
+                int percentCompleteInt = Convert.ToInt32(percentComplete);
+                bgw.ReportProgress(percentCompleteInt);
+                percentComplete += percentToIncrement;
 
-                if (file.IsTooSmall)
-                { //Skip Small Files
-                    logger.WriteLine("Too Small," + file.Name + "," + file.Extension + "," + sizeBefore + "," + sizeBefore + "," + "1.0" + ",Skipped");
-                    continue;
-                }
-                else
-                {
-                    logger.Write("Decompress," + file.Name + "," + file.Extension + ",");
+                if (!file.IsTooSmall || !file.IsNonCompressible)                                                   
                     file.Uncompress();
-                    logger.WriteLine(file.GetSize() + "," + file.GetSizeOnDisk() + "," + "1.0" + ",Decompressed");
-                }
+
+                file.AddArchiveAttribute();
             }
-
-            long folderSizeAfter = rootDir.GetSizeOnDisk();
-            double folderSizeAfterGB = (double)folderSizeAfter / 1024 / 1024 / 1024;
-            logger.WriteLine("");
-            logger.WriteLine("Decompressed " + rootDir.Name + " Size = " + Math.Round(folderSizeAfterGB, 3) + "GB. Ratio = 1.0 to 1");
-            logger.WriteLine("");
-
         }
     }
 }

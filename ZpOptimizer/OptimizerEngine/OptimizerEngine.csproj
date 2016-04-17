@@ -43,16 +43,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DirCompressors\DirCompressor.cs" />
+    <Compile Include="DirCompressors\OptimalDirCompressor.cs" />
     <Compile Include="DirCompressors\UncompressDirCompressor.cs" />
     <Compile Include="FileCompressors\FileCompressor.cs" />
     <Compile Include="FileCompressors\NonPerfSensitiveFileCompressor.cs" />
     <Compile Include="FileCompressors\PerfSensitiveFileCompressor.cs" />
+    <Compile Include="FileCompressors\MaximumFileCompressor.cs" />
     <Compile Include="FileCompressors\UnrecognizedFileCompressor.cs" />
     <Compile Include="FileSystem\ZpDirectory.cs" />
     <Compile Include="FileSystem\ZpFile.cs" />
     <Compile Include="FileSystem\ZpGame.cs" />
     <Compile Include="DirCompressors\MaximumDirCompressor.cs" />
-    <Compile Include="DirCompressors\OptimalDirCompressor.cs" />
     <Compile Include="Helpers\Globals.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="OptimizerEngine.cs" />

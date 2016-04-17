@@ -49,7 +49,7 @@ namespace OptimizerEngine
         #region Public Methods
 
         // Apply compression on only the selected directories
-        public void CompressSelected(CompressionTypes compressionType) {
+        public void CompressSelected(DirCompressionTypes compressionType) {
             foreach (string dir in this.selectedDirs) {
                 ApplyCompression(compressionType, dir);
             }
@@ -60,19 +60,19 @@ namespace OptimizerEngine
         #region Private Methods
 
         // Apply compression
-        private void ApplyCompression(CompressionTypes compressionType, string dir) {
+        private void ApplyCompression(DirCompressionTypes compressionType, string dir) {
             DirCompressor compressor;
             
 
             // Determine the type of directory compression
             switch (compressionType) {
-                case CompressionTypes.OPTIMAL:
+                case DirCompressionTypes.OPTIMAL:
                     compressor = new OptimalDirCompressor(dir);
                     break;
-                case CompressionTypes.MAXIMUM:
+                case DirCompressionTypes.MAXIMUM:
                     compressor = new MaximumDirCompressor(dir);
                     break;
-                case CompressionTypes.UNCOMPRESS:
+                case DirCompressionTypes.UNCOMPRESS:
                     compressor = new UncompressDirCompressor(dir);
                     break;
                 default:

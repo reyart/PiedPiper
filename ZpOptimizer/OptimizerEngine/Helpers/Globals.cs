@@ -8,11 +8,20 @@ namespace OptimizerEngine.Helpers {
     public static class Globals {
 
         // Used to define compression type
-        public enum CompressionTypes {
+        public enum DirCompressionTypes {
             OPTIMAL = 0,
             MAXIMUM = 1,
             UNCOMPRESS = 2
         }
+
+        public enum FileCompressionTypes
+        {
+            PERFSENSITIVE = 0,
+            NONPERFSENSITIVE = 1,
+            UNRECOGNIZED = 2,
+            MAXIMUM = 3
+        }
+
 
         // Used to determine compression behavior of files
         // Holds file extensions used for evaluating compression behavior

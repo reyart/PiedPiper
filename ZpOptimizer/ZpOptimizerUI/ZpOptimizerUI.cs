@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 
@@ -16,9 +16,12 @@ namespace ZpOptimizerUI
     public partial class ZpOptimizerUI : Form
     {
         private OptimizerEngine.OptimizerEngine engine;
-        private CompressionTypes compressionType;
+        private DirCompressionTypes compressionType;
         //private string[] selectedDirArray;
         private List<string> selectedDirList;
+
+        //Try this instead of invoke and passing down the background worker.
+        SynchronizationContext syncContext;
 
         public ZpOptimizerUI()
         {
@@ -51,6 +54,11 @@ namespace ZpOptimizerUI
         private void listBoxFolders_SelectedIndexChanged(object sender, EventArgs e)
         {
             
+
+            syncContext = SynchronizationContext.Current;
+
+            syncContext.Post(UpdateGUI, 100);
+
         }
 
         private void buttonApplySelected_Click(object sender, EventArgs e)
@@ -72,30 +80,25 @@ namespace ZpOptimizerUI
 
         #endregion
 
-        
-
-
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
     
             if (radioButtonOptimized.Checked == true)
             {
-                compressionType = CompressionTypes.OPTIMAL;
+                compressionType = DirCompressionTypes.OPTIMAL;
             }
             else if (radioButtonMaxComp.Checked == true)
             {
-                compressionType = CompressionTypes.MAXIMUM;
+                compressionType = DirCompressionTypes.MAXIMUM;
             }
             else if (radioButtonUncompressed.Checked == true)
             {
-                compressionType = CompressionTypes.UNCOMPRESS;
+                compressionType = DirCompressionTypes.UNCOMPRESS;
             }
 
             double percentToIncrement = 100.0 / Convert.ToDouble(selectedDirList.Count);
-            double percentComplete = percentToIncrement;
-            //folderProgressBar.Value = 0;
-            folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = 0; });
-            //backgroundWorker1.ReportProgress(0);
+            double percentComplete = percentToIncrement;         
+            folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = 0; });           
             foreach (string dir in selectedDirList)
             {
 
@@ -109,11 +112,9 @@ namespace ZpOptimizerUI
 
                 engine = new OptimizerEngine.OptimizerEngine(dir, backgroundWorker1);
                 engine.CompressSelected(compressionType);
-                //engine = new OptimizerEngine.OptimizerEngine(dir);
 
-               
                 int percentCompleteInt = Convert.ToInt32(percentComplete);
-                //folderProgressBar.Value = percentCompleteInt;
+               
                 folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = percentCompleteInt; });
                 percentComplete += percentToIncrement;
             }
@@ -180,5 +181,11 @@ namespace ZpOptimizerUI
             backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
 
         }
+
+        void UpdateGUI(object userData)
+        {
+            
+        }
+
     }
 }

@@ -147,7 +147,16 @@ namespace OptimizerEngine.FileSystem {
             attributes = RemoveAttribute(attributes, FileAttributes.Archive);
             File.SetAttributes(FullName, attributes);
         }
-        
+
+        public void AddArchiveAttribute()
+        {
+            //FileAttributes attributes = File.GetAttributes(FullName);
+            //attributes = RemoveAttribute(attributes, FileAttributes.Archive);
+            //File.SetAttributes(FullName, attributes);
+
+            File.SetAttributes(FullName, File.GetAttributes(FullName) | FileAttributes.Archive);
+        }
+
 
         #endregion
 
@@ -157,6 +166,10 @@ namespace OptimizerEngine.FileSystem {
         {
             return attributes & ~attributesToRemove;
         }
+
+        
+
+
 
         [DllImport("kernel32.dll")]
         private static extern uint GetCompressedFileSizeW([In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
