@@ -56,6 +56,8 @@
             this.folderProgressBar = new System.Windows.Forms.ProgressBar();
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.sizeValueLabel = new System.Windows.Forms.Label();
+            this.sizeTitleLabel = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTop)).BeginInit();
@@ -66,6 +68,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -171,6 +174,7 @@
             this.listView1.TabIndex = 3;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // Game
             // 
@@ -221,6 +225,11 @@
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.sizeTitleLabel);
+            this.splitContainer2.Panel1.Controls.Add(this.sizeValueLabel);
             // 
             // splitContainer2.Panel2
             // 
@@ -352,6 +361,24 @@
             this.labelResult.TabIndex = 2;
             this.labelResult.Text = "label1";
             // 
+            // sizeValueLabel
+            // 
+            this.sizeValueLabel.AutoSize = true;
+            this.sizeValueLabel.Location = new System.Drawing.Point(4, 43);
+            this.sizeValueLabel.Name = "sizeValueLabel";
+            this.sizeValueLabel.Size = new System.Drawing.Size(43, 13);
+            this.sizeValueLabel.TabIndex = 0;
+            this.sizeValueLabel.Text = "            ";
+            // 
+            // sizeTitleLabel
+            // 
+            this.sizeTitleLabel.AutoSize = true;
+            this.sizeTitleLabel.Location = new System.Drawing.Point(4, 26);
+            this.sizeTitleLabel.Name = "sizeTitleLabel";
+            this.sizeTitleLabel.Size = new System.Drawing.Size(27, 13);
+            this.sizeTitleLabel.TabIndex = 1;
+            this.sizeTitleLabel.Text = "Size";
+            // 
             // ZpOptimizerUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -376,6 +403,8 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
@@ -421,6 +450,8 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader Game;
         private System.Windows.Forms.ColumnHeader Path;
+        private System.Windows.Forms.Label sizeValueLabel;
+        private System.Windows.Forms.Label sizeTitleLabel;
     }
 }
 

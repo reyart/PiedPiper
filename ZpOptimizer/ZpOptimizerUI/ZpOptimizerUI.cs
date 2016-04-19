@@ -38,8 +38,19 @@ namespace ZpOptimizerUI
         
 
         }
-        
+
         #region EVENTS
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            OptimizerEngine.FileSystem.ZpDirectory curDir = new OptimizerEngine.FileSystem.ZpDirectory(listView1.FocusedItem.SubItems[1].Text);
+            //ng selectedCurrentSize = ;
+
+            sizeValueLabel.Text = Convert.ToString(curDir.GetSize() / 1024 / 1024) + " MB";
+
+
+            //sizeLabel.Update();
+        }
 
         void buttonAddDir_Click(object sender, EventArgs e)
         {
@@ -66,12 +77,7 @@ namespace ZpOptimizerUI
             }
         }
 
-        private void listBoxFolders_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-
-        }
-
+       
         private void buttonApplySelected_Click(object sender, EventArgs e)
         {
             string[] selectedDirArray = new string[listView1.SelectedItems.Count];
@@ -208,5 +214,6 @@ namespace ZpOptimizerUI
             
         }
 
+       
     }
 }
