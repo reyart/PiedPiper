@@ -17,17 +17,26 @@ namespace ZpOptimizerUI
     {
         private OptimizerEngine.OptimizerEngine engine;
         private DirCompressionTypes compressionType;
-        //private string[] selectedDirArray;
-        private List<string> selectedDirList;
-
-        //Try this instead of invoke and passing down the background worker.
-        SynchronizationContext syncContext;
+        public List<string> selectedDirList;
 
         public ZpOptimizerUI()
         {
             InitializeComponent();
-            InitializeBackgroundWorker();       
-    
+            InitializeBackgroundWorker();
+
+            foreach (string dir in Directory.GetDirectories(Settings1.Default.defaultFolder))
+            {
+                int slashIndex = dir.LastIndexOf(@"\") + 1;
+                string dirName = dir.Substring(slashIndex);
+
+                //listView1.Items.Add(dir);
+
+                string[] row1 = { dir};
+                listView1.Items.Add(dirName).SubItems.AddRange(row1);
+            }
+
+        
+
         }
         
         #region EVENTS
@@ -47,7 +56,13 @@ namespace ZpOptimizerUI
                 string[] dirList = Directory.GetDirectories(folderBrowserDialog1.SelectedPath.ToString());
 
                 foreach (string dir in dirList)
-                    listBoxFolders.Items.Add(dir);                    
+                {
+                    int slashIndex = dir.LastIndexOf(@"\") + 1;
+                    string dirName = dir.Substring(slashIndex);
+
+                    string[] row1 = { dir };
+                    listView1.Items.Add(dirName).SubItems.AddRange(row1);
+                }
             }
         }
 
@@ -55,22 +70,28 @@ namespace ZpOptimizerUI
         {
             
 
-            syncContext = SynchronizationContext.Current;
-
-            syncContext.Post(UpdateGUI, 100);
-
         }
 
         private void buttonApplySelected_Click(object sender, EventArgs e)
         {
-            string[] selectedDirArray = new string[listBoxFolders.SelectedItems.Count];
-            listBoxFolders.SelectedItems.CopyTo(selectedDirArray, 0);
-            //List<string> selectedDirList = new List<string>(selectedDirArray);
+            string[] selectedDirArray = new string[listView1.SelectedItems.Count];
 
+            
+            int i = 0;
+            foreach (ListViewItem Item in listView1.SelectedItems)
+            {            
+                //selectedDirList.Add(Item.Text.ToString());
+                //selectedDirList.Add(listView1.SelectedItems[i].SubItems[1].ToString());
+                selectedDirArray.SetValue(listView1.SelectedItems[i].SubItems[1].Text, i);
+                i++;
+            }
+
+            // foreach (var item in listView1.SelectedItems)
+            //  selectedDirArray(listView1.SelectedItems[0].SubItems[1].Text.ToString());
+
+            //int co = selectedDirList.Count;
             selectedDirList = selectedDirArray.ToList();
-            //statusStrip.Text = "Compressing " + selectedDirList.Count + "folders";
-            //statusStrip.Update();
-
+           
             if (backgroundWorker1.IsBusy == false)
                 backgroundWorker1.RunWorkerAsync("Selected");
             else
