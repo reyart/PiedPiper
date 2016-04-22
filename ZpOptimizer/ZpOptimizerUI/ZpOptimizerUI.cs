@@ -37,7 +37,7 @@ namespace ZpOptimizerUI
         {
             zpDirList = new List<ZpDirectory>();
             
-           /*
+           
            try
            {
                 using (Stream stream = File.Open("data.bin", FileMode.Open))
@@ -53,9 +53,9 @@ namespace ZpOptimizerUI
            {
                 return null;
            }
-           */
+           
          
-            
+            /*
             foreach (string path in Directory.GetDirectories(Settings1.Default.defaultFolder))
             {
                 //TODO: Check for matches with previous list before adding
@@ -63,8 +63,16 @@ namespace ZpOptimizerUI
                 
             }
 
+            SaveZpDirList();
+            */
+            
+            return zpDirList;
+            
+            
+        }
 
-            //save zpDirList to disk
+        private void SaveZpDirList()
+        {
             try
             {
                 using (Stream stream = File.Open("data.bin", FileMode.Create))
@@ -77,26 +85,23 @@ namespace ZpOptimizerUI
             {
             }
 
-            return zpDirList;
-            
-            
         }
-        
-
 
         private void InitializeListView()
         {
             foreach (ZpDirectory zpdir in zpDirList)
             {
+               
+
                 ListViewItem item = new ListViewItem(zpdir.Name);
                 
                 item.SubItems.Add(Convert.ToString(zpdir.SizeMB + " MB"));
-                //item1.SubItems.Add(Convert.ToString(zpdir.GetSizeOnDisk("MB") + " MB"));
+                item.SubItems.Add(Convert.ToString(zpdir.SizeOnDiskMB + " MB"));
                 item.SubItems.Add("000");
                 item.SubItems.Add(zpdir.Path);
 
-                listView1.Items.AddRange(new ListViewItem[] { item });
-
+                listView1.Items.Add( item );
+               
 
 
             }
@@ -289,6 +294,9 @@ namespace ZpOptimizerUI
             
         }
 
-       
+        private void ZpOptimizerUI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveZpDirList();
+        }
     }
 }

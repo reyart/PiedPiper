@@ -15,7 +15,7 @@ namespace OptimizerEngine.FileSystem {
         #region Private Properties
 
         private DirectoryInfo directoryInfo;
-        private List<ZpFile> allFiles;
+        //private List<ZpFile> allFiles;
         private int fileCount;
         private long dirSize;
         private long dirSizeOnDisk;
@@ -28,10 +28,10 @@ namespace OptimizerEngine.FileSystem {
 
             // Initialize necessary properties
             directoryInfo = new DirectoryInfo(path);
-            allFiles = GetAllFiles();
-            fileCount = allFiles.Count;
-            dirSize = GetSize();
-            dirSizeOnDisk = GetSizeOnDisk();
+            //allFiles = GetAllFiles();
+            //fileCount = allFiles.Count;
+            //dirSize = GetSize();
+            //dirSizeOnDisk = GetSizeOnDisk();
 
         }
 
@@ -51,34 +51,50 @@ namespace OptimizerEngine.FileSystem {
 
         public long Size
         {
-            get { return dirSize; }
+            get
+            {
+                if (this.dirSize == 0) { this.dirSize = GetSize(); }
+                return dirSize;
+            }
         }
 
         public long SizeMB
         {
-            get { return dirSize / 1024 / 1024; }
+            get
+            {
+                if (this.dirSize == 0) { this.dirSize = GetSize(); }
+                return dirSize / 1024 / 1024;
+            }
         }
 
 
         public long SizeOnDisk
         {
-            get { return dirSizeOnDisk; }
+            get
+            {
+                if (this.dirSizeOnDisk == 0) { this.dirSizeOnDisk = GetSizeOnDisk(); }
+                return dirSizeOnDisk;
+            }
         }
 
         public long SizeOnDiskMB
         {
-            get { return dirSizeOnDisk / 1024 / 1024; }
+            get
+            {
+                if (this.dirSizeOnDisk == 0) { this.dirSizeOnDisk = GetSizeOnDisk(); }
+                return dirSizeOnDisk / 1024 / 1024;
+            }
         }
 
-        public int FileCount
-        {
-            get { return fileCount; }
-        }
+        //public int FileCount
+       // {
+        //    get { return fileCount; }
+       // }
 
-        public List<ZpFile> AllFiles
-        {
-            get { return allFiles; }
-        }
+        //public List<ZpFile> AllFiles
+       // {
+        //    get { return allFiles; }
+        //}
         #endregion
 
         #region Public Methods
@@ -89,11 +105,13 @@ namespace OptimizerEngine.FileSystem {
         #region Private Methods
 
         // Gets the total size (in bytes) of all files in the directory
-        private long GetSize()
+        public long GetSize()
         {
             long size = 0;
 
-            foreach (ZpFile file in this.allFiles)
+            //if (this.allFiles == null) { this.allFiles = GetAllFiles(); }
+
+            foreach (ZpFile file in this.GetAllFiles())
             {
                 size += file.Size;
             }
@@ -102,11 +120,13 @@ namespace OptimizerEngine.FileSystem {
         }
 
         //overload to get in specific unit
-        private long GetSize(string mag)
+        public long GetSize(string mag)
         {
             long size = 0;
 
-            foreach (ZpFile file in this.allFiles)
+            // if (this.allFiles == null) { this.allFiles = GetAllFiles(); }
+
+            foreach (ZpFile file in this.GetAllFiles())
             {
                 size += file.Size;
             }
@@ -122,11 +142,13 @@ namespace OptimizerEngine.FileSystem {
         }
 
         // Gets the total size on disk of all files in the directory
-        private long GetSizeOnDisk()
+        public long GetSizeOnDisk()
         {
             long size = 0;
 
-            foreach (ZpFile file in this.allFiles)
+            //if (this.allFiles == null) { this.allFiles = GetAllFiles(); }
+
+            foreach (ZpFile file in this.GetAllFiles())
             {
                 size += file.SizeOnDisk;
             }
@@ -135,11 +157,13 @@ namespace OptimizerEngine.FileSystem {
         }
 
         //overload to get in specific unit
-        private long GetSizeOnDisk(string mag)
+        public long GetSizeOnDisk(string mag)
         {
             long size = 0;
 
-            foreach (ZpFile file in this.allFiles)
+            //if (this.allFiles == null) { this.allFiles = GetAllFiles(); }
+
+            foreach (ZpFile file in this.GetAllFiles())
             {
                 size += file.SizeOnDisk;
             }
@@ -155,12 +179,12 @@ namespace OptimizerEngine.FileSystem {
         }
 
 
-        private List<ZpFile> GetAllFiles()
+        public List<ZpFile> GetAllFiles()
         {
             List<ZpFile> files = new List<ZpFile>();
             try
             {
-                foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories))
+                foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories))                    
                 {
                     files.Add(new ZpFile(fileInfo));
                 }
@@ -170,8 +194,6 @@ namespace OptimizerEngine.FileSystem {
                 Console.WriteLine("{0} Exception caught.", e);
                 //throw;
             }
-
-
 
             return files;
         }

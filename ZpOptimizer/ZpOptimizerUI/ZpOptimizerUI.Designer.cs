@@ -39,9 +39,9 @@
             this.splitContainerTop = new System.Windows.Forms.SplitContainer();
             this.listView1 = new System.Windows.Forms.ListView();
             this.Game = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Path = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SizeOnDisk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Path = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonDeleteDir = new System.Windows.Forms.Button();
             this.buttonAddDir = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -89,7 +89,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1283, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1276, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -134,7 +134,7 @@
             this.toolStripStatusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 587);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1283, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1276, 22);
             this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip";
@@ -162,8 +162,8 @@
             // splitContainerTop.Panel2
             // 
             this.splitContainerTop.Panel2.Controls.Add(this.splitContainer1);
-            this.splitContainerTop.Size = new System.Drawing.Size(1283, 355);
-            this.splitContainerTop.SplitterDistance = 639;
+            this.splitContainerTop.Size = new System.Drawing.Size(1276, 355);
+            this.splitContainerTop.SplitterDistance = 635;
             this.splitContainerTop.SplitterWidth = 1;
             this.splitContainerTop.TabIndex = 0;
             // 
@@ -187,11 +187,6 @@
             this.Game.Text = "Game";
             this.Game.Width = 180;
             // 
-            // Path
-            // 
-            this.Path.Text = "Path";
-            this.Path.Width = 229;
-            // 
             // Size
             // 
             this.Size.Text = "Size";
@@ -199,6 +194,11 @@
             // SizeOnDisk
             // 
             this.SizeOnDisk.Text = "Size On Disk";
+            // 
+            // Path
+            // 
+            this.Path.Text = "Path";
+            this.Path.Width = 229;
             // 
             // buttonDeleteDir
             // 
@@ -229,7 +229,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(643, 355);
+            this.splitContainer1.Size = new System.Drawing.Size(640, 355);
             this.splitContainer1.SplitterDistance = 238;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 0;
@@ -251,8 +251,8 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.buttonApplySelected);
             this.splitContainer2.Panel2.Controls.Add(this.flowLayoutPanel1);
-            this.splitContainer2.Size = new System.Drawing.Size(643, 238);
-            this.splitContainer2.SplitterDistance = 374;
+            this.splitContainer2.Size = new System.Drawing.Size(640, 238);
+            this.splitContainer2.SplitterDistance = 372;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -366,7 +366,7 @@
             this.splitContainerMain.Panel2.Controls.Add(this.buttonCancel);
             this.splitContainerMain.Panel2.Controls.Add(this.folderProgressBar);
             this.splitContainerMain.Panel2.Controls.Add(this.labelResult);
-            this.splitContainerMain.Size = new System.Drawing.Size(1283, 563);
+            this.splitContainerMain.Size = new System.Drawing.Size(1276, 563);
             this.splitContainerMain.SplitterDistance = 355;
             this.splitContainerMain.SplitterWidth = 1;
             this.splitContainerMain.TabIndex = 2;
@@ -418,7 +418,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1283, 609);
+            this.ClientSize = new System.Drawing.Size(1276, 609);
             this.Controls.Add(this.splitContainerMain);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
@@ -428,6 +428,7 @@
             this.Name = "ZpOptimizerUI";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "ZP Optimizer (Prototype)";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ZpOptimizerUI_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);

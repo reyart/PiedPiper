@@ -49,7 +49,7 @@ namespace OptimizerEngine.DirCompressors
             long folderSizeBefore = rootDir.Size;
             double folderSizeBeforeGB = (double)folderSizeBefore / 1024 / 1024 / 1024;
 
-            var fileList = rootDir.AllFiles;
+            var fileList = rootDir.GetAllFiles();
             
             double percentToIncrement = 100.0 / Convert.ToDouble(fileList.Count);
             double percentComplete = percentToIncrement;
