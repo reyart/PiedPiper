@@ -25,18 +25,18 @@ namespace OptimizerEngine.FileCompressors {
             { // Decompress if it doesn't compress well at all
                 fileToCompress.Uncompress();
 
-                currentDirLogger.WriteLine(sizeBefore + "," + fileToCompress.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",Decompressed,Downgraded");
+                currentDirLogger.WriteLine(sizeBefore + "," + fileToCompress.SizeOnDisk + "," + Math.Round(compRatio, 2) + ",Decompressed,Downgraded");
             }
             else if (compRatio < 1.3)
             { // Lower compression if it compresses poorly
                 compRatio = fileToCompress.Compress("XPRESS8K"); 
 
-                currentDirLogger.WriteLine(sizeBefore + "," + fileToCompress.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",XPRESS8K,Downgraded");
+                currentDirLogger.WriteLine(sizeBefore + "," + fileToCompress.SizeOnDisk + "," + Math.Round(compRatio, 2) + ",XPRESS8K,Downgraded");
             }
             else
             {
                 // Stick with the original compression and write to the logger if neither applies
-                currentDirLogger.WriteLine(sizeBefore + "," + fileToCompress.GetSizeOnDisk() + "," + Math.Round(compRatio, 2) + ",XPRESS16K");
+                currentDirLogger.WriteLine(sizeBefore + "," + fileToCompress.SizeOnDisk + "," + Math.Round(compRatio, 2) + ",XPRESS16K");
             }
 
             fileToCompress.RemoveArchiveAttribute();            

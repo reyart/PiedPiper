@@ -15,7 +15,7 @@ namespace OptimizerEngine.DirCompressors {
 
         public override void Execute(BackgroundWorker bgw) {
 
-            var fileList = rootDir.GetAllFiles();
+            var fileList = rootDir.AllFiles;
             double percentToIncrement = 100.0 / Convert.ToDouble(fileList.Count);
             double percentComplete = percentToIncrement;
             bgw.ReportProgress(0);

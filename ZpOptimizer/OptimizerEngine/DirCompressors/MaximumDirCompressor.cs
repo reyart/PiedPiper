@@ -17,7 +17,7 @@ namespace OptimizerEngine.DirCompressors {
         public override void Execute(BackgroundWorker bgw)
         {
            
-            var fileList = rootDir.GetAllFiles();
+            var fileList = rootDir.AllFiles;
 
             double percentToIncrement = 100.0 / Convert.ToDouble(fileList.Count);
             double percentComplete = percentToIncrement;
@@ -34,7 +34,8 @@ namespace OptimizerEngine.DirCompressors {
                 if (!file.IsTooSmall || !file.IsNonCompressible) //Skip Small and Incompressible Files                   
                     ApplyFileCompression(Globals.FileCompressionTypes.MAXIMUM, file);
 
-                file.AddArchiveAttribute(); 
+                //file.AddArchiveAttribute(); 
+                file.RemoveArchiveAttribute();
             }
 
             bgw.ReportProgress(100);

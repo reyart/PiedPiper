@@ -11,12 +11,15 @@ using System.Threading.Tasks;
 
 namespace OptimizerEngine.FileSystem {
 
+    [Serializable()]
     public class ZpFile {
 
         #region Private Properties
 
         private FileInfo fileInfo;
         public FileAttributes attributes;
+        private long size;
+        private long sizeOnDisk;
 
 
         #endregion
@@ -27,13 +30,19 @@ namespace OptimizerEngine.FileSystem {
 
             // Initialize necessary properties
             fileInfo = new FileInfo(fileName);
-            FileAttributes attributes = File.GetAttributes(fileInfo.FullName);
+            attributes = File.GetAttributes(fileInfo.FullName);
+            sizeOnDisk = GetSizeOnDisk();
+            size = fileInfo.Length;
         }
 
+        //Alternate constructor using FileInfo
         public ZpFile(FileInfo fi) {
 
             // Initialize necessary properties
-            fileInfo = fi;            
+            fileInfo = fi;
+            attributes = File.GetAttributes(fileInfo.FullName);
+            sizeOnDisk = GetSizeOnDisk();
+            size = fileInfo.Length;
         }
 
         #endregion
@@ -62,11 +71,21 @@ namespace OptimizerEngine.FileSystem {
             get { return fileInfo.Attributes; }
         }
 
+        // Get the Size (in bytes) of the file
+        public long Size
+        {
+            get { return size; }
+        }
+
+        public long SizeOnDisk
+        {
+            get { return sizeOnDisk; }
+        }
 
         // File is too small
         public bool IsTooSmall
         {
-            get { return this.GetSize() < 4096; }
+            get { return this.Size < 4096; }
         }
 
         // File is not compressible
@@ -91,13 +110,9 @@ namespace OptimizerEngine.FileSystem {
 
         #region Public Methods
 
-        // Get the Size (in bytes) of the file
-        public long GetSize() {
-            return fileInfo.Length;
-        }
-
+        
         // Get the Size on Disk (in bytes) of the file
-        public long GetSizeOnDisk() {
+        private long GetSizeOnDisk() {
             uint dummy, sectorsPerCluster, bytesPerSector;
 
             int result = GetDiskFreeSpaceW(fileInfo.Directory.Root.FullName, out sectorsPerCluster, out bytesPerSector, out dummy, out dummy);
@@ -137,7 +152,7 @@ namespace OptimizerEngine.FileSystem {
             string output = reader.ReadLine();
             p.WaitForExit();
 
-            double ratio = (double)this.GetSize() / (double)this.GetSizeOnDisk();
+            double ratio = (double)this.Size / (double)this.SizeOnDisk;
             return ratio;
         }
 
@@ -166,10 +181,6 @@ namespace OptimizerEngine.FileSystem {
         {
             return attributes & ~attributesToRemove;
         }
-
-        
-
-
 
         [DllImport("kernel32.dll")]
         private static extern uint GetCompressedFileSizeW([In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName,

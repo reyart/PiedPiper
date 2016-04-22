@@ -44,12 +44,12 @@ namespace OptimizerEngine.DirCompressors
         // Where the magic happens
         public override void Execute(BackgroundWorker bgw)
         {
-            
+
             // Get the size of the folder before compressing
-            long folderSizeBefore = rootDir.GetSize();
+            long folderSizeBefore = rootDir.Size;
             double folderSizeBeforeGB = (double)folderSizeBefore / 1024 / 1024 / 1024;
-                      
-            var fileList = rootDir.GetAllFiles();
+
+            var fileList = rootDir.AllFiles;
             
             double percentToIncrement = 100.0 / Convert.ToDouble(fileList.Count);
             double percentComplete = percentToIncrement;
@@ -73,12 +73,12 @@ namespace OptimizerEngine.DirCompressors
 
                 if (file.IsTooSmall) //Skip Small Files
                 { 
-                    logger.WriteLine("Too Small," + file.Name + "," + file.Extension + "," + file.GetSize() + "," + file.GetSize() + "," + "1.0" + ",Skipped");
+                    logger.WriteLine("Too Small," + file.Name + "," + file.Extension + "," + file.Size + "," + file.Size + "," + "1.0" + ",Skipped");
                     file.RemoveArchiveAttribute();                 
                 }
                 else if (file.IsNonCompressible) //Skip incompressible files
                 { 
-                    logger.WriteLine("Incompressible," + file.Name + "," + file.Extension + "," + file.GetSize() + "," + file.GetSize() + "," + "1.0" + ",Skipped");
+                    logger.WriteLine("Incompressible," + file.Name + "," + file.Extension + "," + file.Size + "," + file.Size + "," + "1.0" + ",Skipped");
                     file.RemoveArchiveAttribute();                 
                 }              
                 else if (file.IsPerfSensitive)               
@@ -94,7 +94,7 @@ namespace OptimizerEngine.DirCompressors
 
             if (loggingStarted == true)
             {
-                long folderSizeAfter = rootDir.GetSizeOnDisk();
+                long folderSizeAfter = rootDir.SizeOnDisk;
                 double folderSizeAfterGB = (double)folderSizeAfter / 1024 / 1024 / 1024;
                 logger.WriteLine("");
                 logger.WriteLine("Compressed " + rootDir.Name + " Size = " + Math.Round(folderSizeAfterGB, 3) + "GB. Ratio = " + Math.Round(folderSizeBeforeGB / folderSizeAfterGB, 3) + " to 1");

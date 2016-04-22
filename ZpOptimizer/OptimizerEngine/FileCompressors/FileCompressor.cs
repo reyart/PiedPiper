@@ -23,7 +23,7 @@ namespace OptimizerEngine.FileCompressors {
         {
             fileToCompress = file;
             currentDirLogger = logger;
-            sizeBefore = fileToCompress.GetSize();
+            sizeBefore = fileToCompress.Size;
         }
         #endregion
 

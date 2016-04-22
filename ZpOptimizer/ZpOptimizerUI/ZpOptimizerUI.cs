@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.IO;
-
+using OptimizerEngine.FileSystem;
 using static OptimizerEngine.Helpers.Globals;
+using System.Runtime.Serialization.Formatters.Binary;
+
 
 namespace ZpOptimizerUI
 {
@@ -18,39 +20,110 @@ namespace ZpOptimizerUI
         private OptimizerEngine.OptimizerEngine engine;
         private DirCompressionTypes compressionType;
         public List<string> selectedDirList;
+        public List<ZpDirectory> zpDirList;
 
         public ZpOptimizerUI()
         {
             InitializeComponent();
             InitializeBackgroundWorker();
+            zpDirList = InitializeZpDirList();
+            InitializeListView();
+        
+        }
 
-            foreach (string dir in Directory.GetDirectories(Settings1.Default.defaultFolder))
+
+
+        private List<ZpDirectory> InitializeZpDirList()
+        {
+            zpDirList = new List<ZpDirectory>();
+            
+           /*
+           try
+           {
+                using (Stream stream = File.Open("data.bin", FileMode.Open))
+                {
+                    BinaryFormatter bin = new BinaryFormatter();
+
+                    List<ZpDirectory> zpDirList = (List<ZpDirectory>)bin.Deserialize(stream);
+                    return zpDirList;
+                
+                }
+           }
+           catch (IOException)
+           {
+                return null;
+           }
+           */
+         
+            
+            foreach (string path in Directory.GetDirectories(Settings1.Default.defaultFolder))
             {
-                int slashIndex = dir.LastIndexOf(@"\") + 1;
-                string dirName = dir.Substring(slashIndex);
-
-                //listView1.Items.Add(dir);
-
-                string[] row1 = { dir};
-                listView1.Items.Add(dirName).SubItems.AddRange(row1);
+                //TODO: Check for matches with previous list before adding
+                zpDirList.Add(new ZpDirectory(path));
+                
             }
 
+
+            //save zpDirList to disk
+            try
+            {
+                using (Stream stream = File.Open("data.bin", FileMode.Create))
+                {
+                    BinaryFormatter bin = new BinaryFormatter();
+                    bin.Serialize(stream, zpDirList);
+                }
+            }
+            catch (IOException)
+            {
+            }
+
+            return zpDirList;
+            
+            
+        }
         
 
+
+        private void InitializeListView()
+        {
+            foreach (ZpDirectory zpdir in zpDirList)
+            {
+                ListViewItem item = new ListViewItem(zpdir.Name);
+                
+                item.SubItems.Add(Convert.ToString(zpdir.SizeMB + " MB"));
+                //item1.SubItems.Add(Convert.ToString(zpdir.GetSizeOnDisk("MB") + " MB"));
+                item.SubItems.Add("000");
+                item.SubItems.Add(zpdir.Path);
+
+                listView1.Items.AddRange(new ListViewItem[] { item });
+
+
+
+            }
+            /*
+            //Using my own personal folder now to simplify things
+            foreach (string path in Directory.GetDirectories(Settings1.Default.defaultFolder))
+            {
+                int slashIndex = path.LastIndexOf(@"\") + 1;
+                string dirName = path.Substring(slashIndex);                           
+                listView1.Items.Add(dirName).SubItems.Add(path);
+
+
+
+
+
+            }
+            */
         }
 
         #region EVENTS
 
+
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            OptimizerEngine.FileSystem.ZpDirectory curDir = new OptimizerEngine.FileSystem.ZpDirectory(listView1.FocusedItem.SubItems[1].Text);
-            //ng selectedCurrentSize = ;
-
-            sizeValueLabel.Text = Convert.ToString(curDir.GetSize() / 1024 / 1024) + " MB";
-
-
-            //sizeLabel.Update();
+            
         }
+
 
         void buttonAddDir_Click(object sender, EventArgs e)
         {
@@ -78,17 +151,18 @@ namespace ZpOptimizerUI
         }
 
        
-        private void buttonApplySelected_Click(object sender, EventArgs e)
-        {
+        private void buttonApplySelected_Click(object sender, EventArgs e) {
+            //string[] selectedDirArray = new string[listView1.SelectedItems.Count];
             string[] selectedDirArray = new string[listView1.SelectedItems.Count];
 
-            
+
+           
             int i = 0;
             foreach (ListViewItem Item in listView1.SelectedItems)
             {            
                 //selectedDirList.Add(Item.Text.ToString());
                 //selectedDirList.Add(listView1.SelectedItems[i].SubItems[1].ToString());
-                selectedDirArray.SetValue(listView1.SelectedItems[i].SubItems[1].Text, i);
+                selectedDirArray.SetValue(listView1.SelectedItems[i].SubItems[3].Text, i);
                 i++;
             }
 
@@ -102,11 +176,12 @@ namespace ZpOptimizerUI
                 backgroundWorker1.RunWorkerAsync("Selected");
             else
                 MessageBox.Show("Chill, let me finish.");
+               
             
         }
 
         #endregion
-
+                                                                                                     
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
     
