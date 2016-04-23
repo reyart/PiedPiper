@@ -25,27 +25,40 @@ namespace ZpOptimizerUI
         public List<ZpDirectory> zpDirList;
         public ObjectStorage objectStorage;
 
+
+        #region constructors
+
         public ZpOptimizerUI()
         {
+            //Initialize disk reader/writer object
             objectStorage = new ObjectStorage();
 
+            //Initialize main list of games
             zpDirList = new List<ZpDirectory>();
             zpDirList = InitializeZpDirList();
 
+            //Initialize other components
             InitializeComponent();
             InitializeBackgroundWorker();            
             InitializeListView();  
         }
+        
+        #endregion
 
 
 
+        #region Initializers
+
+        //Retrieve and update master list of games
         private List<ZpDirectory> InitializeZpDirList()
         {
+            //Retrieve the saved list from disk
             zpDirList = objectStorage.RetrievezpDirList("data.bin");
+
+            //Get the current folders
             string[] rootDir = Directory.GetDirectories(Settings1.Default.defaultFolder);
 
             //Remove folders from the list that are no longer present
-
             List<ZpDirectory> dirsToRemove = new List<ZpDirectory> { };
 
             foreach (ZpDirectory dir in zpDirList)
@@ -73,23 +86,22 @@ namespace ZpOptimizerUI
                 if (alreadyListed == false) { zpDirList.Add(new ZpDirectory(path)); }
             }
 
+            //Save the list to disk after all operations complete
             objectStorage.SaveZpDirList("data.bin", zpDirList);
-            
-                                
+                                            
             return zpDirList;                               
         }
 
-        
-
+        //Populate listview with data from directory list   
         private void InitializeListView()
         {
+            
             foreach (ZpDirectory zpdir in zpDirList)
             {
                 ListViewItem item = new ListViewItem(zpdir.Name);
                 
                 item.SubItems.Add(Convert.ToString(zpdir.SizeMB + " MB"));
                 item.SubItems.Add(Convert.ToString(zpdir.SizeOnDiskMB + " MB"));
-                item.SubItems.Add("000");
                 item.SubItems.Add(zpdir.Path);
 
                 listView1.Items.Add( item );
@@ -97,75 +109,122 @@ namespace ZpOptimizerUI
             }       
         }
 
-        #region EVENTS
+        //Set essential properties for background worker
+        private void InitializeBackgroundWorker()
+        {
+            
+            backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
+            backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
+            backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
 
+        }
+
+        #endregion
+
+
+
+        #region EVENTS
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             
         }
 
-
+        //Add new folders to the list
         void buttonAddDir_Click(object sender, EventArgs e)
         {
             // Open the dialog to select the steam folder
             FolderBrowserDialog folderBrowserDialog1;
             folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             folderBrowserDialog1.Description = "Select Steam Folder";
-            folderBrowserDialog1.ShowNewFolderButton = false;
-            folderBrowserDialog1.SelectedPath = @"G:\Steam\steamapps\common\";
+            folderBrowserDialog1.ShowNewFolderButton = false;          
             DialogResult result = folderBrowserDialog1.ShowDialog();
-
+            
             if (result == DialogResult.OK)
             {
                 string[] dirList = Directory.GetDirectories(folderBrowserDialog1.SelectedPath.ToString());
 
                 foreach (string dir in dirList)
                 {
+                    //Get just the folder name
                     int slashIndex = dir.LastIndexOf(@"\") + 1;
                     string dirName = dir.Substring(slashIndex);
 
+                    //Add them to listview
                     string[] row1 = { dir };
                     listView1.Items.Add(dirName).SubItems.AddRange(row1);
                 }
             }
         }
 
-       
+        //Apply compression on selected items
         private void buttonApplySelected_Click(object sender, EventArgs e) {
-            //string[] selectedDirArray = new string[listView1.SelectedItems.Count];
+            
             string[] selectedDirArray = new string[listView1.SelectedItems.Count];
-
-
-           
+      
             int i = 0;
             foreach (ListViewItem Item in listView1.SelectedItems)
             {            
-                //selectedDirList.Add(Item.Text.ToString());
-                //selectedDirList.Add(listView1.SelectedItems[i].SubItems[1].ToString());
+                //Pull paths from 4th column of listview
                 selectedDirArray.SetValue(listView1.SelectedItems[i].SubItems[3].Text, i);
                 i++;
             }
-
-            // foreach (var item in listView1.SelectedItems)
-            //  selectedDirArray(listView1.SelectedItems[0].SubItems[1].Text.ToString());
-
-            //int co = selectedDirList.Count;
+            
+            //Create a list from the array
             selectedDirList = selectedDirArray.ToList();
            
+            //Start compression job in background
             if (backgroundWorker1.IsBusy == false)
                 backgroundWorker1.RunWorkerAsync("Selected");
             else
-                MessageBox.Show("Chill, let me finish.");
-               
-            
+                MessageBox.Show("Chill, let me finish.");  //Havent implemeneted a queue yet                    
+        }
+
+        //Cancel compression, only works per game right now
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            //Check if background worker is doing anything and send a cancellation if it is
+            if (backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.CancelAsync();
+            }
+        }
+
+        //Save master game list when closing program
+        private void ZpOptimizerUI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            objectStorage.SaveZpDirList("data.bin", zpDirList);
+        }
+
+        //Unused
+        private void radioButtonOptimized_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void radioButtonUncompressed_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void radioButtonMaxComp_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+        void UpdateGUI(object userData)
+        {
+
         }
 
         #endregion
-                                                                                                     
+
+
+
+        #region BackgroundWorker
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-    
+
             if (radioButtonOptimized.Checked == true)
             {
                 compressionType = DirCompressionTypes.OPTIMAL;
@@ -180,8 +239,8 @@ namespace ZpOptimizerUI
             }
 
             double percentToIncrement = 100.0 / Convert.ToDouble(selectedDirList.Count);
-            double percentComplete = percentToIncrement;         
-            folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = 0; });           
+            double percentComplete = percentToIncrement;
+            folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = 0; });
             foreach (string dir in selectedDirList)
             {
 
@@ -197,22 +256,22 @@ namespace ZpOptimizerUI
                 engine.CompressSelected(compressionType);
 
                 int percentCompleteInt = Convert.ToInt32(percentComplete);
-               
+
                 folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = percentCompleteInt; });
                 percentComplete += percentToIncrement;
             }
 
-                //backgroundWorker1.ReportProgress(1);
+            //backgroundWorker1.ReportProgress(1);
 
-                //If the process exits the loop, ensure that progress is set to 100%
-                //folderProgressBar.Value = 100;
-                //backgroundWorker1.ReportProgress(100);
+            //If the process exits the loop, ensure that progress is set to 100%
+            //folderProgressBar.Value = 100;
+            //backgroundWorker1.ReportProgress(100);
 
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-             fileProgressBar.Value = e.ProgressPercentage;
+            fileProgressBar.Value = e.ProgressPercentage;
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -231,48 +290,6 @@ namespace ZpOptimizerUI
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            //Check if background worker is doing anything and send a cancellation if it is
-            if (backgroundWorker1.IsBusy)
-            {
-                backgroundWorker1.CancelAsync();
-            }
-        }
-
-        private void radioButtonOptimized_CheckedChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void radioButtonUncompressed_CheckedChanged(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void radioButtonMaxComp_CheckedChanged(object sender, EventArgs e)
-        {
-          
-        }
-
-        private void InitializeBackgroundWorker()
-        {
-            backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
-            backgroundWorker1.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker1_RunWorkerCompleted);
-            backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker1_ProgressChanged);
-            backgroundWorker1.WorkerReportsProgress = true;
-            backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
-
-        }
-
-        void UpdateGUI(object userData)
-        {
-            
-        }
-
-        private void ZpOptimizerUI_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            objectStorage.SaveZpDirList("data.bin", zpDirList);
-        }
+        #endregion
     }
 }

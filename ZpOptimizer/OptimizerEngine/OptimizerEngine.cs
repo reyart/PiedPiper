@@ -11,6 +11,7 @@ namespace OptimizerEngine
 {
     public class OptimizerEngine{
 
+
         #region Private Properties
 
         private List<string> allDirs;
@@ -18,6 +19,8 @@ namespace OptimizerEngine
         private BackgroundWorker bgw;
 
         #endregion
+
+
 
         #region Constructors
 
@@ -42,9 +45,13 @@ namespace OptimizerEngine
 
         #endregion
 
+
+
         #region Public Properties
 
         #endregion
+
+
 
         #region Public Methods
 
@@ -56,6 +63,8 @@ namespace OptimizerEngine
         }
 
         #endregion
+
+
 
         #region Private Methods
 
@@ -84,5 +93,6 @@ namespace OptimizerEngine
         }
 
         #endregion
+
     }
 }

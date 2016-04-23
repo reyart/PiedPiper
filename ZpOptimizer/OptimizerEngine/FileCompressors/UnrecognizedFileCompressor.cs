@@ -38,8 +38,7 @@ namespace OptimizerEngine.FileCompressors {
                 currentDirLogger.WriteLine(sizeBefore + "," + fileToCompress.SizeOnDisk + "," + Math.Round(compRatio, 2) + ",LZX,Upgraded");
             }
             else
-            {
-                // Stick with the original compression and write to the logger if neither applies
+            { // Stick with the original compression and write to the logger if neither applies
                 currentDirLogger.WriteLine(sizeBefore + "," + fileToCompress.SizeOnDisk + "," + Math.Round(compRatio, 2) + ",XPRESS16K");
             }
 

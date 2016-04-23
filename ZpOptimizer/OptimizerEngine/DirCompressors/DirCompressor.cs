@@ -28,15 +28,14 @@ namespace OptimizerEngine.DirCompressors {
         public delegate void ProgressUpdate(int value);
         public event ProgressUpdate OnProgressUpdate;
 
-
-
         #endregion
+
+
 
         #region Constructors
 
         public DirCompressor(string dir)
         {
-
             // Initialize directory
             rootDir = new ZpDirectory(dir);
 
@@ -44,31 +43,31 @@ namespace OptimizerEngine.DirCompressors {
             logger = new Logger();
 
             loggingStarted = false;
-
-
-
         }
 
         #endregion
+
+
 
         #region Public Properties
 
         #endregion
 
+
+
         #region Public Methods
 
         public abstract void Execute(BackgroundWorker bw);
 
-
-
         #endregion
+
+
 
         #region Private Methods
 
         protected void ApplyFileCompression(FileCompressionTypes fileCompressorType, ZpFile file)
         {
             FileCompressor fileCompressor;
-
 
             // Determine the type of directory compression
             switch (fileCompressorType)
@@ -92,8 +91,9 @@ namespace OptimizerEngine.DirCompressors {
             // Execute the directory compression
             fileCompressor.Execute();
 
-            #endregion
+          
         }
 
+        #endregion
     }
 }
