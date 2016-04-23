@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using OptimizerEngine.FileSystem;
 using static OptimizerEngine.Helpers.Globals;
+using ZpOptimizerUI.Helpers;
 using System.Runtime.Serialization.Formatters.Binary;
 
 
@@ -17,82 +18,73 @@ namespace ZpOptimizerUI
 {
     public partial class ZpOptimizerUI : Form
     {
+
         private OptimizerEngine.OptimizerEngine engine;
         private DirCompressionTypes compressionType;
         public List<string> selectedDirList;
         public List<ZpDirectory> zpDirList;
+        public ObjectStorage objectStorage;
 
         public ZpOptimizerUI()
         {
-            InitializeComponent();
-            InitializeBackgroundWorker();
+            objectStorage = new ObjectStorage();
+
+            zpDirList = new List<ZpDirectory>();
             zpDirList = InitializeZpDirList();
-            InitializeListView();
-        
+
+            InitializeComponent();
+            InitializeBackgroundWorker();            
+            InitializeListView();  
         }
 
 
 
         private List<ZpDirectory> InitializeZpDirList()
         {
-            zpDirList = new List<ZpDirectory>();
-            
-           
-           try
-           {
-                using (Stream stream = File.Open("data.bin", FileMode.Open))
-                {
-                    BinaryFormatter bin = new BinaryFormatter();
+            zpDirList = objectStorage.RetrievezpDirList("data.bin");
+            string[] rootDir = Directory.GetDirectories(Settings1.Default.defaultFolder);
 
-                    List<ZpDirectory> zpDirList = (List<ZpDirectory>)bin.Deserialize(stream);
-                    return zpDirList;
-                
-                }
-           }
-           catch (IOException)
-           {
-                return null;
-           }
-           
-         
-            /*
-            foreach (string path in Directory.GetDirectories(Settings1.Default.defaultFolder))
-            {
-                //TODO: Check for matches with previous list before adding
-                zpDirList.Add(new ZpDirectory(path));
-                
+            //Remove folders from the list that are no longer present
+
+            List<ZpDirectory> dirsToRemove = new List<ZpDirectory> { };
+
+            foreach (ZpDirectory dir in zpDirList)
+            {                
+                if (rootDir.Contains(dir.Path) == false) { dirsToRemove.Add(dir); }              
             }
 
-            SaveZpDirList();
-            */
+            foreach (ZpDirectory dir in dirsToRemove)
+            {
+                zpDirList.Remove(dir);
+            }
+
+            //Check for matches with previous list before adding new folders
+            foreach (string path in rootDir)
+            {             
+                bool alreadyListed = false;               
+                foreach (ZpDirectory dir in zpDirList)
+                {
+                    if (dir.Path == path)
+                    {
+                        alreadyListed = true;
+                        break;
+                    }                                     
+                }
+                if (alreadyListed == false) { zpDirList.Add(new ZpDirectory(path)); }
+            }
+
+            objectStorage.SaveZpDirList("data.bin", zpDirList);
             
-            return zpDirList;
-            
-            
+                                
+            return zpDirList;                               
         }
 
-        private void SaveZpDirList()
-        {
-            try
-            {
-                using (Stream stream = File.Open("data.bin", FileMode.Create))
-                {
-                    BinaryFormatter bin = new BinaryFormatter();
-                    bin.Serialize(stream, zpDirList);
-                }
-            }
-            catch (IOException)
-            {
-            }
-
-        }
+        
 
         private void InitializeListView()
         {
             foreach (ZpDirectory zpdir in zpDirList)
             {
-               
-
                 ListViewItem item = new ListViewItem(zpdir.Name);
                 
                 item.SubItems.Add(Convert.ToString(zpdir.SizeMB + " MB"));
@@ -101,24 +93,8 @@ namespace ZpOptimizerUI
                 item.SubItems.Add(zpdir.Path);
 
                 listView1.Items.Add( item );
-               
-
-
-            }
-            /*
-            //Using my own personal folder now to simplify things
-            foreach (string path in Directory.GetDirectories(Settings1.Default.defaultFolder))
-            {
-                int slashIndex = path.LastIndexOf(@"\") + 1;
-                string dirName = path.Substring(slashIndex);                           
-                listView1.Items.Add(dirName).SubItems.Add(path);
-
-
-
-
-
-            }
-            */
+  
+            }       
         }
 
         #region EVENTS
@@ -296,7 +272,7 @@ namespace ZpOptimizerUI
 
         private void ZpOptimizerUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveZpDirList();
+            objectStorage.SaveZpDirList("data.bin", zpDirList);
         }
     }
 }
