@@ -104,6 +104,7 @@ namespace ZpOptimizerUI
                 //item.SubItems.Add(zpdir.Path);
 
                 //objectListView1.Items.Add( item );
+
                 objectListView1.SetObjects(zpDirList);
             }       
         }
@@ -161,14 +162,15 @@ namespace ZpOptimizerUI
         //Apply compression on selected items
         private void buttonApplySelected_Click(object sender, EventArgs e) {
             
-            string[] selectedDirArray = new string[objectListView1.SelectedItems.Count];
+            string[] selectedDirArray = new string[objectListView1.CheckedItems.Count];
       
             int i = 0;
-            foreach (ListViewItem Item in objectListView1.SelectedItems)
+            foreach (ListViewItem Item in objectListView1.CheckedItems)
             {            
                 //Pull paths from 4th column of listview
-                selectedDirArray.SetValue(objectListView1.SelectedItems[i].SubItems[3].Text, i);
+                selectedDirArray.SetValue(objectListView1.CheckedItems[i].SubItems[3].Text, i);
                 i++;
+                
             }
             
             //Create a list from the array
@@ -290,5 +292,15 @@ namespace ZpOptimizerUI
         }
 
         #endregion
+
+        private void buttonSelectAll_Click(object sender, EventArgs e)
+        {
+            objectListView1.CheckAll();
+        }
+
+        private void buttonSelectNone_Click(object sender, EventArgs e)
+        {
+            objectListView1.UncheckAll();
+        }
     }
 }

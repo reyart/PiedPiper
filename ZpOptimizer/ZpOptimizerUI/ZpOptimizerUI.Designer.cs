@@ -38,7 +38,7 @@
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.sizeOnDiskTitleLabel = new System.Windows.Forms.Label();
-            this.buttonDeleteDir = new System.Windows.Forms.Button();
+            this.buttonSelectAll = new System.Windows.Forms.Button();
             this.buttonAddDir = new System.Windows.Forms.Button();
             this.sizeOnDiskLabel = new System.Windows.Forms.Label();
             this.buttonApplySelected = new System.Windows.Forms.Button();
@@ -55,10 +55,11 @@
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.Game = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.buttonSelectNone = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
@@ -76,7 +77,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(743, 24);
+            this.menuStrip.Size = new System.Drawing.Size(795, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -119,9 +120,9 @@
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 419);
+            this.statusStrip.Location = new System.Drawing.Point(0, 455);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(743, 22);
+            this.statusStrip.Size = new System.Drawing.Size(795, 22);
             this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip";
@@ -147,8 +148,9 @@
             // 
             // splitContainerMain.Panel2
             // 
+            this.splitContainerMain.Panel2.Controls.Add(this.buttonSelectNone);
             this.splitContainerMain.Panel2.Controls.Add(this.sizeOnDiskTitleLabel);
-            this.splitContainerMain.Panel2.Controls.Add(this.buttonDeleteDir);
+            this.splitContainerMain.Panel2.Controls.Add(this.buttonSelectAll);
             this.splitContainerMain.Panel2.Controls.Add(this.buttonAddDir);
             this.splitContainerMain.Panel2.Controls.Add(this.sizeOnDiskLabel);
             this.splitContainerMain.Panel2.Controls.Add(this.buttonApplySelected);
@@ -160,8 +162,8 @@
             this.splitContainerMain.Panel2.Controls.Add(this.buttonCancel);
             this.splitContainerMain.Panel2.Controls.Add(this.folderProgressBar);
             this.splitContainerMain.Panel2.Controls.Add(this.labelResult);
-            this.splitContainerMain.Size = new System.Drawing.Size(743, 395);
-            this.splitContainerMain.SplitterDistance = 249;
+            this.splitContainerMain.Size = new System.Drawing.Size(795, 431);
+            this.splitContainerMain.SplitterDistance = 271;
             this.splitContainerMain.SplitterWidth = 1;
             this.splitContainerMain.TabIndex = 2;
             // 
@@ -174,18 +176,19 @@
             this.sizeOnDiskTitleLabel.TabIndex = 3;
             this.sizeOnDiskTitleLabel.Text = "Size on Disk";
             // 
-            // buttonDeleteDir
+            // buttonSelectAll
             // 
-            this.buttonDeleteDir.Location = new System.Drawing.Point(87, 3);
-            this.buttonDeleteDir.Name = "buttonDeleteDir";
-            this.buttonDeleteDir.Size = new System.Drawing.Size(75, 23);
-            this.buttonDeleteDir.TabIndex = 2;
-            this.buttonDeleteDir.Text = "Delete";
-            this.buttonDeleteDir.UseVisualStyleBackColor = true;
+            this.buttonSelectAll.Location = new System.Drawing.Point(4, 3);
+            this.buttonSelectAll.Name = "buttonSelectAll";
+            this.buttonSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelectAll.TabIndex = 2;
+            this.buttonSelectAll.Text = "Select All";
+            this.buttonSelectAll.UseVisualStyleBackColor = true;
+            this.buttonSelectAll.Click += new System.EventHandler(this.buttonSelectAll_Click);
             // 
             // buttonAddDir
             // 
-            this.buttonAddDir.Location = new System.Drawing.Point(6, 3);
+            this.buttonAddDir.Location = new System.Drawing.Point(358, 5);
             this.buttonAddDir.Name = "buttonAddDir";
             this.buttonAddDir.Size = new System.Drawing.Size(75, 23);
             this.buttonAddDir.TabIndex = 1;
@@ -318,14 +321,14 @@
             // 
             // objectListView1
             // 
-            this.objectListView1.AllColumns.Add(this.olvColumn1);
+            this.objectListView1.AllColumns.Add(this.Game);
             this.objectListView1.AllColumns.Add(this.olvColumn2);
             this.objectListView1.AllColumns.Add(this.olvColumn3);
             this.objectListView1.AllColumns.Add(this.olvColumn4);
             this.objectListView1.CellEditUseWholeCell = false;
             this.objectListView1.CheckBoxes = true;
             this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn1,
+            this.Game,
             this.olvColumn2,
             this.olvColumn3,
             this.olvColumn4});
@@ -336,39 +339,51 @@
             this.objectListView1.Location = new System.Drawing.Point(0, 0);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(743, 249);
+            this.objectListView1.Size = new System.Drawing.Size(795, 271);
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
             // 
-            // olvColumn1
+            // Game
             // 
-            this.olvColumn1.AspectName = "Name";
+            this.Game.AspectName = "Name";
+            this.Game.Text = "Game";
+            this.Game.Width = 200;
             // 
             // olvColumn2
             // 
             this.olvColumn2.AspectName = "SizeMB";
-            this.olvColumn2.Width = 102;
+            this.olvColumn2.Width = 71;
             // 
             // olvColumn3
             // 
             this.olvColumn3.AspectName = "SizeOnDiskMB";
-            this.olvColumn3.Width = 105;
+            this.olvColumn3.Width = 77;
             // 
             // olvColumn4
             // 
             this.olvColumn4.AspectName = "Path";
+            this.olvColumn4.Width = 385;
+            // 
+            // buttonSelectNone
+            // 
+            this.buttonSelectNone.Location = new System.Drawing.Point(85, 3);
+            this.buttonSelectNone.Name = "buttonSelectNone";
+            this.buttonSelectNone.Size = new System.Drawing.Size(75, 23);
+            this.buttonSelectNone.TabIndex = 7;
+            this.buttonSelectNone.Text = "Select None";
+            this.buttonSelectNone.UseVisualStyleBackColor = true;
+            this.buttonSelectNone.Click += new System.EventHandler(this.buttonSelectNone_Click);
             // 
             // ZpOptimizerUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(743, 441);
+            this.ClientSize = new System.Drawing.Size(795, 477);
             this.Controls.Add(this.splitContainerMain);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "ZpOptimizerUI";
@@ -410,7 +425,7 @@
         private System.Windows.Forms.ProgressBar fileProgressBar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label sizeOnDiskTitleLabel;
-        private System.Windows.Forms.Button buttonDeleteDir;
+        private System.Windows.Forms.Button buttonSelectAll;
         private System.Windows.Forms.Button buttonAddDir;
         private System.Windows.Forms.Label sizeOnDiskLabel;
         private System.Windows.Forms.Button buttonApplySelected;
@@ -421,10 +436,11 @@
         private System.Windows.Forms.RadioButton radioButtonMaxComp;
         private System.Windows.Forms.RadioButton radioButtonUncompressed;
         private BrightIdeasSoftware.ObjectListView objectListView1;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
+        private BrightIdeasSoftware.OLVColumn Game;
         private BrightIdeasSoftware.OLVColumn olvColumn2;
         private BrightIdeasSoftware.OLVColumn olvColumn3;
         private BrightIdeasSoftware.OLVColumn olvColumn4;
+        private System.Windows.Forms.Button buttonSelectNone;
     }
 }
 
