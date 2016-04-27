@@ -18,7 +18,6 @@ namespace ZpOptimizerUI
 {
     public partial class ZpOptimizerUI : Form
     {
-
         private OptimizerEngine.OptimizerEngine engine;
         private DirCompressionTypes compressionType;
         public List<string> selectedDirList;
@@ -98,14 +97,14 @@ namespace ZpOptimizerUI
             
             foreach (ZpDirectory zpdir in zpDirList)
             {
-                ListViewItem item = new ListViewItem(zpdir.Name);
-                
-                item.SubItems.Add(Convert.ToString(zpdir.SizeMB + " MB"));
-                item.SubItems.Add(Convert.ToString(zpdir.SizeOnDiskMB + " MB"));
-                item.SubItems.Add(zpdir.Path);
+                //ListViewItem item = new ListViewItem(zpdir.Name);
 
-                listView1.Items.Add( item );
-  
+                //item.SubItems.Add(Convert.ToString(zpdir.SizeMB + " MB"));
+                //item.SubItems.Add(Convert.ToString(zpdir.SizeOnDiskMB + " MB"));
+                //item.SubItems.Add(zpdir.Path);
+
+                //objectListView1.Items.Add( item );
+                objectListView1.SetObjects(zpDirList);
             }       
         }
 
@@ -127,7 +126,7 @@ namespace ZpOptimizerUI
 
         #region EVENTS
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             
         }
@@ -154,7 +153,7 @@ namespace ZpOptimizerUI
 
                     //Add them to listview
                     string[] row1 = { dir };
-                    listView1.Items.Add(dirName).SubItems.AddRange(row1);
+                    objectListView1.Items.Add(dirName).SubItems.AddRange(row1);
                 }
             }
         }
@@ -162,13 +161,13 @@ namespace ZpOptimizerUI
         //Apply compression on selected items
         private void buttonApplySelected_Click(object sender, EventArgs e) {
             
-            string[] selectedDirArray = new string[listView1.SelectedItems.Count];
+            string[] selectedDirArray = new string[objectListView1.SelectedItems.Count];
       
             int i = 0;
-            foreach (ListViewItem Item in listView1.SelectedItems)
+            foreach (ListViewItem Item in objectListView1.SelectedItems)
             {            
                 //Pull paths from 4th column of listview
-                selectedDirArray.SetValue(listView1.SelectedItems[i].SubItems[3].Text, i);
+                selectedDirArray.SetValue(objectListView1.SelectedItems[i].SubItems[3].Text, i);
                 i++;
             }
             

@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="defaultFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">G:\Steam\steamapps\common</Value>
+      <Value Profile="(Default)">G:\steam\steamapps\common</Value>
     </Setting>
   </Settings>
 </SettingsFile>

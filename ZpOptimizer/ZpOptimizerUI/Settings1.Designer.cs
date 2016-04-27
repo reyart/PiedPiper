@@ -25,7 +25,7 @@ namespace ZpOptimizerUI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("G:\\Steam\\steamapps\\common")]
+        [global::System.Configuration.DefaultSettingValueAttribute("G:\\steam\\steamapps\\common")]
         public string defaultFolder {
             get {
                 return ((string)(this["defaultFolder"]));

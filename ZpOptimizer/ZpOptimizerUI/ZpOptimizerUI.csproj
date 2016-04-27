@@ -89,6 +89,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ObjectListViewFull-2.9.0\ObjectListViewDemo\ObjectListView\ObjectListView2012.csproj">
+      <Project>{18feda0c-d147-4286-b39a-01204808106a}</Project>
+      <Name>ObjectListView2012</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OptimizerEngine\OptimizerEngine.csproj">
       <Project>{01195629-534C-4FE1-A972-C2F946E00187}</Project>
       <Name>OptimizerEngine</Name>
