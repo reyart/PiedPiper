@@ -685,7 +685,7 @@ namespace BrightIdeasSoftware
 
         #endregion
 
-        // TODO
+        // T2ODO
         //public CheckBoxSettings CheckBoxSettings {
         //    get { return checkBoxSettings; }
         //    private set { checkBoxSettings = value; }
@@ -4487,7 +4487,7 @@ namespace BrightIdeasSoftware
             if (!this.ShowGroups || this.Groups.Count == 0)
                 return itemIndex;
 
-            // TODO: This could be optimized
+            // TO DO: This could be optimized
             int i = 0;
             foreach (ListViewGroup lvg in this.Groups) {
                 foreach (ListViewItem lvi in lvg.Items) {
@@ -5673,7 +5673,7 @@ namespace BrightIdeasSoftware
             const int MILLISECONDS_BETWEEN_KEYPRESSES = 1000;
 
             // What character did the user type and was it part of a longer string?
-            char character = (char)m.WParam.ToInt32(); //TODO: Will this work on 64 bit or MBCS?
+            char character = (char)m.WParam.ToInt32(); //T2ODO: Will this work on 64 bit or MBCS?
             if (character == (char)Keys.Back) {
                 // Backspace forces the next key to be considered the start of a new search
                 this.timeLastCharEvent = 0;
@@ -6454,7 +6454,7 @@ namespace BrightIdeasSoftware
 
             bool isMsgHandled = false;
 
-            // TODO: Don't do any logic in this method. Create separate methods for each message
+            // TO DO: Don't do any logic in this method. Create separate methods for each message
 
             NativeMethods.NMHDR nmhdr = (NativeMethods.NMHDR)m.GetLParam(typeof(NativeMethods.NMHDR));
             //System.Diagnostics.Debug.WriteLine(String.Format("rn: {0}", nmhdr->code));
@@ -6860,7 +6860,7 @@ namespace BrightIdeasSoftware
             ColumnClickEventArgs eventArgs = new ColumnClickEventArgs(columnIndex);
             this.OnColumnRightClick(eventArgs);
 
-            // TODO: Allow users to say they have handled this event
+            // T2ODO: Allow users to say they have handled this event
             
             return this.ShowHeaderRightClickMenu(columnIndex, Cursor.Position);
         }
@@ -9672,7 +9672,7 @@ namespace BrightIdeasSoftware
             // It seems on Win7, GetSubItemBounds() does not have the same problems with
             // column 0 that it did previously.
 
-            // TODO - Check on XP
+            // TO DO - Check on XP
 
             if (this.View != View.Details)
                 return this.GetItemRect(item.Index, ItemBoundsPortion.Label);
@@ -9770,7 +9770,7 @@ namespace BrightIdeasSoftware
             OLVColumn column = this.GetColumn(subItemIndex);
             Object value = column.GetValue(item.RowObject) ?? this.GetFirstNonNullValue(column);
 
-            // TODO: What do we do if value is still null here?
+            // TO DO: What do we do if value is still null here?
 
             // Ask the registry for an instance of the appropriate editor.
             // Use a default editor if the registry can't create one for us.
@@ -10510,7 +10510,7 @@ namespace BrightIdeasSoftware
                 return false;
 
             // If we don't have 32-bit display, alpha blending doesn't work, so again, no overlays
-            // TODO: This should actually figure out which screen(s) the control is on, and make sure
+            // TO DO: This should actually figure out which screen(s) the control is on, and make sure
             // that each one is 32-bit.
             if (Screen.PrimaryScreen.BitsPerPixel < 32)
                 return false;
@@ -10734,7 +10734,7 @@ namespace BrightIdeasSoftware
         private readonly List<GlassPanelForm> glassPanels = new List<GlassPanelForm>(); // The transparent panel that draws overlays
         private Dictionary<string, bool> visitedUrlMap = new Dictionary<string, bool>(); // Which urls have been visited?
 
-        // TODO
+        // TO DO
         //private CheckBoxSettings checkBoxSettings = new CheckBoxSettings();
 
         #endregion

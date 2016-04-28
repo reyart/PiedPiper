@@ -8,15 +8,14 @@ using static OptimizerEngine.Helpers.Globals;
 using System.ComponentModel;
 using OptimizerEngine.FileSystem;
 
-namespace OptimizerEngine
-{
-    public class OptimizerEngine{
+namespace OptimizerEngine {
+    public class OptimizerEngine {
 
 
         #region Private Properties
 
         //private List<string> allDirs;
-        private List<string> selectedDirs;
+        //private List<string> selectedDirs;
         private ZpDirectory activeZpDir;
         private BackgroundWorker activeBackgroundWorker;
 
@@ -26,8 +25,7 @@ namespace OptimizerEngine
 
         #region Constructors
 
-        public OptimizerEngine(ZpDirectory dir, BackgroundWorker bw)
-        {
+        public OptimizerEngine(ZpDirectory dir, BackgroundWorker bw) {
             activeZpDir = dir;
             activeBackgroundWorker = bw;
         }
@@ -111,14 +109,12 @@ namespace OptimizerEngine
         */
 
 
-        private void ApplyCompression(DirCompressionTypes compressionType, ZpDirectory activeDir)
-        {
+        private void ApplyCompression(DirCompressionTypes compressionType, ZpDirectory activeDir) {
             DirCompressor compressor;
 
 
             // Determine the type of directory compression
-            switch (compressionType)
-            {
+            switch (compressionType) {
                 case DirCompressionTypes.OPTIMAL:
                     compressor = new OptimalDirCompressor(activeDir);
                     break;

@@ -40,7 +40,7 @@ using System.Drawing.Design;
 
 namespace BrightIdeasSoftware {
 
-    // TODO
+    // TO DO
     //[TypeConverter(typeof(ExpandableObjectConverter))]
     //public class CheckBoxSettings
     //{

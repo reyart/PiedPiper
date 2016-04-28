@@ -105,7 +105,7 @@ namespace BrightIdeasSoftware {
             get { return NativeMethods.GetHeaderControl(this.ListView); }
         }
 
-        //TODO: The Handle property may no longer be necessary. CHECK! 2008/11/28
+        //TO DO: The Handle property may no longer be necessary. CHECK! 2008/11/28
 
         /// <summary>
         /// Gets or sets a style that should be applied to the font of the
@@ -370,7 +370,7 @@ namespace BrightIdeasSoftware {
         /// Force the header to redraw a single column by invalidating it
         /// </summary>
         public void Invalidate(OLVColumn column) {
-            NativeMethods.InvalidateRect(this.Handle, 0, true); // todo
+            NativeMethods.InvalidateRect(this.Handle, 0, true); // to do
         }
 
         #endregion

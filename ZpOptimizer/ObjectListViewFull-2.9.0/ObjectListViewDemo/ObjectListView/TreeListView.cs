@@ -628,7 +628,7 @@ namespace BrightIdeasSoftware
             this.OnExpanded(new TreeBranchExpandedEventArgs(model, item));
 
             if (this.RevealAfterExpand && index > 0) {
-                // TODO: This should be a separate method
+                // TO DO: This should be a separate method
                 this.BeginUpdate();
                 try {
                     int countPerPage = NativeMethods.GetCountPerPage(this);
@@ -1597,7 +1597,7 @@ namespace BrightIdeasSoftware
                 this.lastSortColumn = column;
                 this.lastSortOrder = order;
 
-                // TODO: Need to raise an AboutToSortEvent here
+                // TO DO: Need to raise an AboutToSortEvent here
 
                 // Sorting is going to change the order of the branches so clear
                 // the "first branch" flag

@@ -16,14 +16,12 @@ namespace OptimizerEngine.DirCompressors {
         }
         */
 
-        public MaximumDirCompressor(ZpDirectory dir) : base(dir)
-        {
+        public MaximumDirCompressor(ZpDirectory dir) : base(dir) {
         }
 
 
 
-        public override void Execute(BackgroundWorker bgw)
-        {
+        public override void Execute(BackgroundWorker bgw) {
            
             var fileList = rootDir.GetAllFiles();
 
@@ -32,8 +30,7 @@ namespace OptimizerEngine.DirCompressors {
             bgw.ReportProgress(0);
 
             // Loop through all files in folders and subfolders
-            foreach (ZpFile file in fileList)
-            {
+            foreach (ZpFile file in fileList) {
                 int percentCompleteInt = Convert.ToInt32(percentComplete);
                 bgw.ReportProgress(percentCompleteInt);
                 percentComplete += percentToIncrement;

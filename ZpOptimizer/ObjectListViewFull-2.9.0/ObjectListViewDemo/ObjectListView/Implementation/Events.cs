@@ -746,7 +746,7 @@ namespace BrightIdeasSoftware
         /// Tell the world when a cell is about to finish being edited.
         /// </summary>
         protected virtual void OnCellEditorValidating(CellEditEventArgs e) {
-            // Hack. ListView is an imperfect control container. It does not manage validation
+            // H1ack. ListView is an imperfect control container. It does not manage validation
             // perfectly. If the ListView is part of a TabControl, and the cell editor loses
             // focus by the user clicking on another tab, the TabControl processes the click
             // and switches tabs, even if this Validating event cancels. This results in the
@@ -1617,7 +1617,7 @@ namespace BrightIdeasSoftware
     /// </summary>
     public class HyperlinkEventArgs : EventArgs
     {
-        //TODO: Unified with CellEventArgs
+        //TO DO: Unified with CellEventArgs
 
         /// <summary>
         /// Gets the ObjectListView that is the source of the event
@@ -1772,7 +1772,7 @@ namespace BrightIdeasSoftware
     /// </summary>
     public class FormatRowEventArgs : EventArgs
     {
-        //TODO: Unified with CellEventArgs
+        //T2ODO: Unified with CellEventArgs
 
         /// <summary>
         /// Gets the ObjectListView that is the source of the event

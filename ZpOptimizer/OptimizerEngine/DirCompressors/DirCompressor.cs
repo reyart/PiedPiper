@@ -16,8 +16,7 @@ using System.Threading;
 
 namespace OptimizerEngine.DirCompressors {
 
-    public abstract class DirCompressor
-    {
+    public abstract class DirCompressor {
 
         #region Private Properties
 
@@ -47,8 +46,7 @@ namespace OptimizerEngine.DirCompressors {
         }
         */
 
-        public DirCompressor(ZpDirectory dir)
-        {
+        public DirCompressor(ZpDirectory dir) {
             // Initialize directory
             rootDir = dir;
 
@@ -80,13 +78,11 @@ namespace OptimizerEngine.DirCompressors {
 
         #region Private Methods
 
-        protected void ApplyFileCompression(FileCompressionTypes fileCompressorType, ZpFile file)
-        {
+        protected void ApplyFileCompression(FileCompressionTypes fileCompressorType, ZpFile file) {
             FileCompressor fileCompressor;
 
             // Determine the type of directory compression
-            switch (fileCompressorType)
-            {
+            switch (fileCompressorType) {
                 case FileCompressionTypes.PERFSENSITIVE:
                     fileCompressor = new PerfSensitiveFileCompressor(file, logger);
                     break;
@@ -106,7 +102,7 @@ namespace OptimizerEngine.DirCompressors {
             // Execute the directory compression
             fileCompressor.Execute();
 
-          
+
         }
 
         #endregion

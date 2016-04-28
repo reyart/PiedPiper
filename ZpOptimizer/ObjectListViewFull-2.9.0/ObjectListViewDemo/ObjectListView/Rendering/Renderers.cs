@@ -1464,7 +1464,7 @@ namespace BrightIdeasSoftware {
         /// <param name="r">The pre-aligned and padded target rectangle</param>
         protected virtual int DrawCheckBox(Graphics g, Rectangle r) {
             // The odd constants are to match checkbox placement in native mode (on XP at least)
-            // TODO: Unify this with CheckStateRenderer
+            // TO DO: Unify this with CheckStateRenderer
 
             // The rectangle r is already horizontally aligned. We still need to align it vertically.
             Size checkBoxSize = this.CalculateCheckBoxSize(g);
@@ -2699,7 +2699,7 @@ namespace BrightIdeasSoftware {
                 foreach (PropertyItem pi in this.image.PropertyItems) {
                     if (pi.Id == PropertyTagFrameDelay) {
                         for (int i = 0; i < pi.Len; i += 4) {
-                            //TODO: There must be a better way to convert 4-bytes to an int
+                            //TO DO: There must be a better way to convert 4-bytes to an int
                             int delay = (pi.Value[i + 3] << 24) + (pi.Value[i + 2] << 16) + (pi.Value[i + 1] << 8) + pi.Value[i];
                             this.imageDuration.Add(delay * 10); // store delays as milliseconds
                         }

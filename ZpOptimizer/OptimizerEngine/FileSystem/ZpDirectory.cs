@@ -40,58 +40,50 @@ namespace OptimizerEngine.FileSystem {
 
         #region Public Properties
 
-        public string Path
-        {
-            get { return directoryInfo.FullName; }
+        public string Path {
+            get {
+                return directoryInfo.FullName;
+            }
         }
 
-        public string Name
-        {
-            get { return directoryInfo.Name; }
+        public string Name {
+            get {
+                return directoryInfo.Name;
+            }
         }
 
-        public long Size
-        {
-            get
-            {
+        public long Size {
+            get {
                 if (this.dirSize == 0) { this.dirSize = GetSize(); }
                 return dirSize;
             }
         }
 
-        public long SizeMB
-        {
-            get
-            {
+        public long SizeMB {
+            get {
                 if (this.dirSize == 0) { this.dirSize = GetSize(); }
                 return dirSize / 1024 / 1024;
             }
         }
 
-        public long SizeOnDisk
-        {
-            get
-            {
+        public long SizeOnDisk {
+            get {
                 if (this.dirSizeOnDisk == 0) { this.dirSizeOnDisk = GetSizeOnDisk(); }
                 return dirSizeOnDisk;
             }
         }
 
-        public long SizeOnDiskMB
-        {
-            get
-            {
+        public long SizeOnDiskMB {
+            get {
                 if (this.dirSizeOnDisk == 0) { this.dirSizeOnDisk = GetSizeOnDisk(); }
                 return dirSizeOnDisk / 1024 / 1024;
             }
         }
 
-        public double Ratio
-        {
-            get
-            {
+        public double Ratio {
+            get {
                 if (this.ratio == 0) { this.ratio = GetRatio(); }
-                ratio = Math.Round(ratio,2);
+                ratio = Math.Round(ratio, 2);
                 return ratio;
             }
         }
@@ -112,33 +104,30 @@ namespace OptimizerEngine.FileSystem {
 
         #region Public Methods
 
-        public void UpdateSize()
-        {
+        public void UpdateSize() {
 
             this.dirSize = this.GetSize();
         }
 
 
-        public void UpdateSizeOnDisk(){
+        public void UpdateSizeOnDisk() {
 
             this.dirSizeOnDisk = this.GetSizeOnDisk();
-        }   
+        }
 
-        
+
 
         #endregion
 
         #region Private Methods
-
+        //TODO: Make these private and test 
         // Gets the total size (in bytes) of all files in the directory
-        public long GetSize()
-        {
+        public long GetSize() {
             long size = 0;
 
             //if (this.allFiles == null) { this.allFiles = GetAllFiles(); }
 
-            foreach (ZpFile file in this.GetAllFiles())
-            {
+            foreach (ZpFile file in this.GetAllFiles()) {
                 size += file.Size;
             }
 
@@ -146,14 +135,12 @@ namespace OptimizerEngine.FileSystem {
         }
 
         //overload to get in specific unit
-        public long GetSize(string mag)
-        {
+        public long GetSize(string mag) {
             long size = 0;
 
             // if (this.allFiles == null) { this.allFiles = GetAllFiles(); }
 
-            foreach (ZpFile file in this.GetAllFiles())
-            {
+            foreach (ZpFile file in this.GetAllFiles()) {
                 size += file.Size;
             }
 
@@ -168,14 +155,12 @@ namespace OptimizerEngine.FileSystem {
         }
 
         // Gets the total size on disk of all files in the directory
-        public long GetSizeOnDisk()
-        {
+        public long GetSizeOnDisk() {
             long size = 0;
 
             //if (this.allFiles == null) { this.allFiles = GetAllFiles(); }
 
-            foreach (ZpFile file in this.GetAllFiles())
-            {
+            foreach (ZpFile file in this.GetAllFiles()) {
                 size += file.SizeOnDisk;
             }
 
@@ -183,14 +168,12 @@ namespace OptimizerEngine.FileSystem {
         }
 
         //overload to get in specific unit
-        public long GetSizeOnDisk(string mag)
-        {
+        public long GetSizeOnDisk(string mag) {
             long size = 0;
 
             //if (this.allFiles == null) { this.allFiles = GetAllFiles(); }
 
-            foreach (ZpFile file in this.GetAllFiles())
-            {
+            foreach (ZpFile file in this.GetAllFiles()) {
                 size += file.SizeOnDisk;
             }
 
@@ -204,38 +187,29 @@ namespace OptimizerEngine.FileSystem {
                 return size;
         }
 
-        private double GetRatio()
-        {
+        private double GetRatio() {
             double ratio = 0;
-
+            //TODO: Make it always show two decimal places
+            //TODO: Replace NaN with something less strange looking
             ratio = Convert.ToDouble(this.SizeOnDisk) / Convert.ToDouble(this.Size);
 
             return ratio;
         }
 
-
-        public List<ZpFile> GetAllFiles()
-        {
+        public List<ZpFile> GetAllFiles() {
             List<ZpFile> files = new List<ZpFile>();
-            try
-            {
-                foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories))                    
-                {
+            try {
+                foreach (FileInfo fileInfo in directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories)) {
                     files.Add(new ZpFile(fileInfo));
                 }
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 Console.WriteLine("{0} Exception caught.", e);
                 //throw;
             }
 
             return files;
         }
-
-
-
         #endregion
-
     }
 }
