@@ -114,34 +114,19 @@ namespace ZpOptimizerUI {
 
         #region EVENTS
 
+        private void locationsToolStripMenuItem_Click(object sender, EventArgs e) {
+            OptionsForm optionsForm = new OptionsForm();
+            
+            optionsForm.ShowDialog();
+        }
+
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e) {
 
         }
 
         //Add new folders to the list
         //TODO: Replace this with it's own dialog
-        void buttonAddDir_Click(object sender, EventArgs e) {
-            // Open the dialog to select the steam folder
-            FolderBrowserDialog folderBrowserDialog1;
-            folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            folderBrowserDialog1.Description = "Select Steam Folder";
-            folderBrowserDialog1.ShowNewFolderButton = false;
-            DialogResult result = folderBrowserDialog1.ShowDialog();
-
-            if (result == DialogResult.OK) {
-                string[] dirList = Directory.GetDirectories(folderBrowserDialog1.SelectedPath.ToString());
-
-                foreach (string dir in dirList) {
-                    //Get just the folder name
-                    int slashIndex = dir.LastIndexOf(@"\") + 1;
-                    string dirName = dir.Substring(slashIndex);
-
-                    //Add them to listview
-                    string[] row1 = { dir };
-                    objectListView1.Items.Add(dirName).SubItems.AddRange(row1);
-                }
-            }
-        }
+       
 
         //Apply compression on selected items
         private void buttonApplySelected_Click(object sender, EventArgs e) {
@@ -274,9 +259,6 @@ namespace ZpOptimizerUI {
         }
         #endregion
 
-        private void locationsToolStripMenuItem_Click(object sender, EventArgs e) {
-            OptionsForm optionsForm = new OptionsForm();
-            optionsForm.Show();
-        }
+        
     }
 }

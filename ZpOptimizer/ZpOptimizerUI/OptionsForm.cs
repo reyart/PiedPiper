@@ -14,12 +14,15 @@ namespace ZpOptimizerUI {
         public OptionsForm() {
             InitializeComponent();
 
+            listBoxFolderList.Items.Clear();
+
+            //Retrive saved folders and populate listbox
             foreach (string str in Settings1.Default.locationList) {
                 listBoxFolderList.Items.Add(str);
             }
+
         }
 
-       
 
         private void buttonAddFolder_Click(object sender, EventArgs e) {
             FolderBrowserDialog folderBrowserDialog1;
@@ -27,18 +30,43 @@ namespace ZpOptimizerUI {
             folderBrowserDialog1.Description = "Select Steam Folder";
             folderBrowserDialog1.ShowNewFolderButton = false;
             DialogResult result = folderBrowserDialog1.ShowDialog();
-
+            
             if (result == DialogResult.OK) {
                 //Add to the list
                 listBoxFolderList.Items.Add(folderBrowserDialog1.SelectedPath.ToString());
-
-                //Add to settings file and save
-                Settings1.Default.locationList.Add(folderBrowserDialog1.SelectedPath.ToString());
-                Settings1.Default.Save();
             }
         }
 
+        private void buttonRemoveFolder_Click(object sender, EventArgs e) {
+            listBoxFolderList.Items.Remove(listBoxFolderList.SelectedItem);
+        }
+
+
+        private void buttonOK_Click(object sender, EventArgs e) {
+
+            //Clear the old file
+            Settings1.Default.locationList.Clear();
+
+            //Recreate it with the new list
+            foreach (string item in listBoxFolderList.Items) {
+                Settings1.Default.locationList.Add(item);
+            }
+
+            //Save it and clean up
+            Settings1.Default.Save();
+            listBoxFolderList.Items.Clear();
+            this.Close();
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e) {
+            //Just closes everything without saving
+        }
+
+
         //UNUSED
-        private void labelFolderListCaption_Click(object sender, EventArgs e) {  }
+        private void labelFolderListCaption_Click(object sender, EventArgs e) {
+        }
+
+        
     }
 }
