@@ -38,12 +38,12 @@ namespace OptimizerEngine.FileSystem {
         #endregion
 
         #region Public Properties
-    
+
         public string Path
         {
             get { return directoryInfo.FullName; }
         }
-    
+
         public string Name
         {
             get { return directoryInfo.Name; }
@@ -86,19 +86,32 @@ namespace OptimizerEngine.FileSystem {
             }
         }
 
+
+
         //public int FileCount
-       // {
+        // {
         //    get { return fileCount; }
-       // }
+        // }
 
         //public List<ZpFile> AllFiles
-       // {
+        // {
         //    get { return allFiles; }
         //}
         #endregion
 
         #region Public Methods
 
+        public void UpdateSize()
+        {
+
+            this.dirSize = this.GetSize();
+        }
+
+
+        public void UpdateSizeOnDisk(){
+
+            this.dirSizeOnDisk = this.GetSizeOnDisk();
+        }   
 
         #endregion
 

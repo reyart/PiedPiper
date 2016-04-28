@@ -45,6 +45,19 @@ namespace OptimizerEngine.DirCompressors {
             loggingStarted = false;
         }
 
+        public DirCompressor(ZpDirectory dir)
+        {
+            // Initialize directory
+            rootDir = dir;
+
+            // Initialize logger
+            logger = new Logger();
+
+            loggingStarted = false;
+        }
+
+
+
         #endregion
 
 

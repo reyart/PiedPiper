@@ -13,6 +13,11 @@ namespace OptimizerEngine.DirCompressors {
         public UncompressDirCompressor(string dir) : base(dir) {
         }
 
+        public UncompressDirCompressor(ZpDirectory dir) : base(dir)
+        {
+        }
+
+
         public override void Execute(BackgroundWorker bgw) {
 
             var fileList = rootDir.GetAllFiles();
@@ -32,6 +37,8 @@ namespace OptimizerEngine.DirCompressors {
 
                 file.AddArchiveAttribute();
             }
+
+            rootDir.UpdateSizeOnDisk();
         }
     }
 }

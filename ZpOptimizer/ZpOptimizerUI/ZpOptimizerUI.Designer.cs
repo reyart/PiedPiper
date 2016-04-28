@@ -55,10 +55,10 @@
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
-            this.Game = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.gameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.sizeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.sizeOnDiskColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.pathColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.buttonSelectNone = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -321,17 +321,17 @@
             // 
             // objectListView1
             // 
-            this.objectListView1.AllColumns.Add(this.Game);
-            this.objectListView1.AllColumns.Add(this.olvColumn2);
-            this.objectListView1.AllColumns.Add(this.olvColumn3);
-            this.objectListView1.AllColumns.Add(this.olvColumn4);
+            this.objectListView1.AllColumns.Add(this.gameColumn);
+            this.objectListView1.AllColumns.Add(this.sizeColumn);
+            this.objectListView1.AllColumns.Add(this.sizeOnDiskColumn);
+            this.objectListView1.AllColumns.Add(this.pathColumn);
             this.objectListView1.CellEditUseWholeCell = false;
             this.objectListView1.CheckBoxes = true;
             this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Game,
-            this.olvColumn2,
-            this.olvColumn3,
-            this.olvColumn4});
+            this.gameColumn,
+            this.sizeColumn,
+            this.sizeOnDiskColumn,
+            this.pathColumn});
             this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView1.HighlightBackgroundColor = System.Drawing.Color.Empty;
@@ -344,26 +344,31 @@
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
             // 
-            // Game
+            // gameColumn
             // 
-            this.Game.AspectName = "Name";
-            this.Game.Text = "Game";
-            this.Game.Width = 200;
+            this.gameColumn.AspectName = "Name";
+            this.gameColumn.Text = "Game";
+            this.gameColumn.Width = 200;
             // 
-            // olvColumn2
+            // sizeColumn
             // 
-            this.olvColumn2.AspectName = "SizeMB";
-            this.olvColumn2.Width = 71;
+            this.sizeColumn.AspectName = "SizeMB";
+            this.sizeColumn.Text = "Size (MB)";
+            this.sizeColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.sizeColumn.Width = 71;
             // 
-            // olvColumn3
+            // sizeOnDiskColumn
             // 
-            this.olvColumn3.AspectName = "SizeOnDiskMB";
-            this.olvColumn3.Width = 77;
+            this.sizeOnDiskColumn.AspectName = "SizeOnDiskMB";
+            this.sizeOnDiskColumn.Text = "Size On Disk (MB)";
+            this.sizeOnDiskColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.sizeOnDiskColumn.Width = 100;
             // 
-            // olvColumn4
+            // pathColumn
             // 
-            this.olvColumn4.AspectName = "Path";
-            this.olvColumn4.Width = 385;
+            this.pathColumn.AspectName = "Path";
+            this.pathColumn.Text = "Path";
+            this.pathColumn.Width = 385;
             // 
             // buttonSelectNone
             // 
@@ -436,10 +441,10 @@
         private System.Windows.Forms.RadioButton radioButtonMaxComp;
         private System.Windows.Forms.RadioButton radioButtonUncompressed;
         private BrightIdeasSoftware.ObjectListView objectListView1;
-        private BrightIdeasSoftware.OLVColumn Game;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
+        private BrightIdeasSoftware.OLVColumn gameColumn;
+        private BrightIdeasSoftware.OLVColumn sizeColumn;
+        private BrightIdeasSoftware.OLVColumn sizeOnDiskColumn;
+        private BrightIdeasSoftware.OLVColumn pathColumn;
         private System.Windows.Forms.Button buttonSelectNone;
     }
 }

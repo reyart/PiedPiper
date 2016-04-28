@@ -21,7 +21,9 @@ namespace ZpOptimizerUI
         private OptimizerEngine.OptimizerEngine engine;
         private DirCompressionTypes compressionType;
         public List<string> selectedDirList;
-        public List<ZpDirectory> zpDirList;
+        public List<ZpDirectory> masterDirList;
+        public List<ZpDirectory> selectedObjectList;
+
         public ObjectStorage objectStorage;
 
 
@@ -33,8 +35,10 @@ namespace ZpOptimizerUI
             objectStorage = new ObjectStorage();
 
             //Initialize main list of games
-            zpDirList = new List<ZpDirectory>();
-            zpDirList = InitializeZpDirList();
+            masterDirList = new List<ZpDirectory>();
+            selectedObjectList = new List<ZpDirectory>();
+            masterDirList = InitializeMasterDirList();
+
 
             //Initialize other components
             InitializeComponent();
@@ -49,10 +53,10 @@ namespace ZpOptimizerUI
         #region Initializers
 
         //Retrieve and update master list of games
-        private List<ZpDirectory> InitializeZpDirList()
+        private List<ZpDirectory> InitializeMasterDirList()
         {
             //Retrieve the saved list from disk
-            zpDirList = objectStorage.RetrievezpDirList("data.bin");
+            masterDirList = objectStorage.RetrievezpDirList("data.bin");
 
             //Get the current folders
             string[] rootDir = Directory.GetDirectories(Settings1.Default.defaultFolder);
@@ -60,21 +64,21 @@ namespace ZpOptimizerUI
             //Remove folders from the list that are no longer present
             List<ZpDirectory> dirsToRemove = new List<ZpDirectory> { };
 
-            foreach (ZpDirectory dir in zpDirList)
+            foreach (ZpDirectory dir in masterDirList)
             {                
                 if (rootDir.Contains(dir.Path) == false) { dirsToRemove.Add(dir); }              
             }
 
             foreach (ZpDirectory dir in dirsToRemove)
             {
-                zpDirList.Remove(dir);
+                masterDirList.Remove(dir);
             }
 
             //Check for matches with previous list before adding new folders
             foreach (string path in rootDir)
             {             
                 bool alreadyListed = false;               
-                foreach (ZpDirectory dir in zpDirList)
+                foreach (ZpDirectory dir in masterDirList)
                 {
                     if (dir.Path == path)
                     {
@@ -82,31 +86,21 @@ namespace ZpOptimizerUI
                         break;
                     }                                     
                 }
-                if (alreadyListed == false) { zpDirList.Add(new ZpDirectory(path)); }
+                if (alreadyListed == false) { masterDirList.Add(new ZpDirectory(path)); }
             }
 
             //Save the list to disk after all operations complete
-            objectStorage.SaveZpDirList("data.bin", zpDirList);
+            objectStorage.SaveZpDirList("data.bin", masterDirList);
                                             
-            return zpDirList;                               
+            return masterDirList;                               
         }
 
         //Populate listview with data from directory list   
         private void InitializeListView()
         {
-            
-            foreach (ZpDirectory zpdir in zpDirList)
-            {
-                //ListViewItem item = new ListViewItem(zpdir.Name);
-
-                //item.SubItems.Add(Convert.ToString(zpdir.SizeMB + " MB"));
-                //item.SubItems.Add(Convert.ToString(zpdir.SizeOnDiskMB + " MB"));
-                //item.SubItems.Add(zpdir.Path);
-
-                //objectListView1.Items.Add( item );
-
-                objectListView1.SetObjects(zpDirList);
-            }       
+            objectListView1.SetObjects(masterDirList);
+            objectListView1.Sort(gameColumn);
+               
         }
 
         //Set essential properties for background worker
@@ -161,7 +155,8 @@ namespace ZpOptimizerUI
 
         //Apply compression on selected items
         private void buttonApplySelected_Click(object sender, EventArgs e) {
-            
+
+            /*
             string[] selectedDirArray = new string[objectListView1.CheckedItems.Count];
       
             int i = 0;
@@ -175,7 +170,20 @@ namespace ZpOptimizerUI
             
             //Create a list from the array
             selectedDirList = selectedDirArray.ToList();
-           
+            */
+
+            // -------New Method
+
+            //Create a list of the checked objects
+            //List<ZpDirectory> selectedObjectList = new List<ZpDirectory> { };
+            selectedObjectList.Clear();
+
+            foreach (ZpDirectory ob in objectListView1.CheckedObjects)
+            {
+                selectedObjectList.Add(ob);
+            }
+                    
+
             //Start compression job in background
             if (backgroundWorker1.IsBusy == false)
                 backgroundWorker1.RunWorkerAsync("Selected");
@@ -196,7 +204,7 @@ namespace ZpOptimizerUI
         //Save master game list when closing program
         private void ZpOptimizerUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            objectStorage.SaveZpDirList("data.bin", zpDirList);
+            objectStorage.SaveZpDirList("data.bin", masterDirList);
         }
 
         //Unused
@@ -239,10 +247,14 @@ namespace ZpOptimizerUI
                 compressionType = DirCompressionTypes.UNCOMPRESS;
             }
 
-            double percentToIncrement = 100.0 / Convert.ToDouble(selectedDirList.Count);
+            //double percentToIncrement = 100.0 / Convert.ToDouble(selectedDirList.Count);
+            double percentToIncrement = 100.0 / Convert.ToDouble(selectedObjectList.Count);
             double percentComplete = percentToIncrement;
             folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = 0; });
-            foreach (string dir in selectedDirList)
+
+
+            //foreach (string dir in selectedDirList)
+            foreach (ZpDirectory activeDir in selectedObjectList)
             {
 
                 //Check if there is a request to cancel the process
@@ -253,20 +265,25 @@ namespace ZpOptimizerUI
                     return;
                 }
 
-                engine = new OptimizerEngine.OptimizerEngine(dir, backgroundWorker1);
-                engine.CompressSelected(compressionType);
+                engine = new OptimizerEngine.OptimizerEngine(activeDir, backgroundWorker1);
+                //engine.CompressSelected(compressionType);
+                engine.CompressActiveDir(activeDir, compressionType);
 
                 int percentCompleteInt = Convert.ToInt32(percentComplete);
 
                 folderProgressBar.BeginInvoke((MethodInvoker)delegate { folderProgressBar.Value = percentCompleteInt; });
+                
                 percentComplete += percentToIncrement;
             }
+
 
             //backgroundWorker1.ReportProgress(1);
 
             //If the process exits the loop, ensure that progress is set to 100%
             //folderProgressBar.Value = 100;
             //backgroundWorker1.ReportProgress(100);
+
+            objectListView1.RefreshObjects(masterDirList);
 
         }
 
@@ -289,6 +306,8 @@ namespace ZpOptimizerUI
             {
                 labelResult.Text = "Process was completed";
             }
+            
+
         }
 
         #endregion

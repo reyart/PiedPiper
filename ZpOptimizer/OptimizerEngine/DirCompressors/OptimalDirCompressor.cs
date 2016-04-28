@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using OptimizerEngine.DirCompressors;
 
 namespace OptimizerEngine.DirCompressors
 {
@@ -27,6 +28,14 @@ namespace OptimizerEngine.DirCompressors
             // Initialize logger
             logger = new Logger();
             loggingStarted = false;
+        }
+
+        public OptimalDirCompressor(ZpDirectory dir) : base(dir)
+        {
+            //rootDir = dir;
+
+           // logger = new Logger();
+            //loggingStarted = false;
         }
 
         #endregion
@@ -89,7 +98,7 @@ namespace OptimizerEngine.DirCompressors
                     ApplyFileCompression(Globals.FileCompressionTypes.UNRECOGNIZED, file);
                           
             }
-
+            rootDir.UpdateSizeOnDisk();
             bgw.ReportProgress(100);
 
             if (loggingStarted == true)

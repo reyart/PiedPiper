@@ -14,6 +14,12 @@ namespace OptimizerEngine.DirCompressors {
         public MaximumDirCompressor(string dir) : base(dir) {
         }
 
+        public MaximumDirCompressor(ZpDirectory dir) : base(dir)
+        {
+        }
+
+
+
         public override void Execute(BackgroundWorker bgw)
         {
            

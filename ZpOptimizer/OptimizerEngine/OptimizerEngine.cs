@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static OptimizerEngine.Helpers.Globals;
 using System.ComponentModel;
+using OptimizerEngine.FileSystem;
 
 namespace OptimizerEngine
 {
@@ -14,9 +15,10 @@ namespace OptimizerEngine
 
         #region Private Properties
 
-        private List<string> allDirs;
+        //private List<string> allDirs;
         private List<string> selectedDirs;
-        private BackgroundWorker bgw;
+        private ZpDirectory activeZpDir;
+        private BackgroundWorker activeBackgroundWorker;
 
         #endregion
 
@@ -30,6 +32,12 @@ namespace OptimizerEngine
             selectedDirs.Add(dir); // FOR TESTING ONLY
         }
 
+        public OptimizerEngine(ZpDirectory dir, BackgroundWorker bw)
+        {
+            activeZpDir = dir;
+            activeBackgroundWorker = bw;
+        }
+
         public OptimizerEngine(string[] dir)
         {
             selectedDirs = new List<string>();
@@ -40,7 +48,7 @@ namespace OptimizerEngine
         {
             selectedDirs = new List<string>();
             selectedDirs.Add(dir);
-            bgw = bw;
+            activeBackgroundWorker = bw;
         }
 
         #endregion
@@ -60,6 +68,11 @@ namespace OptimizerEngine
             foreach (string dir in this.selectedDirs) {
                 ApplyCompression(compressionType, dir);
             }
+        }
+
+        public void CompressActiveDir(ZpDirectory activeDir, DirCompressionTypes compressionType) {
+            ApplyCompression(compressionType, activeDir);
+
         }
 
         #endregion
@@ -89,7 +102,33 @@ namespace OptimizerEngine
             }
 
             // Execute the directory compression
-            compressor.Execute(bgw);
+            compressor.Execute(activeBackgroundWorker);
+        }
+
+
+        private void ApplyCompression(DirCompressionTypes compressionType, ZpDirectory activeDir)
+        {
+            DirCompressor compressor;
+
+
+            // Determine the type of directory compression
+            switch (compressionType)
+            {
+                case DirCompressionTypes.OPTIMAL:
+                    compressor = new OptimalDirCompressor(activeDir);
+                    break;
+                case DirCompressionTypes.MAXIMUM:
+                    compressor = new MaximumDirCompressor(activeDir);
+                    break;
+                case DirCompressionTypes.UNCOMPRESS:
+                    compressor = new UncompressDirCompressor(activeDir);
+                    break;
+                default:
+                    throw new Exception("Invalid CompressionType");
+            }
+
+            // Execute the directory compression
+            compressor.Execute(activeBackgroundWorker);
         }
 
         #endregion

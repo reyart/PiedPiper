@@ -31,7 +31,7 @@ namespace OptimizerEngine.FileSystem {
             // Initialize necessary properties
             fileInfo = new FileInfo(fileName);
             attributes = File.GetAttributes(fileInfo.FullName);
-            sizeOnDisk = GetSizeOnDisk();
+            //sizeOnDisk = GetSizeOnDisk();
             size = fileInfo.Length;
         }
 
@@ -129,11 +129,17 @@ namespace OptimizerEngine.FileSystem {
         public void Uncompress() {
             Process p = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/C compact /U /F " + this.FullName;
-            p.StartInfo = startInfo;
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.CreateNoWindow = true;
+            //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.Arguments = "/C compact /U /F " + '"' + this.FullName + '"';
+            //p.StartInfo = startInfo;
             p.Start();
+
+            StreamReader reader = p.StandardOutput;
+            string output = reader.ReadLine();
             p.WaitForExit();
         }
 
@@ -152,6 +158,7 @@ namespace OptimizerEngine.FileSystem {
             string output = reader.ReadLine();
             p.WaitForExit();
 
+            UpdateSizeOnDisk();
             double ratio = (double)this.Size / (double)this.SizeOnDisk;
             return ratio;
         }
@@ -176,6 +183,11 @@ namespace OptimizerEngine.FileSystem {
         #endregion
 
         #region Private Methods
+
+        private void UpdateSizeOnDisk()
+        {
+            this.sizeOnDisk = GetSizeOnDisk();
+        }
 
         private static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove)
         {
