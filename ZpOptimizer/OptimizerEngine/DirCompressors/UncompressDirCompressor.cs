@@ -10,11 +10,12 @@ using System.ComponentModel;
 namespace OptimizerEngine.DirCompressors {
     public class UncompressDirCompressor : DirCompressor {
 
+        /* OLD
         public UncompressDirCompressor(string dir) : base(dir) {
         }
+        */
 
-        public UncompressDirCompressor(ZpDirectory dir) : base(dir)
-        {
+        public UncompressDirCompressor(ZpDirectory dir) : base(dir) {
         }
 
 

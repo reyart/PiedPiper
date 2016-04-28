@@ -16,7 +16,7 @@ namespace OptimizerEngine.FileSystem {
 
         private DirectoryInfo directoryInfo;
         //private List<ZpFile> allFiles;
-        private int fileCount;
+        //private int fileCount;
         private long dirSize;
         private long dirSizeOnDisk;
 
@@ -67,7 +67,6 @@ namespace OptimizerEngine.FileSystem {
             }
         }
 
-
         public long SizeOnDisk
         {
             get
@@ -97,6 +96,7 @@ namespace OptimizerEngine.FileSystem {
         // {
         //    get { return allFiles; }
         //}
+
         #endregion
 
         #region Public Methods

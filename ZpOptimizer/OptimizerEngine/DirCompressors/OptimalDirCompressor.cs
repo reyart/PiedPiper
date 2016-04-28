@@ -20,6 +20,7 @@ namespace OptimizerEngine.DirCompressors
 
         #region Constructors
 
+        /*
         public OptimalDirCompressor(string dir) : base(dir)
         {
             // Initialize directory
@@ -29,13 +30,9 @@ namespace OptimizerEngine.DirCompressors
             logger = new Logger();
             loggingStarted = false;
         }
+        */
 
-        public OptimalDirCompressor(ZpDirectory dir) : base(dir)
-        {
-            //rootDir = dir;
-
-           // logger = new Logger();
-            //loggingStarted = false;
+        public OptimalDirCompressor(ZpDirectory dir) : base(dir) {      
         }
 
         #endregion

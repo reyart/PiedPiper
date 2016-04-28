@@ -34,6 +34,7 @@ namespace OptimizerEngine.DirCompressors {
 
         #region Constructors
 
+        /* OLD
         public DirCompressor(string dir)
         {
             // Initialize directory
@@ -44,6 +45,7 @@ namespace OptimizerEngine.DirCompressors {
 
             loggingStarted = false;
         }
+        */
 
         public DirCompressor(ZpDirectory dir)
         {

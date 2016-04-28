@@ -43,7 +43,7 @@ namespace ZpOptimizerUI
             //Initialize other components
             InitializeComponent();
             InitializeBackgroundWorker();            
-            InitializeListView();  
+            InitializeObjectListView();  
         }
         
         #endregion
@@ -96,7 +96,7 @@ namespace ZpOptimizerUI
         }
 
         //Populate listview with data from directory list   
-        private void InitializeListView()
+        private void InitializeObjectListView()
         {
             objectListView1.SetObjects(masterDirList);
             objectListView1.Sort(gameColumn);
@@ -156,7 +156,7 @@ namespace ZpOptimizerUI
         //Apply compression on selected items
         private void buttonApplySelected_Click(object sender, EventArgs e) {
 
-            /*
+            /* OLD
             string[] selectedDirArray = new string[objectListView1.CheckedItems.Count];
       
             int i = 0;
@@ -176,6 +176,7 @@ namespace ZpOptimizerUI
 
             //Create a list of the checked objects
             //List<ZpDirectory> selectedObjectList = new List<ZpDirectory> { };
+
             selectedObjectList.Clear();
 
             foreach (ZpDirectory ob in objectListView1.CheckedObjects)
@@ -266,7 +267,7 @@ namespace ZpOptimizerUI
                 }
 
                 engine = new OptimizerEngine.OptimizerEngine(activeDir, backgroundWorker1);
-                //engine.CompressSelected(compressionType);
+                //engine.CompressSelected(compressionType); OLD
                 engine.CompressActiveDir(activeDir, compressionType);
 
                 int percentCompleteInt = Convert.ToInt32(percentComplete);

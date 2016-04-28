@@ -26,16 +26,17 @@ namespace OptimizerEngine
 
         #region Constructors
 
-        public OptimizerEngine(string dir)
-        {         
-            selectedDirs = new List<string>();
-            selectedDirs.Add(dir); // FOR TESTING ONLY
-        }
-
         public OptimizerEngine(ZpDirectory dir, BackgroundWorker bw)
         {
             activeZpDir = dir;
             activeBackgroundWorker = bw;
+        }
+
+        /* OLD
+        public OptimizerEngine(string dir)
+        {         
+            selectedDirs = new List<string>();
+            selectedDirs.Add(dir); // FOR TESTING ONLY
         }
 
         public OptimizerEngine(string[] dir)
@@ -50,7 +51,7 @@ namespace OptimizerEngine
             selectedDirs.Add(dir);
             activeBackgroundWorker = bw;
         }
-
+        */
         #endregion
 
 
@@ -64,11 +65,13 @@ namespace OptimizerEngine
         #region Public Methods
 
         // Apply compression on only the selected directories
+        /* OLD
         public void CompressSelected(DirCompressionTypes compressionType) {
             foreach (string dir in this.selectedDirs) {
                 ApplyCompression(compressionType, dir);
             }
         }
+        */
 
         public void CompressActiveDir(ZpDirectory activeDir, DirCompressionTypes compressionType) {
             ApplyCompression(compressionType, activeDir);
@@ -82,6 +85,7 @@ namespace OptimizerEngine
         #region Private Methods
 
         // Apply compression
+        /* OLD
         private void ApplyCompression(DirCompressionTypes compressionType, string dir) {
             DirCompressor compressor;
             
@@ -104,6 +108,7 @@ namespace OptimizerEngine
             // Execute the directory compression
             compressor.Execute(activeBackgroundWorker);
         }
+        */
 
 
         private void ApplyCompression(DirCompressionTypes compressionType, ZpDirectory activeDir)

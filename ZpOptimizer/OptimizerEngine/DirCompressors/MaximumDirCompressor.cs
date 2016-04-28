@@ -11,8 +11,10 @@ namespace OptimizerEngine.DirCompressors {
 
     public class MaximumDirCompressor : DirCompressor {
 
+        /* OLD
         public MaximumDirCompressor(string dir) : base(dir) {
         }
+        */
 
         public MaximumDirCompressor(ZpDirectory dir) : base(dir)
         {
