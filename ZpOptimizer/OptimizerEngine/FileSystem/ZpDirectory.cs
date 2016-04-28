@@ -88,8 +88,6 @@ namespace OptimizerEngine.FileSystem {
             }
         }
 
-
-
         //public int FileCount
         // {
         //    get { return fileCount; }

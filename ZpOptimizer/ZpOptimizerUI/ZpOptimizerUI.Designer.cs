@@ -41,6 +41,7 @@
             this.gameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.sizeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.sizeOnDiskColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.Ratio = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.pathColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.sizeOnDiskTitleLabel = new System.Windows.Forms.Label();
             this.buttonAddDir = new System.Windows.Forms.Button();
@@ -58,7 +59,8 @@
             this.folderProgressBar = new System.Windows.Forms.ProgressBar();
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.Ratio = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.locationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
@@ -73,6 +75,7 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.settingsToolStripMenuItem1,
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -92,13 +95,13 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // helpToolStripMenuItem
@@ -112,7 +115,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // statusStrip
@@ -211,6 +214,11 @@
             this.sizeOnDiskColumn.Text = "Size On Disk (MB)";
             this.sizeOnDiskColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.sizeOnDiskColumn.Width = 100;
+            // 
+            // Ratio
+            // 
+            this.Ratio.AspectName = "Ratio";
+            this.Ratio.Text = "Ratio";
             // 
             // pathColumn
             // 
@@ -360,10 +368,20 @@
             this.labelResult.TabIndex = 2;
             this.labelResult.Text = "label1";
             // 
-            // Ratio
+            // settingsToolStripMenuItem1
             // 
-            this.Ratio.AspectName = "Ratio";
-            this.Ratio.Text = "Ratio";
+            this.settingsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.locationsToolStripMenuItem});
+            this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
+            this.settingsToolStripMenuItem1.Text = "Settings";
+            // 
+            // locationsToolStripMenuItem
+            // 
+            this.locationsToolStripMenuItem.Name = "locationsToolStripMenuItem";
+            this.locationsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.locationsToolStripMenuItem.Text = "Locations";
+            this.locationsToolStripMenuItem.Click += new System.EventHandler(this.locationsToolStripMenuItem_Click);
             // 
             // ZpOptimizerUI
             // 
@@ -430,6 +448,8 @@
         private BrightIdeasSoftware.OLVColumn sizeOnDiskColumn;
         private BrightIdeasSoftware.OLVColumn pathColumn;
         private BrightIdeasSoftware.OLVColumn Ratio;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem locationsToolStripMenuItem;
     }
 }
 
