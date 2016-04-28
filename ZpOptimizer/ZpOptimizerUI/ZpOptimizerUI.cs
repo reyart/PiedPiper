@@ -313,14 +313,6 @@ namespace ZpOptimizerUI
 
         #endregion
 
-        private void buttonSelectAll_Click(object sender, EventArgs e)
-        {
-            objectListView1.CheckAll();
-        }
-
-        private void buttonSelectNone_Click(object sender, EventArgs e)
-        {
-            objectListView1.UncheckAll();
-        }
+        
     }
 }

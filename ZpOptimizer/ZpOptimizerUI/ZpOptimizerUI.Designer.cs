@@ -37,8 +37,12 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+            this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
+            this.gameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.sizeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.sizeOnDiskColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.pathColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.sizeOnDiskTitleLabel = new System.Windows.Forms.Label();
-            this.buttonSelectAll = new System.Windows.Forms.Button();
             this.buttonAddDir = new System.Windows.Forms.Button();
             this.sizeOnDiskLabel = new System.Windows.Forms.Label();
             this.buttonApplySelected = new System.Windows.Forms.Button();
@@ -54,20 +58,15 @@
             this.folderProgressBar = new System.Windows.Forms.ProgressBar();
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
-            this.gameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.sizeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.sizeOnDiskColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.pathColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.buttonSelectNone = new System.Windows.Forms.Button();
+            this.Ratio = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -148,9 +147,7 @@
             // 
             // splitContainerMain.Panel2
             // 
-            this.splitContainerMain.Panel2.Controls.Add(this.buttonSelectNone);
             this.splitContainerMain.Panel2.Controls.Add(this.sizeOnDiskTitleLabel);
-            this.splitContainerMain.Panel2.Controls.Add(this.buttonSelectAll);
             this.splitContainerMain.Panel2.Controls.Add(this.buttonAddDir);
             this.splitContainerMain.Panel2.Controls.Add(this.sizeOnDiskLabel);
             this.splitContainerMain.Panel2.Controls.Add(this.buttonApplySelected);
@@ -167,6 +164,60 @@
             this.splitContainerMain.SplitterWidth = 1;
             this.splitContainerMain.TabIndex = 2;
             // 
+            // objectListView1
+            // 
+            this.objectListView1.AllColumns.Add(this.gameColumn);
+            this.objectListView1.AllColumns.Add(this.sizeColumn);
+            this.objectListView1.AllColumns.Add(this.sizeOnDiskColumn);
+            this.objectListView1.AllColumns.Add(this.Ratio);
+            this.objectListView1.AllColumns.Add(this.pathColumn);
+            this.objectListView1.CellEditUseWholeCell = false;
+            this.objectListView1.CheckBoxes = true;
+            this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.gameColumn,
+            this.sizeColumn,
+            this.sizeOnDiskColumn,
+            this.Ratio,
+            this.pathColumn});
+            this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.objectListView1.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.objectListView1.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.objectListView1.Location = new System.Drawing.Point(0, 0);
+            this.objectListView1.Name = "objectListView1";
+            this.objectListView1.ShowGroups = false;
+            this.objectListView1.Size = new System.Drawing.Size(795, 271);
+            this.objectListView1.TabIndex = 0;
+            this.objectListView1.UseCompatibleStateImageBehavior = false;
+            this.objectListView1.View = System.Windows.Forms.View.Details;
+            // 
+            // gameColumn
+            // 
+            this.gameColumn.AspectName = "Name";
+            this.gameColumn.HeaderCheckBox = true;
+            this.gameColumn.Text = "Game";
+            this.gameColumn.Width = 200;
+            // 
+            // sizeColumn
+            // 
+            this.sizeColumn.AspectName = "SizeMB";
+            this.sizeColumn.Text = "Size (MB)";
+            this.sizeColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.sizeColumn.Width = 71;
+            // 
+            // sizeOnDiskColumn
+            // 
+            this.sizeOnDiskColumn.AspectName = "SizeOnDiskMB";
+            this.sizeOnDiskColumn.Text = "Size On Disk (MB)";
+            this.sizeOnDiskColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.sizeOnDiskColumn.Width = 100;
+            // 
+            // pathColumn
+            // 
+            this.pathColumn.AspectName = "Path";
+            this.pathColumn.Text = "Path";
+            this.pathColumn.Width = 385;
+            // 
             // sizeOnDiskTitleLabel
             // 
             this.sizeOnDiskTitleLabel.AutoSize = true;
@@ -175,16 +226,6 @@
             this.sizeOnDiskTitleLabel.Size = new System.Drawing.Size(66, 13);
             this.sizeOnDiskTitleLabel.TabIndex = 3;
             this.sizeOnDiskTitleLabel.Text = "Size on Disk";
-            // 
-            // buttonSelectAll
-            // 
-            this.buttonSelectAll.Location = new System.Drawing.Point(4, 3);
-            this.buttonSelectAll.Name = "buttonSelectAll";
-            this.buttonSelectAll.Size = new System.Drawing.Size(75, 23);
-            this.buttonSelectAll.TabIndex = 2;
-            this.buttonSelectAll.Text = "Select All";
-            this.buttonSelectAll.UseVisualStyleBackColor = true;
-            this.buttonSelectAll.Click += new System.EventHandler(this.buttonSelectAll_Click);
             // 
             // buttonAddDir
             // 
@@ -319,66 +360,10 @@
             this.labelResult.TabIndex = 2;
             this.labelResult.Text = "label1";
             // 
-            // objectListView1
+            // Ratio
             // 
-            this.objectListView1.AllColumns.Add(this.gameColumn);
-            this.objectListView1.AllColumns.Add(this.sizeColumn);
-            this.objectListView1.AllColumns.Add(this.sizeOnDiskColumn);
-            this.objectListView1.AllColumns.Add(this.pathColumn);
-            this.objectListView1.CellEditUseWholeCell = false;
-            this.objectListView1.CheckBoxes = true;
-            this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.gameColumn,
-            this.sizeColumn,
-            this.sizeOnDiskColumn,
-            this.pathColumn});
-            this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.objectListView1.HighlightBackgroundColor = System.Drawing.Color.Empty;
-            this.objectListView1.HighlightForegroundColor = System.Drawing.Color.Empty;
-            this.objectListView1.Location = new System.Drawing.Point(0, 0);
-            this.objectListView1.Name = "objectListView1";
-            this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(795, 271);
-            this.objectListView1.TabIndex = 0;
-            this.objectListView1.UseCompatibleStateImageBehavior = false;
-            this.objectListView1.View = System.Windows.Forms.View.Details;
-            // 
-            // gameColumn
-            // 
-            this.gameColumn.AspectName = "Name";
-            this.gameColumn.Text = "Game";
-            this.gameColumn.Width = 200;
-            // 
-            // sizeColumn
-            // 
-            this.sizeColumn.AspectName = "SizeMB";
-            this.sizeColumn.Text = "Size (MB)";
-            this.sizeColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.sizeColumn.Width = 71;
-            // 
-            // sizeOnDiskColumn
-            // 
-            this.sizeOnDiskColumn.AspectName = "SizeOnDiskMB";
-            this.sizeOnDiskColumn.Text = "Size On Disk (MB)";
-            this.sizeOnDiskColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.sizeOnDiskColumn.Width = 100;
-            // 
-            // pathColumn
-            // 
-            this.pathColumn.AspectName = "Path";
-            this.pathColumn.Text = "Path";
-            this.pathColumn.Width = 385;
-            // 
-            // buttonSelectNone
-            // 
-            this.buttonSelectNone.Location = new System.Drawing.Point(85, 3);
-            this.buttonSelectNone.Name = "buttonSelectNone";
-            this.buttonSelectNone.Size = new System.Drawing.Size(75, 23);
-            this.buttonSelectNone.TabIndex = 7;
-            this.buttonSelectNone.Text = "Select None";
-            this.buttonSelectNone.UseVisualStyleBackColor = true;
-            this.buttonSelectNone.Click += new System.EventHandler(this.buttonSelectNone_Click);
+            this.Ratio.AspectName = "Ratio";
+            this.Ratio.Text = "Ratio";
             // 
             // ZpOptimizerUI
             // 
@@ -404,9 +389,9 @@
             this.splitContainerMain.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
             this.splitContainerMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -430,7 +415,6 @@
         private System.Windows.Forms.ProgressBar fileProgressBar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label sizeOnDiskTitleLabel;
-        private System.Windows.Forms.Button buttonSelectAll;
         private System.Windows.Forms.Button buttonAddDir;
         private System.Windows.Forms.Label sizeOnDiskLabel;
         private System.Windows.Forms.Button buttonApplySelected;
@@ -445,7 +429,7 @@
         private BrightIdeasSoftware.OLVColumn sizeColumn;
         private BrightIdeasSoftware.OLVColumn sizeOnDiskColumn;
         private BrightIdeasSoftware.OLVColumn pathColumn;
-        private System.Windows.Forms.Button buttonSelectNone;
+        private BrightIdeasSoftware.OLVColumn Ratio;
     }
 }
 

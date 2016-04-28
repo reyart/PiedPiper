@@ -21,8 +21,7 @@ namespace ZpOptimizerUI.Helpers {
 
         #region Constructors
 
-        public ObjectStorage()
-        {
+        public ObjectStorage() {
         }
         #endregion  
 
@@ -35,8 +34,8 @@ namespace ZpOptimizerUI.Helpers {
                 {
                     BinaryFormatter bin = new BinaryFormatter();
 
-                    List<ZpDirectory> zpDirList = (List<ZpDirectory>)bin.Deserialize(stream);
-                    return zpDirList;
+                    List<ZpDirectory> masterDirList = (List<ZpDirectory>)bin.Deserialize(stream);
+                    return masterDirList;
                 }
             }
             catch (IOException)
@@ -47,14 +46,14 @@ namespace ZpOptimizerUI.Helpers {
 
 
 
-        public void SaveZpDirList(string dataFile, List<ZpDirectory> zpDirList)
+        public void SaveZpDirList(string dataFile, List<ZpDirectory> masterDirList)
         {
             try
             {
                 using (Stream stream = File.Open(dataFile, FileMode.Create))
                 {
                     BinaryFormatter bin = new BinaryFormatter();
-                    bin.Serialize(stream, zpDirList);
+                    bin.Serialize(stream, masterDirList);
                 }
             }
             catch (IOException)

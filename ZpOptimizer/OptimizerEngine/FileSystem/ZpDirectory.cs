@@ -19,6 +19,7 @@ namespace OptimizerEngine.FileSystem {
         //private int fileCount;
         private long dirSize;
         private long dirSizeOnDisk;
+        private double ratio;
 
         #endregion
 
@@ -85,6 +86,16 @@ namespace OptimizerEngine.FileSystem {
             }
         }
 
+        public double Ratio
+        {
+            get
+            {
+                if (this.ratio == 0) { this.ratio = GetRatio(); }
+                ratio = Math.Round(ratio,2);
+                return ratio;
+            }
+        }
+
 
 
         //public int FileCount
@@ -112,6 +123,8 @@ namespace OptimizerEngine.FileSystem {
 
             this.dirSizeOnDisk = this.GetSizeOnDisk();
         }   
+
+        
 
         #endregion
 
@@ -189,6 +202,15 @@ namespace OptimizerEngine.FileSystem {
                 return size / 1024 / 1024 / 1024;
             else
                 return size;
+        }
+
+        private double GetRatio()
+        {
+            double ratio = 0;
+
+            ratio = Convert.ToDouble(this.SizeOnDisk) / Convert.ToDouble(this.Size);
+
+            return ratio;
         }
 
 
