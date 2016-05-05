@@ -43,6 +43,7 @@ namespace OptimizerEngine.FileSystem {
             attributes = File.GetAttributes(fileInfo.FullName);
             sizeOnDisk = GetSizeOnDisk();
             size = fileInfo.Length;
+
         }
 
         #endregion
@@ -50,67 +51,77 @@ namespace OptimizerEngine.FileSystem {
         #region Public Properties
 
         // Name of the file
-        public string Name
-        {
-            get { return fileInfo.Name; }
+        public string Name {
+            get {
+                return fileInfo.Name;
+            }
         }
 
         // Full path of file
-        public string FullName
-        {
-            get { return fileInfo.FullName; }
+        public string FullName {
+            get {
+                return fileInfo.FullName;
+            }
         }
 
-        public string Extension
-        {
-            get { return fileInfo.Extension; }
+        public string Extension {
+            get {
+                return fileInfo.Extension;
+            }
         }
 
-        public FileAttributes Attributes
-        {
-            get { return fileInfo.Attributes; }
+        public FileAttributes Attributes {
+            get {
+                return fileInfo.Attributes;
+            }
         }
 
         // Get the Size (in bytes) of the file
-        public long Size
-        {
-            get { return size; }
+        public long Size {
+            get {
+                return size;
+            }
         }
 
-        public long SizeOnDisk
-        {
-            get { return sizeOnDisk; }
+        public long SizeOnDisk {
+            get {
+                return sizeOnDisk;
+            }
         }
 
         // File is too small
-        public bool IsTooSmall
-        {
-            get { return this.Size < 4096; }
+        public bool IsTooSmall {
+            get {
+                return this.Size < 4096;
+            }
         }
 
         // File is not compressible
-        public bool IsNonCompressible
-        {
-            get { return Globals.NonCompressibleFiles.Contains(this.Extension.ToLower()); }
+        public bool IsNonCompressible {
+            get {
+                return Globals.NonCompressibleFiles.Contains(this.Extension.ToLower());
+            }
         }
 
         // File is performance sensitive
-        public bool IsPerfSensitive
-        {
-            get { return Globals.PerfSensitiveFiles.Contains(this.Extension.ToLower()); }
+        public bool IsPerfSensitive {
+            get {
+                return Globals.PerfSensitiveFiles.Contains(this.Extension.ToLower());
+            }
         }
 
         // File is not performance sensitive
-        public bool IsNonPerfSensitive
-        {
-            get { return Globals.NonPerfSensitiveFiles.Contains(this.Extension.ToLower()); }
+        public bool IsNonPerfSensitive {
+            get {
+                return Globals.NonPerfSensitiveFiles.Contains(this.Extension.ToLower());
+            }
         }
 
         #endregion
 
         #region Public Methods
 
-        
+
         // Get the Size on Disk (in bytes) of the file
         private long GetSizeOnDisk() {
             uint dummy, sectorsPerCluster, bytesPerSector;
@@ -132,10 +143,8 @@ namespace OptimizerEngine.FileSystem {
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.CreateNoWindow = true;
-            //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             p.StartInfo.FileName = "cmd.exe";
             p.StartInfo.Arguments = "/C compact /U /F " + '"' + this.FullName + '"';
-            //p.StartInfo = startInfo;
             p.Start();
 
             StreamReader reader = p.StandardOutput;
@@ -163,19 +172,12 @@ namespace OptimizerEngine.FileSystem {
             return ratio;
         }
 
-        public void RemoveArchiveAttribute()
-        {
-            //FileAttributes attributes = File.GetAttributes(FullName);
+        public void RemoveArchiveAttribute() {
             attributes = RemoveAttribute(attributes, FileAttributes.Archive);
             File.SetAttributes(FullName, attributes);
         }
 
-        public void AddArchiveAttribute()
-        {
-            //FileAttributes attributes = File.GetAttributes(FullName);
-            //attributes = RemoveAttribute(attributes, FileAttributes.Archive);
-            //File.SetAttributes(FullName, attributes);
-
+        public void AddArchiveAttribute() {
             File.SetAttributes(FullName, File.GetAttributes(FullName) | FileAttributes.Archive);
         }
 
@@ -184,13 +186,11 @@ namespace OptimizerEngine.FileSystem {
 
         #region Private Methods
 
-        private void UpdateSizeOnDisk()
-        {
+        private void UpdateSizeOnDisk() {
             this.sizeOnDisk = GetSizeOnDisk();
         }
 
-        private static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove)
-        {
+        private static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove) {
             return attributes & ~attributesToRemove;
         }
 

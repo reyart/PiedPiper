@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using ZpOptimizerUI;
 
 namespace ZpOptimizerUI {
     public partial class OptionsForm : Form {
@@ -56,6 +57,8 @@ namespace ZpOptimizerUI {
             Settings1.Default.Save();
             listBoxFolderList.Items.Clear();
             this.Close();
+
+            //TODO: Make objectlist and form refresh itself after closing
         }
 
         private void buttonCancel_Click(object sender, EventArgs e) {
@@ -67,6 +70,7 @@ namespace ZpOptimizerUI {
         private void labelFolderListCaption_Click(object sender, EventArgs e) {
         }
 
-        
+        private void OptionsForm_FormClosed(object sender, FormClosedEventArgs e) {           
+        }
     }
 }

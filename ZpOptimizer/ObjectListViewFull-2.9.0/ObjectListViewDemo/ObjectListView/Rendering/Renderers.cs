@@ -167,7 +167,9 @@ namespace BrightIdeasSoftware {
     /// </summary>
     public interface IFilterAwareRenderer
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         IModelFilter Filter { get; set; }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 
     /// <summary>
@@ -1280,6 +1282,8 @@ namespace BrightIdeasSoftware {
             return r;
         }
 
+#pragma warning disable CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
+#pragma warning disable CS1572 // XML comment has a param tag, but there is no parameter by that name
         /// <summary>
         /// Perform normal hit testing relative to the given aligned content bounds
         /// </summary>
@@ -1289,6 +1293,8 @@ namespace BrightIdeasSoftware {
         /// <param name="x"></param>
         /// <param name="y"></param>
         protected virtual void StandardHitTest(Graphics g, OlvListViewHitTestInfo hti, Rectangle alignedContentRectangle, int x, int y) {
+#pragma warning restore CS1572 // XML comment has a param tag, but there is no parameter by that name
+#pragma warning restore CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
             Rectangle r = alignedContentRectangle;
 
             // Match tweaking from renderer
@@ -3578,7 +3584,9 @@ namespace BrightIdeasSoftware {
 
         #region Rendering
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public override void ConfigureSubItem(DrawListViewSubItemEventArgs e, Rectangle cellBounds, object model) {
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
             base.ConfigureSubItem(e, cellBounds, model);
             this.highlightTextRenderer.ConfigureSubItem(e, cellBounds, model);
         }

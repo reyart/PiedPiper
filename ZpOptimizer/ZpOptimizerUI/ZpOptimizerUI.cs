@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
 using System.IO;
 using OptimizerEngine.FileSystem;
@@ -24,23 +25,29 @@ namespace ZpOptimizerUI {
 
         public ObjectStorage objectStorage;
 
-
         #region constructors
 
         public ZpOptimizerUI() {
+            InitializeComponent();
+            Show();
+
             //Initialize disk reader/writer object
             objectStorage = new ObjectStorage();
 
             //Initialize main list of games
+
+            //SplashScreen splashScreen = new SplashScreen("SplashScreenImage.bmp");
+
             masterObjectList = new List<ZpDirectory>();
             selectedObjectList = new List<ZpDirectory>();
             masterObjectList = InitializeMasterObjectList();
 
 
             //Initialize other components
-            InitializeComponent();
-            InitializeBackgroundWorker();
+            
+            InitializeBackgroundWorker();         
             InitializeObjectListView();
+
         }
 
         #endregion
@@ -52,26 +59,101 @@ namespace ZpOptimizerUI {
         //Retrieve and update master list of games
         private List<ZpDirectory> InitializeMasterObjectList() {
 
-            //Retrieve the saved list from disk
-            //TODO: Handle case where file is not already present
-            masterObjectList = objectStorage.RetrieveMasterObjectList("data.bin");
-
-            //Get the current folders
-            string[] rootDir = Directory.GetDirectories(Settings1.Default.defaultFolder);
-
-            //Remove folders from the list that are no longer present
+            List<string> dirList = new List<string> { };
+            List<string> dirsToAdd = new List<string> { };
             List<ZpDirectory> dirsToRemove = new List<ZpDirectory> { };
 
-            foreach (ZpDirectory dir in masterObjectList) {
-                if (rootDir.Contains(dir.Path) == false) { dirsToRemove.Add(dir); }
+            //Retrieve the saved list from disk
+           
+            if (File.Exists("data.bin")) {
+                masterObjectList = objectStorage.RetrieveMasterObjectList("data.bin");
+
+                //get the full folder list to match against
+                foreach (string rootFolder in Settings1.Default.locationList) {
+                    foreach (string subFolder in Directory.EnumerateDirectories(rootFolder)) {                    
+                        dirList.Add(subFolder);
+                    }
+                }
+
+                //Remove folders that no longer exist or are not in one of the set locations
+                foreach (ZpDirectory zpdir in masterObjectList) {
+                    if (Directory.Exists(zpdir.Path) == false || dirList.Contains(zpdir.Path) == false) {
+                        dirsToRemove.Add(zpdir);
+                    }
+                }
+
+                //remove them from the master list
+                foreach (ZpDirectory dir in dirsToRemove) {
+                    masterObjectList.Remove(dir);
+                }
+
+                //remove paths from the list that already match objects
+                foreach (ZpDirectory zpdir in masterObjectList) {
+                    if (dirList.Contains(zpdir.Path) == true){
+                        dirList.Remove(zpdir.Path);                        
+                    }
+                }
+
+                //finally add the ones remaining because they are unique
+                foreach (string dir in dirList) {
+                    masterObjectList.Add(new ZpDirectory(dir));
+                }
+
+                /*
+                    foreach (string path in dirList) {
+                        bool alreadyListed = false;
+                        foreach (ZpDirectory zpdir in masterObjectList) {
+                            if (zpdir.Path == path) {
+                                alreadyListed = true;
+                                break;
+                            }
+                        }
+                        if (alreadyListed == false) { masterObjectList.Add(new ZpDirectory(path)); }                   
+                }
+                */
+
+            }   
+            else {
+                //if the saved object file doesnt exist, just recreate it from scratch
+                foreach (string rootFolder in Settings1.Default.locationList) {
+                    foreach (string subFolder in Directory.EnumerateDirectories(rootFolder)) {                        
+                        try {
+                            masterObjectList.Add(new ZpDirectory(subFolder));
+                        }
+                        catch (Exception) {
+
+                            throw;
+                        }                  
+                    }
+                }
             }
 
-            foreach (ZpDirectory dir in dirsToRemove) {
-                masterObjectList.Remove(dir);
-            }
+            //Save the list to disk after all operations complete
+            objectStorage.SaveMasterObjectList("data.bin", masterObjectList);
+
+            return masterObjectList;
+
+
 
             //Check for matches with previous list before adding new folders
-            foreach (string path in rootDir) {
+            /*
+
+            foreach (string dir in dirsToAdd) {
+                masterObjectList.Add(new ZpDirectory(dir));
+            }
+
+                //string[] rootDir = Directory.GetDirectories(Settings1.Default.defaultFolder);
+
+                //Remove folders from the list that are no longer present
+           
+
+            
+            
+            foreach (ZpDirectory dir in masterObjectList) {
+                if (Directory.Exists(dir.Path) == true) { }
+
+
+                    foreach (string path in rootDir) {
                 bool alreadyListed = false;
                 foreach (ZpDirectory dir in masterObjectList) {
                     if (dir.Path == path) {
@@ -81,11 +163,9 @@ namespace ZpOptimizerUI {
                 }
                 if (alreadyListed == false) { masterObjectList.Add(new ZpDirectory(path)); }
             }
+            */
 
-            //Save the list to disk after all operations complete
-            objectStorage.SaveMasterObjectList("data.bin", masterObjectList);
 
-            return masterObjectList;
         }
 
         //Populate listview with data from directory list   
@@ -93,7 +173,7 @@ namespace ZpOptimizerUI {
 
             //TODO: Implement saving previous state.
             objectListView1.SetObjects(masterObjectList);
-            objectListView1.Sort(gameColumn);
+            //objectListView1.Sort(gameColumn);
 
         }
 
@@ -118,6 +198,8 @@ namespace ZpOptimizerUI {
             OptionsForm optionsForm = new OptionsForm();
             
             optionsForm.ShowDialog();
+           
+
         }
 
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e) {
@@ -257,8 +339,11 @@ namespace ZpOptimizerUI {
                 labelResult.Text = "Process was completed";
             }
         }
+
         #endregion
 
-        
+        private void objectListView1_SelectedIndexChanged_1(object sender, EventArgs e) {
+
+        }
     }
 }

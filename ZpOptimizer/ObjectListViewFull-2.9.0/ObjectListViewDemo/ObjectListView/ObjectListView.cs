@@ -2142,16 +2142,24 @@ namespace BrightIdeasSoftware
         }
 
         [Obsolete("Use SelectedBackColor instead")]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public virtual Color HighlightBackgroundColor { get { return this.SelectedBackColor; } set { this.SelectedBackColor = value; } }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         [Obsolete("Use SelectedBackColorOrDefault instead")]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public virtual Color HighlightBackgroundColorOrDefault { get { return this.SelectedBackColorOrDefault; } }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         [Obsolete("Use SelectedForeColor instead")]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public virtual Color HighlightForegroundColor { get { return this.SelectedForeColor; } set { this.SelectedForeColor = value; } }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         [Obsolete("Use SelectedForeColorOrDefault instead")]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public virtual Color HighlightForegroundColorOrDefault { get { return this.SelectedForeColorOrDefault; } }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
 //        [Obsolete("Use UnfocusedSelectedBackColor instead")]
 //        public virtual Color UnfocusedHighlightBackgroundColor { get { return this.UnfocusedSelectedBackColor; } set { this.UnfocusedSelectedBackColor = value; } }

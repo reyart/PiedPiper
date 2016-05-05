@@ -52,10 +52,10 @@ namespace OptimizerEngine.DirCompressors
         {
 
             // Get the size of the folder before compressing
-            long folderSizeBefore = rootDir.Size;
+            long folderSizeBefore = activeDir.Size;
             double folderSizeBeforeGB = (double)folderSizeBefore / 1024 / 1024 / 1024;
 
-            var fileList = rootDir.GetAllFiles();
+            var fileList = activeDir.GetAllFiles();
             
             double percentToIncrement = 100.0 / Convert.ToDouble(fileList.Count);
             double percentComplete = percentToIncrement;
@@ -73,7 +73,7 @@ namespace OptimizerEngine.DirCompressors
 
                 if (loggingStarted == false) //Create logfile only if function reaches this point, this prevents the file from being created for folders that arent being recompressed. 
                 {
-                    logger.CreateNewLogFile(rootDir.Name + " " + DateTime.Now.ToFileTime() + ".txt");
+                    logger.CreateNewLogFile(activeDir.Name + " " + DateTime.Now.ToFileTime() + ".txt");
                     loggingStarted = true;
                 }
 
@@ -95,15 +95,20 @@ namespace OptimizerEngine.DirCompressors
                     ApplyFileCompression(Globals.FileCompressionTypes.UNRECOGNIZED, file);
                           
             }
-            rootDir.UpdateSizeOnDisk();
+
+            activeDir.UpdateSize();
+            activeDir.UpdateSizeOnDisk();
+            activeDir.UpdateRatio();
+
+
             bgw.ReportProgress(100);
 
             if (loggingStarted == true)
             {
-                long folderSizeAfter = rootDir.SizeOnDisk;
+                long folderSizeAfter = activeDir.SizeOnDisk;
                 double folderSizeAfterGB = (double)folderSizeAfter / 1024 / 1024 / 1024;
                 logger.WriteLine("");
-                logger.WriteLine("Compressed " + rootDir.Name + " Size = " + Math.Round(folderSizeAfterGB, 3) + "GB. Ratio = " + Math.Round(folderSizeBeforeGB / folderSizeAfterGB, 3) + " to 1");
+                logger.WriteLine("Compressed " + activeDir.Name + " Size = " + Math.Round(folderSizeAfterGB, 3) + "GB. Ratio = " + Math.Round(folderSizeBeforeGB / folderSizeAfterGB, 3) + " to 1");
                 logger.WriteLine("");
             }
 

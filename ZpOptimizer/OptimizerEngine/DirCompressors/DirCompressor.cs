@@ -20,7 +20,7 @@ namespace OptimizerEngine.DirCompressors {
 
         #region Private Properties
 
-        protected ZpDirectory rootDir;  // Root folder where compression starts
+        protected ZpDirectory activeDir;  // Root folder where compression starts
         public Logger logger;  // Logs stuff
         protected bool loggingStarted;
 
@@ -48,7 +48,7 @@ namespace OptimizerEngine.DirCompressors {
 
         public DirCompressor(ZpDirectory dir) {
             // Initialize directory
-            rootDir = dir;
+            activeDir = dir;
 
             // Initialize logger
             logger = new Logger();

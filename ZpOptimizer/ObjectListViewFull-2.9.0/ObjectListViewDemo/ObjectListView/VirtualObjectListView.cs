@@ -536,6 +536,7 @@ namespace BrightIdeasSoftware
             }
         }
 
+#pragma warning disable CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
         /// <summary>
         /// Inserts the given collection of model objects to this control at hte given location
         /// </summary>
@@ -547,6 +548,7 @@ namespace BrightIdeasSoftware
         /// <para>Null objects are silently ignored.</para>
         /// </remarks>
         public override void InsertObjects(int index, ICollection modelObjects)
+#pragma warning restore CS1573 // Parameter has no matching param tag in the XML comment (but other parameters do)
         {
             if (this.VirtualListDataSource == null)
                 return;

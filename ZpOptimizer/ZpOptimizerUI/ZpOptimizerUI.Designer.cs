@@ -29,13 +29,20 @@
         private void InitializeComponent()
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.locationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
+            this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
+            this.gameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.sizeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.sizeOnDiskColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.Ratio = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.pathColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.buttonApplySelected = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.radioButtonOptimized = new System.Windows.Forms.RadioButton();
             this.radioButtonMaxComp = new System.Windows.Forms.RadioButton();
@@ -45,22 +52,14 @@
             this.folderProgressBar = new System.Windows.Forms.ProgressBar();
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.locationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
-            this.gameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.sizeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.sizeOnDiskColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.Ratio = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.pathColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -74,6 +73,21 @@
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
+            // settingsToolStripMenuItem1
+            // 
+            this.settingsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.locationsToolStripMenuItem});
+            this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
+            this.settingsToolStripMenuItem1.Text = "Settings";
+            // 
+            // locationsToolStripMenuItem
+            // 
+            this.locationsToolStripMenuItem.Name = "locationsToolStripMenuItem";
+            this.locationsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.locationsToolStripMenuItem.Text = "Locations";
+            this.locationsToolStripMenuItem.Click += new System.EventHandler(this.locationsToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -85,14 +99,14 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 473);
+            this.statusStrip.Location = new System.Drawing.Point(0, 488);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(889, 22);
             this.statusStrip.SizingGrip = false;
@@ -121,20 +135,83 @@
             // splitContainerMain.Panel2
             // 
             this.splitContainerMain.Panel2.Controls.Add(this.buttonApplySelected);
-            this.splitContainerMain.Panel2.Controls.Add(this.label1);
             this.splitContainerMain.Panel2.Controls.Add(this.flowLayoutPanel1);
             this.splitContainerMain.Panel2.Controls.Add(this.fileProgressBar);
             this.splitContainerMain.Panel2.Controls.Add(this.buttonCancel);
             this.splitContainerMain.Panel2.Controls.Add(this.folderProgressBar);
             this.splitContainerMain.Panel2.Controls.Add(this.labelResult);
-            this.splitContainerMain.Size = new System.Drawing.Size(889, 449);
-            this.splitContainerMain.SplitterDistance = 282;
+            this.splitContainerMain.Size = new System.Drawing.Size(889, 464);
+            this.splitContainerMain.SplitterDistance = 291;
             this.splitContainerMain.SplitterWidth = 1;
             this.splitContainerMain.TabIndex = 2;
             // 
+            // objectListView1
+            // 
+            this.objectListView1.AllColumns.Add(this.gameColumn);
+            this.objectListView1.AllColumns.Add(this.sizeColumn);
+            this.objectListView1.AllColumns.Add(this.sizeOnDiskColumn);
+            this.objectListView1.AllColumns.Add(this.Ratio);
+            this.objectListView1.AllColumns.Add(this.pathColumn);
+            this.objectListView1.CellEditUseWholeCell = false;
+            this.objectListView1.CheckBoxes = true;
+            this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.gameColumn,
+            this.sizeColumn,
+            this.sizeOnDiskColumn,
+            this.Ratio,
+            this.pathColumn});
+            this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.objectListView1.HighlightBackgroundColor = System.Drawing.Color.Empty;
+            this.objectListView1.HighlightForegroundColor = System.Drawing.Color.Empty;
+            this.objectListView1.Location = new System.Drawing.Point(0, 0);
+            this.objectListView1.Name = "objectListView1";
+            this.objectListView1.ShowGroups = false;
+            this.objectListView1.Size = new System.Drawing.Size(889, 291);
+            this.objectListView1.TabIndex = 0;
+            this.objectListView1.UseCompatibleStateImageBehavior = false;
+            this.objectListView1.View = System.Windows.Forms.View.Details;
+            this.objectListView1.SelectedIndexChanged += new System.EventHandler(this.objectListView1_SelectedIndexChanged_1);
+            // 
+            // gameColumn
+            // 
+            this.gameColumn.AspectName = "Name";
+            this.gameColumn.HeaderCheckBox = true;
+            this.gameColumn.Text = "Game";
+            this.gameColumn.Width = 200;
+            // 
+            // sizeColumn
+            // 
+            this.sizeColumn.AspectName = "SizeMB";
+            this.sizeColumn.AspectToStringFormat = "{0:N0} MB";
+            this.sizeColumn.Text = "Size";
+            this.sizeColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.sizeColumn.Width = 71;
+            // 
+            // sizeOnDiskColumn
+            // 
+            this.sizeOnDiskColumn.AspectName = "SizeOnDiskMB";
+            this.sizeOnDiskColumn.AspectToStringFormat = "{0:N0} MB";
+            this.sizeOnDiskColumn.Text = "Size On Disk";
+            this.sizeOnDiskColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.sizeOnDiskColumn.Width = 100;
+            // 
+            // Ratio
+            // 
+            this.Ratio.AspectName = "Ratio";
+            this.Ratio.AspectToStringFormat = "{0:p0}";
+            this.Ratio.Text = "Ratio";
+            this.Ratio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // pathColumn
+            // 
+            this.pathColumn.AspectName = "Path";
+            this.pathColumn.Text = "Path";
+            this.pathColumn.Width = 385;
+            // 
             // buttonApplySelected
             // 
-            this.buttonApplySelected.Location = new System.Drawing.Point(450, 102);
+            this.buttonApplySelected.Location = new System.Drawing.Point(580, 5);
             this.buttonApplySelected.Name = "buttonApplySelected";
             this.buttonApplySelected.Size = new System.Drawing.Size(108, 34);
             this.buttonApplySelected.TabIndex = 1;
@@ -142,21 +219,12 @@
             this.buttonApplySelected.UseVisualStyleBackColor = true;
             this.buttonApplySelected.Click += new System.EventHandler(this.buttonApplySelected_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 44);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "label1";
-            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.radioButtonOptimized);
             this.flowLayoutPanel1.Controls.Add(this.radioButtonMaxComp);
             this.flowLayoutPanel1.Controls.Add(this.radioButtonUncompressed);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(439, 6);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(455, 6);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(119, 77);
             this.flowLayoutPanel1.TabIndex = 0;
@@ -197,16 +265,16 @@
             // 
             // fileProgressBar
             // 
-            this.fileProgressBar.Location = new System.Drawing.Point(4, 60);
+            this.fileProgressBar.Location = new System.Drawing.Point(16, 9);
             this.fileProgressBar.Name = "fileProgressBar";
             this.fileProgressBar.Size = new System.Drawing.Size(429, 23);
             this.fileProgressBar.TabIndex = 5;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(3, 118);
+            this.buttonCancel.Location = new System.Drawing.Point(582, 43);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(106, 34);
             this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -214,7 +282,7 @@
             // 
             // folderProgressBar
             // 
-            this.folderProgressBar.Location = new System.Drawing.Point(4, 89);
+            this.folderProgressBar.Location = new System.Drawing.Point(16, 38);
             this.folderProgressBar.Name = "folderProgressBar";
             this.folderProgressBar.Size = new System.Drawing.Size(429, 23);
             this.folderProgressBar.TabIndex = 3;
@@ -222,95 +290,17 @@
             // labelResult
             // 
             this.labelResult.AutoSize = true;
-            this.labelResult.Location = new System.Drawing.Point(84, 123);
+            this.labelResult.Location = new System.Drawing.Point(12, 64);
             this.labelResult.Name = "labelResult";
             this.labelResult.Size = new System.Drawing.Size(35, 13);
             this.labelResult.TabIndex = 2;
             this.labelResult.Text = "label1";
             // 
-            // settingsToolStripMenuItem1
-            // 
-            this.settingsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.locationsToolStripMenuItem});
-            this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(61, 20);
-            this.settingsToolStripMenuItem1.Text = "Settings";
-            // 
-            // locationsToolStripMenuItem
-            // 
-            this.locationsToolStripMenuItem.Name = "locationsToolStripMenuItem";
-            this.locationsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.locationsToolStripMenuItem.Text = "Locations";
-            this.locationsToolStripMenuItem.Click += new System.EventHandler(this.locationsToolStripMenuItem_Click);
-            // 
-            // objectListView1
-            // 
-            this.objectListView1.AllColumns.Add(this.gameColumn);
-            this.objectListView1.AllColumns.Add(this.sizeColumn);
-            this.objectListView1.AllColumns.Add(this.sizeOnDiskColumn);
-            this.objectListView1.AllColumns.Add(this.Ratio);
-            this.objectListView1.AllColumns.Add(this.pathColumn);
-            this.objectListView1.CellEditUseWholeCell = false;
-            this.objectListView1.CheckBoxes = true;
-            this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.gameColumn,
-            this.sizeColumn,
-            this.sizeOnDiskColumn,
-            this.Ratio,
-            this.pathColumn});
-            this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-#pragma warning disable CS0618 // Type or member is obsolete
-            this.objectListView1.HighlightBackgroundColor = System.Drawing.Color.Empty;
-#pragma warning restore CS0618 // Type or member is obsolete
-#pragma warning disable CS0618 // Type or member is obsolete
-            this.objectListView1.HighlightForegroundColor = System.Drawing.Color.Empty;
-#pragma warning restore CS0618 // Type or member is obsolete
-            this.objectListView1.Location = new System.Drawing.Point(0, 0);
-            this.objectListView1.Name = "objectListView1";
-            this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(889, 282);
-            this.objectListView1.TabIndex = 0;
-            this.objectListView1.UseCompatibleStateImageBehavior = false;
-            this.objectListView1.View = System.Windows.Forms.View.Details;
-            // 
-            // gameColumn
-            // 
-            this.gameColumn.AspectName = "Name";
-            this.gameColumn.HeaderCheckBox = true;
-            this.gameColumn.Text = "Game";
-            this.gameColumn.Width = 200;
-            // 
-            // sizeColumn
-            // 
-            this.sizeColumn.AspectName = "SizeMB";
-            this.sizeColumn.Text = "Size (MB)";
-            this.sizeColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.sizeColumn.Width = 71;
-            // 
-            // sizeOnDiskColumn
-            // 
-            this.sizeOnDiskColumn.AspectName = "SizeOnDiskMB";
-            this.sizeOnDiskColumn.Text = "Size On Disk (MB)";
-            this.sizeOnDiskColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.sizeOnDiskColumn.Width = 100;
-            // 
-            // Ratio
-            // 
-            this.Ratio.AspectName = "Ratio";
-            this.Ratio.Text = "Ratio";
-            // 
-            // pathColumn
-            // 
-            this.pathColumn.AspectName = "Path";
-            this.pathColumn.Text = "Path";
-            this.pathColumn.Width = 385;
-            // 
             // ZpOptimizerUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 495);
+            this.ClientSize = new System.Drawing.Size(889, 510);
             this.Controls.Add(this.splitContainerMain);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
@@ -330,9 +320,9 @@
             this.splitContainerMain.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).EndInit();
             this.splitContainerMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -351,13 +341,11 @@
         private System.Windows.Forms.ProgressBar folderProgressBar;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ProgressBar fileProgressBar;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonApplySelected;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.RadioButton radioButtonOptimized;
         private System.Windows.Forms.RadioButton radioButtonMaxComp;
         private System.Windows.Forms.RadioButton radioButtonUncompressed;
-        private BrightIdeasSoftware.ObjectListView objectListView1;
         private BrightIdeasSoftware.OLVColumn gameColumn;
         private BrightIdeasSoftware.OLVColumn sizeColumn;
         private BrightIdeasSoftware.OLVColumn sizeOnDiskColumn;
@@ -365,6 +353,7 @@
         private BrightIdeasSoftware.OLVColumn Ratio;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem locationsToolStripMenuItem;
+        public BrightIdeasSoftware.ObjectListView objectListView1;
     }
 }
 

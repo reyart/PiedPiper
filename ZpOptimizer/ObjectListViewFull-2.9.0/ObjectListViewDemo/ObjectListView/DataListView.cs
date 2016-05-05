@@ -74,7 +74,9 @@ namespace BrightIdeasSoftware
             this.Adapter = new DataSourceAdapter(this);
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected override void Dispose(bool disposing) {
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
             this.Adapter.Dispose();
             base.Dispose(disposing);
         }

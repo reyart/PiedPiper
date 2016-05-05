@@ -50,7 +50,9 @@ namespace BrightIdeasSoftware
     /// </remarks>
     public class FastDataListView : FastObjectListView
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected override void Dispose(bool disposing)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             if (this.adapter != null) {
                 this.adapter.Dispose();
