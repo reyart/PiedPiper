@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OptimizerEngine.FileSystem;
 using OptimizerEngine.Helpers;
 using System.ComponentModel;
+using System.Threading;
 
 namespace OptimizerEngine.DirCompressors {
     public class UncompressDirCompressor : DirCompressor {
@@ -18,6 +19,9 @@ namespace OptimizerEngine.DirCompressors {
         public UncompressDirCompressor(ZpDirectory dir) : base(dir) {
         }
 
+
+        public override void Execute() {
+        }
 
         public override void Execute(BackgroundWorker bgw) {
 
@@ -43,6 +47,10 @@ namespace OptimizerEngine.DirCompressors {
             activeDir.UpdateSizeOnDisk();
             activeDir.UpdateRatio();
 
+        }
+
+        public override void Execute(IProgress<int> progFile, CancellationToken ct) {
+            throw new NotImplementedException();
         }
     }
 }

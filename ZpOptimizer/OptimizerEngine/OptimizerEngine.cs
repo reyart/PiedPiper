@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static OptimizerEngine.Helpers.Globals;
 using System.ComponentModel;
@@ -25,31 +26,18 @@ namespace OptimizerEngine {
 
         #region Constructors
 
+        //OLD VERSION USING BACKGROUNDWORKER
         public OptimizerEngine(ZpDirectory dir, BackgroundWorker bw) {
             activeZpDir = dir;
             activeBackgroundWorker = bw;
         }
 
-        /* OLD
-        public OptimizerEngine(string dir)
-        {         
-            selectedDirs = new List<string>();
-            selectedDirs.Add(dir); // FOR TESTING ONLY
+
+        //NEW VERSION USING ASYNC METHODS
+        public OptimizerEngine(ZpDirectory dir) {
+            activeZpDir = dir;           
         }
 
-        public OptimizerEngine(string[] dir)
-        {
-            selectedDirs = new List<string>();
-            selectedDirs.AddRange(dir);
-        }
-
-        public OptimizerEngine(string dir, BackgroundWorker bw)
-        {
-            selectedDirs = new List<string>();
-            selectedDirs.Add(dir);
-            activeBackgroundWorker = bw;
-        }
-        */
         #endregion
 
 
@@ -62,19 +50,20 @@ namespace OptimizerEngine {
 
         #region Public Methods
 
-        // Apply compression on only the selected directories
-        /* OLD
-        public void CompressSelected(DirCompressionTypes compressionType) {
-            foreach (string dir in this.selectedDirs) {
-                ApplyCompression(compressionType, dir);
-            }
-        }
-        */
-
+        // Apply compression on only the selected directories      
         public void CompressActiveDir(ZpDirectory activeDir, DirCompressionTypes compressionType) {
             ApplyCompression(compressionType, activeDir);
+         
+        }
+
+
+        //New version
+        public void CompressActiveDir(ZpDirectory activeDir, DirCompressionTypes compressionType, IProgress<int> progFile, CancellationToken ct) {
+            ApplyCompression(compressionType, activeDir, progFile, ct);
 
         }
+
+
 
         #endregion
 
@@ -83,31 +72,6 @@ namespace OptimizerEngine {
         #region Private Methods
 
         // Apply compression
-        /* OLD
-        private void ApplyCompression(DirCompressionTypes compressionType, string dir) {
-            DirCompressor compressor;
-            
-
-            // Determine the type of directory compression
-            switch (compressionType) {
-                case DirCompressionTypes.OPTIMAL:
-                    compressor = new OptimalDirCompressor(dir);
-                    break;
-                case DirCompressionTypes.MAXIMUM:
-                    compressor = new MaximumDirCompressor(dir);
-                    break;
-                case DirCompressionTypes.UNCOMPRESS:
-                    compressor = new UncompressDirCompressor(dir);
-                    break;
-                default:
-                    throw new Exception("Invalid CompressionType");
-            }
-
-            // Execute the directory compression
-            compressor.Execute(activeBackgroundWorker);
-        }
-        */
-
 
         private void ApplyCompression(DirCompressionTypes compressionType, ZpDirectory activeDir) {
             DirCompressor compressor;
@@ -130,9 +94,33 @@ namespace OptimizerEngine {
 
             // Execute the directory compression
             compressor.Execute(activeBackgroundWorker);
+            
         }
 
-        #endregion
+        private void ApplyCompression(DirCompressionTypes compressionType, ZpDirectory activeDir, IProgress<int> progFile, CancellationToken ct) {
+            DirCompressor compressor;
 
+
+            // Determine the type of directory compression
+            switch (compressionType) {
+                case DirCompressionTypes.OPTIMAL:
+                    compressor = new OptimalDirCompressor(activeDir);
+                    break;
+                case DirCompressionTypes.MAXIMUM:
+                    compressor = new MaximumDirCompressor(activeDir);
+                    break;
+                case DirCompressionTypes.UNCOMPRESS:
+                    compressor = new UncompressDirCompressor(activeDir);
+                    break;
+                default:
+                    throw new Exception("Invalid CompressionType");
+            }
+
+            // Execute the directory compression         
+            compressor.Execute(progFile, ct);
+
+        }
+        #endregion
+        
     }
 }

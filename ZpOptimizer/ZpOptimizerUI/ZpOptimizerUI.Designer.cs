@@ -42,6 +42,7 @@
             this.sizeOnDiskColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.Ratio = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.pathColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.applyAsyncButton = new System.Windows.Forms.Button();
             this.buttonApplySelected = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.radioButtonOptimized = new System.Windows.Forms.RadioButton();
@@ -52,6 +53,7 @@
             this.folderProgressBar = new System.Windows.Forms.ProgressBar();
             this.labelResult = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.cancelAsyncButton = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
@@ -134,6 +136,8 @@
             // 
             // splitContainerMain.Panel2
             // 
+            this.splitContainerMain.Panel2.Controls.Add(this.cancelAsyncButton);
+            this.splitContainerMain.Panel2.Controls.Add(this.applyAsyncButton);
             this.splitContainerMain.Panel2.Controls.Add(this.buttonApplySelected);
             this.splitContainerMain.Panel2.Controls.Add(this.flowLayoutPanel1);
             this.splitContainerMain.Panel2.Controls.Add(this.fileProgressBar);
@@ -171,6 +175,7 @@
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
+            this.objectListView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.objectListView1_ItemChecked);
             this.objectListView1.SelectedIndexChanged += new System.EventHandler(this.objectListView1_SelectedIndexChanged_1);
             // 
             // gameColumn
@@ -208,6 +213,16 @@
             this.pathColumn.AspectName = "Path";
             this.pathColumn.Text = "Path";
             this.pathColumn.Width = 385;
+            // 
+            // applyAsyncButton
+            // 
+            this.applyAsyncButton.Location = new System.Drawing.Point(694, 6);
+            this.applyAsyncButton.Name = "applyAsyncButton";
+            this.applyAsyncButton.Size = new System.Drawing.Size(75, 38);
+            this.applyAsyncButton.TabIndex = 6;
+            this.applyAsyncButton.Text = "Apply ASYNC";
+            this.applyAsyncButton.UseVisualStyleBackColor = true;
+            this.applyAsyncButton.Click += new System.EventHandler(this.applyAsyncButton_Click);
             // 
             // buttonApplySelected
             // 
@@ -296,6 +311,15 @@
             this.labelResult.TabIndex = 2;
             this.labelResult.Text = "label1";
             // 
+            // cancelAsyncButton
+            // 
+            this.cancelAsyncButton.Location = new System.Drawing.Point(694, 45);
+            this.cancelAsyncButton.Name = "cancelAsyncButton";
+            this.cancelAsyncButton.Size = new System.Drawing.Size(75, 38);
+            this.cancelAsyncButton.TabIndex = 7;
+            this.cancelAsyncButton.Text = "Cancel ASYNC";
+            this.cancelAsyncButton.UseVisualStyleBackColor = true;
+            // 
             // ZpOptimizerUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -354,6 +378,8 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem locationsToolStripMenuItem;
         public BrightIdeasSoftware.ObjectListView objectListView1;
+        private System.Windows.Forms.Button applyAsyncButton;
+        private System.Windows.Forms.Button cancelAsyncButton;
     }
 }
 

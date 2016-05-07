@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OptimizerEngine.FileSystem;
 using OptimizerEngine.Helpers;
 using System.ComponentModel;
+using System.Threading;
 
 namespace OptimizerEngine.DirCompressors {
 
@@ -19,7 +20,8 @@ namespace OptimizerEngine.DirCompressors {
         public MaximumDirCompressor(ZpDirectory dir) : base(dir) {
         }
 
-
+        public override void Execute() {
+        }
 
         public override void Execute(BackgroundWorker bgw) {
            
@@ -45,6 +47,10 @@ namespace OptimizerEngine.DirCompressors {
 
             bgw.ReportProgress(100);
 
+        }
+
+        public override void Execute(IProgress<int> progFile, CancellationToken ct) {
+            throw new NotImplementedException();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.IO;
@@ -35,13 +36,11 @@ namespace ZpOptimizerUI {
             objectStorage = new ObjectStorage();
 
             //Initialize main list of games
-
             //SplashScreen splashScreen = new SplashScreen("SplashScreenImage.bmp");
 
             masterObjectList = new List<ZpDirectory>();
             selectedObjectList = new List<ZpDirectory>();
             masterObjectList = InitializeMasterObjectList();
-
 
             //Initialize other components
             
@@ -59,9 +58,9 @@ namespace ZpOptimizerUI {
         //Retrieve and update master list of games
         private List<ZpDirectory> InitializeMasterObjectList() {
 
-            List<string> dirList = new List<string> { };
-            List<string> dirsToAdd = new List<string> { };
-            List<ZpDirectory> dirsToRemove = new List<ZpDirectory> { };
+            var dirList = new List<string> { };
+            var dirsToAdd = new List<string> { };
+            var dirsToRemove = new List<ZpDirectory> { };
 
             //Retrieve the saved list from disk
            
@@ -98,20 +97,7 @@ namespace ZpOptimizerUI {
                 foreach (string dir in dirList) {
                     masterObjectList.Add(new ZpDirectory(dir));
                 }
-
-                /*
-                    foreach (string path in dirList) {
-                        bool alreadyListed = false;
-                        foreach (ZpDirectory zpdir in masterObjectList) {
-                            if (zpdir.Path == path) {
-                                alreadyListed = true;
-                                break;
-                            }
-                        }
-                        if (alreadyListed == false) { masterObjectList.Add(new ZpDirectory(path)); }                   
-                }
-                */
-
+        
             }   
             else {
                 //if the saved object file doesnt exist, just recreate it from scratch
@@ -132,48 +118,14 @@ namespace ZpOptimizerUI {
             objectStorage.SaveMasterObjectList("data.bin", masterObjectList);
 
             return masterObjectList;
-
-
-
-            //Check for matches with previous list before adding new folders
-            /*
-
-            foreach (string dir in dirsToAdd) {
-                masterObjectList.Add(new ZpDirectory(dir));
-            }
-
-                //string[] rootDir = Directory.GetDirectories(Settings1.Default.defaultFolder);
-
-                //Remove folders from the list that are no longer present
-           
-
-            
-            
-            foreach (ZpDirectory dir in masterObjectList) {
-                if (Directory.Exists(dir.Path) == true) { }
-
-
-                    foreach (string path in rootDir) {
-                bool alreadyListed = false;
-                foreach (ZpDirectory dir in masterObjectList) {
-                    if (dir.Path == path) {
-                        alreadyListed = true;
-                        break;
-                    }
-                }
-                if (alreadyListed == false) { masterObjectList.Add(new ZpDirectory(path)); }
-            }
-            */
-
-
         }
 
         //Populate listview with data from directory list   
         private void InitializeObjectListView() {
 
-            //TODO: Implement saving previous state.
+            //TODO: Implement saving previous column state.
             objectListView1.SetObjects(masterObjectList);
-            //objectListView1.Sort(gameColumn);
+          
 
         }
 
@@ -194,42 +146,139 @@ namespace ZpOptimizerUI {
 
         #region EVENTS
 
+       
+
         private void locationsToolStripMenuItem_Click(object sender, EventArgs e) {
-            OptionsForm optionsForm = new OptionsForm();
+            var optionsForm = new OptionsForm();
             
             optionsForm.ShowDialog();
            
 
         }
 
+        private void objectListView1_ItemChecked(object sender, ItemCheckedEventArgs e) {
+
+            
+
+        }
+    
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e) {
 
         }
 
         //Add new folders to the list
-        //TODO: Replace this with it's own dialog
-       
 
+
+
+        private bool m_running = false;
+        CancellationTokenSource m_cancelTokenSource = null;
+
+        private async void applyAsyncButton_Click(object sender, EventArgs e) {
+
+            //Create a list of the checked objects
+            foreach (ZpDirectory ob in objectListView1.CheckedObjects) {
+                selectedObjectList.Add(ob);
+            }
+
+            //Get the compression type
+            if (radioButtonOptimized.Checked == true) {
+                compressionType = DirCompressionTypes.OPTIMAL;
+            }
+            else if (radioButtonMaxComp.Checked == true) {
+                compressionType = DirCompressionTypes.MAXIMUM;
+            }
+            else if (radioButtonUncompressed.Checked == true) {
+                compressionType = DirCompressionTypes.UNCOMPRESS;
+            }
+
+            //LAUNCH MODAL PROGRESS DIALOG
+            //var progressForm = new ProgressForm(selectedObjectList, compressionType);
+            //progressForm.ShowDialog();
+
+
+            if (!m_running) {
+                m_running = true;
+                labelResult.Text = "Working";
+                //cancelAsyncButton.Text = "Cancel";
+                Progress<int> progFolder = new Progress<int>(SetFolderProgress);
+                Progress<int> progFile = new Progress<int>(SetFileProgress);
+                m_cancelTokenSource = new CancellationTokenSource();
+                try {
+                    await CompressionTask(progFile, progFolder, m_cancelTokenSource.Token, selectedObjectList);
+                    labelResult.Text = "Done";
+                }
+                catch (OperationCanceledException) {
+                    labelResult.Text = "Canceled";
+                }
+                finally {
+
+                    m_running = false;
+                    m_cancelTokenSource = null;
+                }
+            }
+            else {
+                labelResult.Text = "Waiting to cancel...";
+                m_cancelTokenSource.Cancel();
+            }
+
+            objectListView1.RefreshObjects(masterObjectList);
+
+        }
+
+        private void SetFolderProgress(int value) {
+            // Add 1 so that progress is "completed"
+            int adjustedValue = value + 1;
+
+            // Make sure value is in range
+            adjustedValue = Math.Max(adjustedValue, folderProgressBar.Minimum);
+            adjustedValue = Math.Min(adjustedValue, folderProgressBar.Maximum);
+
+            folderProgressBar.Value = adjustedValue;
+        }
+
+        private void SetFileProgress(int value) {
+            // Add 1 so that progress is "completed"
+            int adjustedValue = value + 1;
+
+            // Make sure value is in range
+            adjustedValue = Math.Max(adjustedValue, fileProgressBar.Minimum);
+            adjustedValue = Math.Min(adjustedValue, fileProgressBar.Maximum);
+
+            fileProgressBar.Value = adjustedValue;
+        }
+
+
+
+        private Task CompressionTask(IProgress<int> progFile, IProgress<int> progFolder, CancellationToken ct, List<ZpDirectory>zpDirList) {
+
+            return Task.Run(() => {
+
+                int iteratorChunk = Convert.ToInt32(100 / zpDirList.Count);
+
+                foreach (ZpDirectory activeDir in zpDirList) {
+
+                    ct.ThrowIfCancellationRequested();
+
+                    var engine = new OptimizerEngine.OptimizerEngine(activeDir);
+                    //engine.CompressActiveDir(activeDir, compressionType);
+                    engine.CompressActiveDir(activeDir, compressionType, progFile, ct);
+
+
+                    progFolder.Report(iteratorChunk);
+                    iteratorChunk += iteratorChunk;
+
+                }
+
+            }, ct);
+
+        }
+
+
+        //TODO: Replace this with it's own dialog
         //Apply compression on selected items
         private void buttonApplySelected_Click(object sender, EventArgs e) {
 
-            /* OLD
-            string[] selectedDirArray = new string[objectListView1.CheckedItems.Count];
-      
-            int i = 0;
-            foreach (ListViewItem Item in objectListView1.CheckedItems)
-            {            
-                //Pull paths from 4th column of listview
-                selectedDirArray.SetValue(objectListView1.CheckedItems[i].SubItems[3].Text, i);
-                i++;
-                
-            }
             
-            //Create a list from the array
-            selectedDirList = selectedDirArray.ToList();
-            */
-
-            // -------New Method
 
             //Create a list of the checked objects
             //List<ZpDirectory> selectedObjectList = new List<ZpDirectory> { };
@@ -269,9 +318,7 @@ namespace ZpOptimizerUI {
         void UpdateGUI(object userData) { }
 
         #endregion
-
-
-
+     
         #region BackgroundWorker
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e) {
@@ -345,5 +392,11 @@ namespace ZpOptimizerUI {
         private void objectListView1_SelectedIndexChanged_1(object sender, EventArgs e) {
 
         }
+
+        
+
+
+
+
     }
 }

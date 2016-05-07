@@ -33,18 +33,6 @@ namespace OptimizerEngine.DirCompressors {
 
         #region Constructors
 
-        /* OLD
-        public DirCompressor(string dir)
-        {
-            // Initialize directory
-            rootDir = new ZpDirectory(dir);
-
-            // Initialize logger
-            logger = new Logger();
-
-            loggingStarted = false;
-        }
-        */
 
         public DirCompressor(ZpDirectory dir) {
             // Initialize directory
@@ -71,6 +59,11 @@ namespace OptimizerEngine.DirCompressors {
         #region Public Methods
 
         public abstract void Execute(BackgroundWorker bw);
+
+        public abstract void Execute();
+
+        public abstract void Execute(IProgress<int> progFile, CancellationToken ct);
+
 
         #endregion
 
